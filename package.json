@@ -16,6 +16,8 @@
   },
   "homepage": "https://github.com/FaraziF/playwright-test#readme",
   "devDependencies": {
-    "@playwright/test": "^1.25.2"
+    "@faker-js/faker": "^7.5.0",
+    "@playwright/test": "^1.25.2",
+    "dotenv": "^16.0.3"
   }
 }

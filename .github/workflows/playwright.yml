@@ -22,7 +22,7 @@ jobs:
       env:
         CI: true
         ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWOR }}
         VENDOR_EMAIL: ${{ secrets.VENDOR_EMAIL }}
         VENDOR_PASSWORD: ${{ secrets.VENDOR_PASSWORD }}
         VENDOR_INVALID_EMAIL: ${{ secrets.VENDOR_INVALID_EMAIL }}

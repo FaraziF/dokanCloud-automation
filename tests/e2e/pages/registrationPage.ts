@@ -62,6 +62,8 @@ export class Registration {
 
         await this.page.locator(selector.registration.storeName).fill(faker.name.fullName());
         // ToDo: Need to StoreURL validation locator(#store-url)
+        const storeNameAvailability = await this.page.locator("#store-url-loader");
+        await storeNameAvailability.waitFor();
 
         await this.page.locator(selector.registration.nextButton).click();
 

@@ -23,6 +23,7 @@ test.beforeAll(async ({ browser }) => {
 
     // await new LoginPage(page).login(user.admin.email, user.admin.password);
     await new LoginPage(page).login(process.env.ADMIN_USERNAME ?? '', process.env.ADMIN_PASSWORD ?? '');
+    // await new LoginPage(page).login(secrets. ?? '', process.env.ADMIN_PASSWORD ?? '');
     
     const userisLoggedIn = await homePage.userisLoggedIn();
     expect(userisLoggedIn).toBeTruthy();

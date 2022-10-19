@@ -21,7 +21,7 @@ jobs:
       run: npx playwright test
       env:
         CI: true
-        LIVE_URL: https://testing.dokandev.com
+        LIVE_URL: ${{ secrets.URL }}
         LIVE_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
         LIVE_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         LIVE_VENDOR_EMAIL: ${{ secrets.VENDOR_EMAIL }}

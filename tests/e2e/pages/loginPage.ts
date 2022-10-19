@@ -2,7 +2,7 @@ import { expect, Page } from "@playwright/test";
 import { selector } from "../pages/selectors";
 import { isVisible } from "../framework/common-actions";
 
-const env = require('../../../env');
+// const env = require('../../../env');
 export class LoginPage {
     readonly page: Page;
 
@@ -30,20 +30,20 @@ export class LoginPage {
     }
 
     async loginAsAdmin() {
-        await this.page.type(selector.login.eamilAddress, env('ADMIN_USERNAME'));
-        await this.page.type(selector.login.password, env('ADMIN_PASSWORD'));
+        await this.page.type(selector.login.eamilAddress, process.env.ADMIN_USERNAME ?? '');
+        await this.page.type(selector.login.password, process.env.ADMIN_PASSWORD ?? '');
         await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
     }
     async loginAsVendor() {
-        await this.page.type(selector.login.eamilAddress, env('VENDOR_EMAIL'));
-        await this.page.type(selector.login.password, env('VENDOR_PASSWORD'));
+        await this.page.type(selector.login.eamilAddress, process.env.VENDOR_EMAIL ?? '');
+        await this.page.type(selector.login.password, process.env.VENDOR_PASSWORD ?? '');
         await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
     }
     async loginAsInvalidVendor() {
-        await this.page.type(selector.login.eamilAddress, env('VENDOR_INVALID_EMAIL'));
-        await this.page.type(selector.login.password, env('VENDOR_INVALID_PASSWORD'));
+        await this.page.type(selector.login.eamilAddress, process.env.VENDOR_INVALID_EMAIL ?? '');
+        await this.page.type(selector.login.password, process.env.VENDOR_INVALID_PASSWORD ?? '');
         await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
     }

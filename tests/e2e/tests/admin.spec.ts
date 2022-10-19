@@ -5,7 +5,7 @@ import { HomePage } from "../pages/homePage";
 import { selector } from "../pages/selectors";
 import { user } from "../utils/testdata";
 
-const env = require('../../../env');
+// const env = require('../../../env');
 
 
 

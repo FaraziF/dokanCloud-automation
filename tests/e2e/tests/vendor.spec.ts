@@ -7,18 +7,19 @@ import { user } from "../utils/testdata";
 import { selector } from "../pages/selectors";
 import { Registration } from "../pages/registrationPage";
 
+const env = require('../../../env');
+
 test.describe.configure({ mode: 'serial' });
 
 let page: Page;
 
 test.beforeAll(async ({ browser }) => {
     // Create page once and sign in.
-
     page = await browser.newPage();
 
     const homePage = new HomePage(page);
     await homePage.goToVendorLoginPage();
-    await new LoginPage(page).login(process.env.VENDOR_EMAIL ?? '', process.env.VENDOR_PASSWORD ?? '');
+    await new LoginPage(page).loginAsVendor();
     const userisLoggedIn = await homePage.userisLoggedIn();
     expect(userisLoggedIn).toBeTruthy();
 

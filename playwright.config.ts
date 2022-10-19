@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 // Read from default ".env" file.
 dotenv.config();
 
+const env = require('./env')
 
 /**
  * Read environment variables from file.
@@ -44,7 +45,7 @@ const config: PlaywrightTestConfig = {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://testing.dokandev.com/',
+    baseURL: env('URL'),
     // baseURL: process
     // storageState: 'storageState.json',
    

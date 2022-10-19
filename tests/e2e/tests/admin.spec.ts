@@ -5,6 +5,7 @@ import { HomePage } from "../pages/homePage";
 import { selector } from "../pages/selectors";
 import { user } from "../utils/testdata";
 
+const env = require('../../../env');
 
 
 
@@ -21,10 +22,8 @@ test.beforeAll(async ({ browser }) => {
     const homePage = new HomePage(page);
     await homePage.goToAdminLoginPage();
 
-    // await new LoginPage(page).login(user.admin.email, user.admin.password);
-    await new LoginPage(page).login(process.env.ADMIN_USERNAME ?? '', process.env.ADMIN_PASSWORD ?? '');
-    // await new LoginPage(page).login(secrets. ?? '', process.env.ADMIN_PASSWORD ?? '');
-    
+    // await new LoginPage(page).login(env('ADMIN_USERNAME'), env('ADMIN_PASSWORD'));
+    await new LoginPage(page).loginAsAdmin();
     const userisLoggedIn = await homePage.userisLoggedIn();
     expect(userisLoggedIn).toBeTruthy();
 });
@@ -35,15 +34,14 @@ test.afterAll(async () => {
 
 test.describe("Admin Business Scenario With", () => {
     test('Preview Dashbaord', async () => {
-        // page is signed in.
         await page.goto('/admin');
-        await expect(page).toHaveURL('/admin');
+        const adminDashboard = await page.innerText(selector.adminDashboard.validaton);
+        expect(adminDashboard).toBe("Dashboard");
     });
 
     test('Preview Product Page', async () => {
-        // page is signed in.
         await page.goto('/admin/products');
-        const products = await page.innerText("h1.text-2xl");
+        const products = await page.innerText(selector.productPage.validation);
         expect(products).toBe('Products');
     });
 })

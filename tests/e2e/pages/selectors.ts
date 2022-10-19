@@ -55,7 +55,9 @@ signOut: {
 },
 
 /*                           <<<<<<<<<<<<<< Admin Section >>>>>>>>>>>>>>>>                              */
-
+adminDashboard: {
+    validaton: "//h1[text()='Dashboard']",
+},
 admin: {
     loginPage: {
         validation: `${'body #__next div:nth-child(2)'}`,
@@ -73,6 +75,10 @@ backend: {
 
         }
     }
+},
+    /*                           <<<<<<<<<<<<<< Common Section >>>>>>>>>>>>>>>>                              */
+productPage: {
+    validation: "h1.text-2xl",
 },
 
 }

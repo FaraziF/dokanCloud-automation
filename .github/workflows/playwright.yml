@@ -3,7 +3,7 @@ on:
   push:
     branches: [ main, master, pom ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, pom ]
 jobs:
   test:
     timeout-minutes: 60

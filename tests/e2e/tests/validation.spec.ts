@@ -9,19 +9,19 @@ import { Registration } from "../pages/registrationPage";
 import { DashboardPage } from "../pages/dashboardPage";
 
 
-
-
 test.describe('Vendor Validation With', () => {
 
     test("Login Unauthenticated tests", async ({ page }) => {
-        await page.goto('https://testing.dokandev.com/vendor/products');
-        await expect(page.locator("//p[text()='Vendor Login']")).toBeVisible();
+        await page.goto('/vendor/products');
+        await expect(page).toHaveURL('/vendor/login');
+        // await expect(page.locator(selector.productPage.validation)).not.toBeVisible();
     })
 
     test("Login Invalid Credentials & Required Field", async ({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.goToVendorLoginPage();
-        await new LoginPage(page).login(process.env.VENDOR_INVALID_EMAIL ?? '', process.env.VENDOR_INVALID_PASSWORD ?? '');
+        // const homePage = new HomePage(page);
+        // await homePage.goToVendorLoginPage();
+        await new HomePage(page).goToVendorLoginPage();
+        await new LoginPage(page).loginAsInvalidVendor();
 
         const loginCredentialsErrorMessage = await page.innerText(selector.login.loginCredentialsErrorMessage);
         expect(loginCredentialsErrorMessage).toBe("The credentials do not match our records");
@@ -37,7 +37,7 @@ test.describe('Vendor Validation With', () => {
     test("Login and Logout", async ({ page }) => {
         const homePage = new HomePage(page);
         await homePage.goToVendorLoginPage();
-        await new LoginPage(page).login(process.env.VENDOR_EMAIL ?? '', process.env.VENDOR_PASSWORD ?? '');
+        await new LoginPage(page).loginAsVendor();
         const userisLoggedIn = await homePage.userisLoggedIn();
         expect(userisLoggedIn).toBeTruthy();
 

@@ -26,7 +26,6 @@ export class Registration {
     async goToRegistrationPage() {
         await this.page.goto('/vendor/login');
         await this.page.locator(selector.registration.signUpLink).click();
-        // await this.page.waitForURL('/vendor/register');
 
         const vendorSignUpFormIsVisible = await this.vendorSignUpFormIsVisible();
         expect(this.vendorSignUpFormIsVisible).toBeTruthy();
@@ -40,7 +39,6 @@ export class Registration {
         await this.page.fill(selector.registration.confirmPassword, faker.internet.password());
         await this.page.locator(selector.registration.signUpComplete).click();
 
-        // await this.page.waitForURL('/vendor/steps/business-details');
         const vendorBusinessDetailsFormIsVisible = await this.vendorBusinessDetailsFormIsVisible();
         expect(this.vendorBusinessDetailsFormIsVisible).toBeTruthy();
     }
@@ -50,77 +48,39 @@ export class Registration {
         await this.page.fill(selector.registration.businessLastName, faker.name.lastName());
 
         await this.page.locator('.css-98q0e7').first().click();
-        // await this.page.locator('form div.css-10rvzng-control #react-select-2-input').fill('Bangladesh');
-        await this.page.locator('text=Country of citizenshipoption Afghanistan focused, 1 of 101. 101 results availabl >> input[role="combobox"]').fill('Bangladesh');
+        await this.page.locator(selector.registration.countryOfCitizenship).fill('Bangladesh');
         await this.page.keyboard.press("Enter");
 
         await this.page.locator('.css-10rvzng-control > div').first().click();
-        // await this.page.locator("form div.css-10rvzng-control #react-select-3-input").fill('Bangladesh');
-        await this.page.locator('text=Country of birthoption Afghanistan focused, 1 of 101. 101 results available. Use >> input[role="combobox"]').fill('Bangladesh');
+        await this.page.locator(selector.registration.countryOfBirthday).fill('Bangladesh');
         await this.page.keyboard.press("Enter");
 
-
         await this.page.locator(selector.registration.storeName).fill(faker.name.fullName());
-        // ToDo: Need to StoreURL validation locator(#store-url)
-        const storeNameAvailability = await this.page.locator("#store-url-loader");
+        // Validation store URL useing waitFor
+        const storeNameAvailability = await this.page.locator(selector.registration.storeURLLoader); 
         await storeNameAvailability.waitFor();
 
         await this.page.locator(selector.registration.nextButton).click();
-
-        // await this.page.waitForURL('/vendor/steps/address');
-        // const vendorAddressFormIsVisible = await this.vendorAddressFormIsVisible();
-        // expect(this.vendorAddressFormIsVisible).toBeTruthy();
         await expect(this.page).toHaveURL('/vendor/steps/address');
     }
 
     async fillupAddressInfo() {
+        await this.page.locator(selector.registration.streetAddress).click();
+        await this.page.locator(selector.registration.streetAddress).fill(faker.address.streetAddress());
+        await this.page.locator(selector.registration.apartmentsAddress).fill(faker.address.street());
 
-        // await this.page.locator(selector.registration.streetAddress).fill(faker.address.streetAddress());
-        // Click [placeholder="Insert Address"]
-        await this.page.locator('[placeholder="Insert Address"]').click();
-
-        // Fill [placeholder="Insert Address"]
-        await this.page.locator('[placeholder="Insert Address"]').fill(faker.address.streetAddress());
-
-        await this.page.locator("input[name='address2']").fill(faker.address.street());
-
-        /* // await this.page.locator('.css-ackcql').first().click();
-        await this.page.locator("form div.css-10rvzng-control #react-select-4-input").fill('Bangladesh');
-        // await this.page.locator('#react-select-4-option-7').click();
+        await this.page.locator('.css-98q0e7').first().click();
+        await this.page.locator(selector.registration.country).fill('Bangladesh');
         await this.page.keyboard.press("Enter");
 
-        // await this.page.locator('.css-1hb4htj-control > div > .css-ackcql').click();
-        // await this.page.locator("form div.css-10rvzng-control #react-select-5-input").click();
-        await this.page.locator("form div.css-10rvzng-control #react-select-5-input").fill('dhaka');
-        // await this.page.locator('#react-select-5-option-12').click();
+        await this.page.locator('.css-98q0e7').last().click();
+        await this.page.locator(selector.registration.state).fill('Dhaka');
+        await this.page.keyboard.press("Enter");
         
-        await this.page.keyboard.press("Enter"); */
-
-        // Click .css-98q0e7 >> nth=0
-        await this.page.locator('.css-98q0e7').first().click();
-        // Fill text=Countryoption Afghanistan focused, 1 of 101. 101 results available. Use Up and D >> input[role="combobox"]
-        await this.page.locator('text=Countryoption Afghanistan focused, 1 of 101. 101 results available. Use Up and D >> input[role="combobox"]').fill('ban');
-        // Click #react-select-4-option-7
-        await this.page.locator('#react-select-4-option-7').click();
-        // Click .css-10rvzng-control > div > .css-98q0e7
-        await this.page.locator('.css-10rvzng-control > div > .css-98q0e7').click();
-        // Fill text=Districtoption Bagerhat focused, 1 of 64. 64 results available. Use Up and Down  >> input[role="combobox"]
-        await this.page.locator('text=Districtoption Bagerhat focused, 1 of 64. 64 results available. Use Up and Down  >> input[role="combobox"]').fill('dhak');
-        // Click #react-select-5-option-12
-        await this.page.locator('#react-select-5-option-12').click();
-
-
-
-        // await this.page.locator(selector.registration.city).click();
         await this.page.locator(selector.registration.city).fill('Dhaka');
-
-        // await this.page.locator(selector.registration.postCode).click();
         await this.page.locator(selector.registration.postCode).fill('1216');
 
-        // await this.page.locator(selector.registration.registrationButton).click();
-        await this.page.locator("form div.flex.justify-between button:nth-child(2)").click();
-
-        // await this.page.waitForURL('/vendor');
+        await this.page.locator(selector.registration.registrationButton).click();
     }
     
     async asVendor() {

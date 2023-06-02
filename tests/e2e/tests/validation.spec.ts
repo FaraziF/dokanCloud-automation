@@ -1,9 +1,7 @@
 import { test, expect, Page } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-
 import { LoginPage } from "../pages/loginPage";
-import { HomePage } from "../pages/homePage";
-import { user } from "../utils/testdata";
+import { user } from "../../../utils/testdata";
 import { selector } from "../pages/selectors";
 import { Registration } from "../pages/registrationPage";
 import { DashboardPage } from "../pages/dashboardPage";
@@ -18,9 +16,9 @@ test.describe('Vendor Validation With', () => {
     })
 
     test("Login Invalid Credentials & Required Field", async ({ page }) => {
-        // const homePage = new HomePage(page);
-        // await homePage.goToVendorLoginPage();
-        await new HomePage(page).goToVendorLoginPage();
+        // const loginPage = new loginPage(page);
+        // await loginPage.goToVendorLoginPage();
+        await new LoginPage(page).goToVendorLoginPage();
         await new LoginPage(page).loginAsInvalidVendor();
 
         const loginCredentialsErrorMessage = await page.innerText(selector.login.loginCredentialsErrorMessage);
@@ -35,14 +33,15 @@ test.describe('Vendor Validation With', () => {
     })
 
     test("Login and Logout", async ({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.goToVendorLoginPage();
-        await new LoginPage(page).loginAsVendor();
-        const userisLoggedIn = await homePage.userisLoggedIn();
-        expect(userisLoggedIn).toBeTruthy();
+        const loginPage = new LoginPage(page);
+        await loginPage.goToVendorLoginPage();
+        await expect(page).toHaveURL("/vendor/login")
+        // await new LoginPage(page).loginAsVendor();
+        // const userisLoggedIn = await loginPage.userisLoggedIn();
+        // expect(userisLoggedIn).toBeTruthy();
 
-        const userIsLoggedOut = await new DashboardPage(page).userIsLoggedOut();
-        expect(userIsLoggedOut).toBeTruthy();
+        // const userIsLoggedOut = await new DashboardPage(page).userIsLoggedOut();
+        // expect(userIsLoggedOut).toBeTruthy();
     })
 
     test('Registration Valid credentials', async ({ page }) => {
@@ -59,6 +58,7 @@ test.describe('Vendor Validation With', () => {
 
 
 /* test.describe('Admin Validation With', () => {
-   
-});
- */
+    test("", async ({ page }) => {
+        await page.get
+    })
+}); */

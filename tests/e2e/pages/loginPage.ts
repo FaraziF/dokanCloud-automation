@@ -10,6 +10,30 @@ export class LoginPage {
         this.page = page;
     }
 
+    /* async open() {
+        await this.page.goto('');
+    } */
+    async goToAdminLoginPage() {
+        await this.page.goto('/admin/login');
+    }
+    async goToVendorLoginPage() {
+        await this.page.goto('/vendor/login');
+    }
+    async userisLoggedIn(): Promise<boolean> {
+        return await isVisible(this.page, selector.login.userIsLoggedIn);
+    }
+    async userIsLoggedInFailed(): Promise<boolean> {
+        return await isVisible(this.page, selector.login.userIsLoggedInFailed);
+    }
+// TODO: Need to implement logout
+    async customerLogout() {
+
+    }
+    /* async userIsLoggedOut(): Promise<boolean> {
+        return await isVisible(this.page, selector.login.userIsLoggedOut);
+    } */
+    
+
     /* async adminLoginPage(): Promise<boolean> {
         return await isVisible(this.page, selector.admin.loginPage.validation);
     } */

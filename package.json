@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test --headed",
+    "test:e2e": "playwright test --project=chromium",
+    "test:api": "npx playwright test tests/api/admin_category-attribute.spec.ts --project=chromium --headed",
+    "test:e2e-i": "playwright test --project=chromium --headed"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FaraziF/playwright-test.git"
@@ -17,7 +22,7 @@
   "homepage": "https://github.com/FaraziF/playwright-test#readme",
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
-    "@playwright/test": "^1.25.2",
+    "@playwright/test": "^1.32.3",
     "dotenv": "^16.0.3"
   }
 }

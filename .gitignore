@@ -8,4 +8,5 @@ config.json
 /tests/e2e/tests/examples.spec.ts/
 /tests/e2e/tests/examples
 .env
-/tests/e2e/utils/testdata.ts
+/tests/e2e/utils/testdata.ts/
+.auth

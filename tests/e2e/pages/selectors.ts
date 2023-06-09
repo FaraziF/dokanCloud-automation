@@ -2,8 +2,10 @@ export const selector = {
 
     common: {
         dropDown: "(//button[@class='dropdown-trigger'])[1]",
-        edit: "Edit",
-        delete: "Delete",
+        create: "Save",
+        update: "Update",
+        editLink: "Edit",
+        deleteLink: "Delete",
     },
 
 
@@ -23,20 +25,15 @@ export const selector = {
             addNew: "New Category",
             titleField: "#category-name",
             descriptionField: "Description",
-            save: "Save",
             createSuccessMessage: "Created successfully",
             dropDown: "(//button[@class='dropdown-trigger'])[1]",
-            edit: "Edit",
             backListPage: "Categories",
-            delete: "Delete",
         },
         brand: {
             addNew: "New Brand",
             name: "#brand-name",
             save: "Save",
             dropDown: "(//button[@class='dropdown-trigger'])[1]",
-            edit: "Edit",
-            delete: "Delete",
         },
     },
     
@@ -115,12 +112,13 @@ productPage: {
 
 product: {
 
+    addNew: "Add Product",
     productName: "#product-name",
     productDescription: "Description",
-    productCategory: "div:nth-child(4) > div > .mt-2",
+    productCategory: "input.flex-grow.bg-transparent",
     productCategorySelect: "Clothing",
-    // productCategorySelect: '//*[@id="layers"]/div/ul/li[1]/div[1]',
-    soldBy: "(//div[@class='shadow-sm css-b62m3t-container']//div)[1]",
+    soldBy: ".css-17wv8nz",
+    vendorName: "#react-select-2-input",
     regularPrice: "#regular-price",
     salePrice: "#sale-price",
     taxClass: ".css-98q0e7",

@@ -19,7 +19,7 @@ async function globalSetup(config: FullConfig) {
     process.env.Vendor_API_TOKEN = vendorResonseBody.token
 
     // Customer Login
-    let customerData = { email: "farazi@wedevs.com", password: "farazi@wedevs.comA1", strategy: "customer" }
+    let customerData = { email: process.env.CUSTOMER_EMAIL, password: process.env.CUSTOMER_PASSWORD, strategy: "customer" }
     const _customerResponse = await context.post(process.env.URL + '/api/v1/auth/login', { data: customerData })
     const customerResonseBody = (await _customerResponse.json())
     process.env.Customer_API_TOKEN = customerResonseBody.token

@@ -10,3 +10,6 @@ config.json
 .env
 /tests/e2e/utils/testdata.ts/
 .auth
+/test-results/
+/playwright-report/
+/playwright/.cache/

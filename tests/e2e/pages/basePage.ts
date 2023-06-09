@@ -44,17 +44,8 @@ export class BasePage {
         }
     }
 
-
-
-
-
-
-
-
-
-
-    // wait for url to be loaded
-    async waitForUrl(url: string, options?: any): Promise<void> {
+     // wait for url to be loaded
+     async waitForUrl(url: string, options?: any): Promise<void> {
         await this.page.waitForURL(url, options);
     }
 
@@ -65,4 +56,5 @@ export class BasePage {
             this.page.locator(selector).click(),
         ]);
     }
+
 }

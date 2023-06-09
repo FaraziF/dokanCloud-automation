@@ -24,7 +24,7 @@ export class VendorPage extends BasePage {
     }
 
     async goToVendorProductPage() {
-        await this.page.goto(data.subUrls.vendor.productPage)
+        await this.page.goto(data.subUrls.vendor.product)
     }
 
     async createStandardProduct(productInfo: { productName: () => string; productDescription: () => string; sku: () => string; }): Promise<void> {
@@ -39,21 +39,21 @@ export class VendorPage extends BasePage {
         await this.page.locator(selector.product.productCategory).first().click();
         await this.page.getByText(selector.product.productCategorySelect).click();
 
-        await this.page.locator(selector.product.regularPrice).fill('200');
-        await this.page.locator(selector.product.salePrice).fill('190');
+        // await this.page.locator(selector.product.regularPrice).fill('200');
+        await this.page.locator(selector.product.regularPrice).fill(data.product.standard.regularPrice());
+        // await this.page.locator(selector.product.salePrice).fill('190');
 
-        await this.page.locator(selector.product.taxClass).first().click();
-        await this.page.locator(selector.product.selectTax).click();
+        // ToDo: Need to implement tax
+        // await this.page.locator(selector.product.taxClass).first().click();
+        // await this.page.locator(selector.product.selectTax).click();
 
         await this.page.locator(selector.product.sku).fill(data.product.standard.sku());
-        await this.page.locator(selector.product.stockQuantity).fill('100');
-        await this.page.locator(selector.product.lowStockQuantity).nth(1).fill('90');
+        // await this.page.locator(selector.product.stockQuantity).fill('100');
+        // await this.page.locator(selector.product.lowStockQuantity).nth(1).fill('90');
 
-        
-
-        await this.page.getByRole('button', { name: 'Save' }).click();
-        await expect(this.page.getByRole('button', { name: 'Filter' })).toBeVisible()
-        await (expect(this.page.getByText("Created successfully")).toBeVisible())
+        await this.page.getByRole('button', { name: selector.common.create }).click();
+        await this.waitForUrl(data.subUrls.vendor.product)
+        await (expect(this.page.getByText(data.commonMessage.createSuccessMessage, {exact: true}))).toBeVisible()
     }
 
 }

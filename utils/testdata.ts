@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-export const user ={
+/* export const user ={
     admin: {
         email: '',
         password: '',
@@ -13,15 +13,45 @@ export const user ={
 
     }
     
-}
+} */
 let passwordValue = faker.internet.password();
 
+interface user {
+	username: string;
+	password: string;
+}
+
+interface admin {
+	username: string;
+	password: string;
+}
+
+export { admin, user };
+
 export const data = {
+
+    // Generated  test data
+	auth: {
+		adminAuthFile: 'playwright-test/.auth/adminStorageState.json',
+		vendorAuthFile: 'playwright-test/.auth/vendorStorageState.json',
+		customerAuthFile:'playwright-test/.auth/customerStorageState.json'
+	},
+
+    admin: {
+		username: String(process.env.ADMIN_USERNAME),
+		password: String(process.env.ADMIN_PASSWORD),
+	},
+    vendor: {
+		username: String(process.env.VENDOR_USERNAME),
+		password: String(process.env.VENDOR_PASSWORD),
+	},
+
     commonMessage:
     {
         createSuccessMessage: 'Created successfully',
         updateSuccessMessage: 'Updated successfully',
         deleteSuccessMessage: 'Deleted successfully',
+        vendorName: 'farazi',
     },
 
     subUrls: {
@@ -33,7 +63,8 @@ export const data = {
             brand: '/admin/brands',
         },
         vendor: {
-            productPage: '/vendor/products',
+            product: '/vendor/products',
+            login: '/vendor/login',
         },
         customer: {
             registerPage: '/register',
@@ -69,19 +100,24 @@ export const data = {
         standard: {
             productName: () => faker.commerce.productName() + (' (Standard)'),
             productDescription: () => faker.commerce.productDescription(),
+            regularPrice: () => (faker.finance.amount(100, 200, faker.helpers.arrayElement([1, 2]))),
             sku: () => faker.helpers.unique(() => faker.random.alpha(10)),
             updateName: () => faker.commerce.productName() + (' (Update)'),
+            // updateName: () => faker.helpers.unique(() => faker.random.word()),
         },
     },
     
     category: {
-        insertName: () => faker.commerce.productAdjective() + (' (New)'),
+        // insertName: () => faker.commerce.productAdjective() + (' (New)'),
+        insertName: () => faker.helpers.unique(() => faker.random.word()),
         insertDescription: () => faker.commerce.productDescription(),
-        updateName: () => faker.commerce.productAdjective() + (' (Update)'),
+        updateName: () => faker.helpers.unique(() => faker.random.word()),
     },
     brand: {
-        insertName: () => faker.commerce.productAdjective() + (' (New)'),
-        updateName: () => faker.commerce.productAdjective() + (' (Update)'),
+        // insertName: () => faker.commerce.productAdjective() + (' (New)'),
+        insertName: () => faker.helpers.unique(() => faker.random.word()),
+        // updateName: () => faker.commerce.productAdjective() + (' (Update)'),
+        updateName: () => faker.helpers.unique(() => faker.random.word()),
     },
 
     

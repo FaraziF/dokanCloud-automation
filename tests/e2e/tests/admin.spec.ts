@@ -121,6 +121,27 @@ test.afterAll(async () => {
 
 }) */
 
+/* test.describe('Admin user functionality test', () => {
+	test.use({ storageState: { cookies: [], origins: [] } });
+
+	let loginPage: LoginPage;
+	let page: Page;
+
+	test.beforeAll(async ({ browser }) => {
+		const context = await browser.newContext();
+		page = await context.newPage();
+		loginPage = new LoginPage(page);
+	});
+
+	test.afterAll(async () => {
+		await page.close();
+	});
+
+	test('admin can login @lite @pro', async ( ) => {
+		await loginPage.loginAsAdmin(data.admin);
+	});
+}); */
+
 test.describe("Admin functional Testing", ()=> {
     test.use({ storageState: 'playwright-test/.auth/admin.json' });
 
@@ -145,9 +166,9 @@ test.describe("Admin functional Testing", ()=> {
         await adminPage.editCategory(data.category)
     });
 
-    // test("Delete Category @cd", async()=> { 
-    //     await adminPage.deleteCategory(data.category) 
-    // });
+    test("Delete Category @cd", async()=> { 
+        await adminPage.deleteCategory(data.category) 
+    });
 
     test("Create New Brand @bc", async() => {
         await adminPage.createBrand(data.brand)
@@ -159,13 +180,13 @@ test.describe("Admin functional Testing", ()=> {
         await adminPage.deleteBrand()
     })
 
-    test("Create New Product", async()=> {
+    test("Create New Standard Product @pc-s", async()=> {
         await adminPage.createStandardProduct(data.product.standard)
     });
-    test("Edit Product", async()=> {
+    test("Edit Product @pe", async()=> {
         await adminPage.editProduct(data.product.standard)
     });
-    test("Delete Product", async()=> {
+    test("Delete Product @pd", async()=> {
         await adminPage.deleteProduct()
     });
     

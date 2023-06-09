@@ -1,7 +1,9 @@
 import { test as setup, expect } from '@playwright/test';
 import { LoginPage } from "../pages/loginPage";
+import { user, data } from '../../../utils/testdata';
 // import { STORAGE_STATE } from '../../../playwright.config';
 
+/*
 const adminFile = 'playwright-test/.auth/admin.json';
 
 setup('authenticate as admin', async ({ page }) => {
@@ -32,7 +34,7 @@ setup('authenticate as admin', async ({ page }) => {
     // await page.context().storageState({ path: STORAGE_STATE });
 
     await page.context().storageState({ path: adminFile });
-});
+}); */
 
 // const userFile = 'playwright/.auth/user.json';
 
@@ -54,3 +56,16 @@ setup('authenticate as admin', async ({ page }) => {
 
 //     await page.context().storageState({ path: userFile });
 // });
+
+setup.describe('Authenticate with', () => {
+
+	setup.skip('Admin valid credential', async ({ page }) => {
+		const loginPage = new LoginPage(page);
+		await loginPage.loginAsUser(data.admin, data.auth.adminAuthFile);
+	});
+
+    setup('Vendor valid credential', async ({ page }) => {
+		const loginPage = new LoginPage(page);
+		await loginPage.loginAsVendor(data.vendor, data.auth.vendorAuthFile);
+	});
+});

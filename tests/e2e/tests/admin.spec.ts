@@ -143,7 +143,8 @@ test.afterAll(async () => {
 }); */
 
 test.describe("Admin functional Testing", ()=> {
-    test.use({ storageState: 'playwright-test/.auth/admin.json' });
+    // test.use({ storageState: 'playwright-test/.auth/admin.json' });
+    test.use({ storageState: data.auth.adminAuthFile });
 
     let adminPage: AdminPage;
     let page: Page;

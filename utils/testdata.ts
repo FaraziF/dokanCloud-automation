@@ -37,13 +37,17 @@ export const data = {
 		customerAuthFile:'playwright-test/.auth/customerStorageState.json'
 	},
 
-    admin: {
+    adminCredentials: {
 		username: String(process.env.ADMIN_USERNAME),
 		password: String(process.env.ADMIN_PASSWORD),
 	},
-    vendor: {
+    vendorCredentials: {
 		username: String(process.env.VENDOR_USERNAME),
 		password: String(process.env.VENDOR_PASSWORD),
+	},
+    customerCredentials: {
+		username: String(process.env.CUSTOMER_USERNAME),
+		password: String(process.env.CUSTOMER_PASSWORD),
 	},
 
     commonMessage:
@@ -63,6 +67,7 @@ export const data = {
             brand: '/admin/brands',
         },
         vendor: {
+            dashboard: '/vendor',
             product: '/vendor/products',
             login: '/vendor/login',
         },
@@ -134,6 +139,8 @@ export const data = {
             // password: String(process.env.CUSTOMER_PASSWORD),
             password: passwordValue,
             confirmPassword: passwordValue,
-        }
+        },
+
+        loginSuccessfully: 'Login Successful',
     }
 }

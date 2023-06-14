@@ -55,38 +55,51 @@ export class LoginPage {
     }
 
     // user manual Login Login with 
-	async manualLogin(user: user, url: string = data.subUrls.admin.login, storageState?: string): Promise<void> {
+	async adminManualLogin(user: user, url: string = data.subUrls.admin.login, storageState?: string): Promise<void> {
         await this.page.goto(url)
         await this.page.type(selector.login.eamilAddress, user.username);
         await this.page.type(selector.login.password, user.password);
         await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
+        await this.page.waitForURL(data.subUrls.admin.dashboard)
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }
 	}
-
     // admin login
-	async loginAsUser(user: user, storageState?: string) {
-		await this.manualLogin(user, data.subUrls.admin.login, storageState);
+	async loginAsAdmin(user: user, storageState?: string) {
+		await this.adminManualLogin(user, data.subUrls.admin.login, storageState);
 	}
 
      // user manual Login Login with 
-	async manualLoginVendor(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void> {
+	async vendorManualLogin(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void> {
         await this.page.goto(url)
         await this.page.type(selector.login.eamilAddress, user.username);
         await this.page.type(selector.login.password, user.password);
         await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
-        // await this.page.waitForURL("https://farazi.dokandev.com/vendor")
-        // await this.page.waitForTimeout(1000)
+        await this.page.waitForURL(data.subUrls.vendor.dashboard)
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }
 	}
 	async loginAsVendor(user: user, storageState?: string) {
-		await this.manualLoginVendor(user, data.subUrls.vendor.login, storageState);
+		await this.vendorManualLogin(user, data.subUrls.vendor.login, storageState);
 	}
+
+    async customerManualLogin(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void>  {
+        await this.page.goto(url)
+        await this.page.type(selector.login.eamilAddress, user.username);
+        await this.page.type(selector.login.password, user.password);
+        await this.page.click(selector.login.signIn);
+        await expect(this.page.getByText(data.customer.loginSuccessfully, { exact: true })).toBeVisible()
+        if (storageState){
+            await this.page.context().storageState({ path: storageState });
+        }
+    }
+    async loginAsCustomer(user: user, storageState?: string) {
+        await this.customerManualLogin(user, data.subUrls.customer.loginPage, storageState)
+    }
 
    /*  async loginAsAdmin() {
         await this.goToAdminLoginPage()

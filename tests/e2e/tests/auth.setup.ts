@@ -61,11 +61,16 @@ setup.describe('Authenticate with', () => {
 
 	setup.skip('Admin valid credential', async ({ page }) => {
 		const loginPage = new LoginPage(page);
-		await loginPage.loginAsUser(data.admin, data.auth.adminAuthFile);
+		await loginPage.loginAsAdmin(data.adminCredentials, data.auth.adminAuthFile);
 	});
 
-    setup('Vendor valid credential', async ({ page }) => {
+    setup.skip('Vendor valid credential', async ({ page }) => {
 		const loginPage = new LoginPage(page);
-		await loginPage.loginAsVendor(data.vendor, data.auth.vendorAuthFile);
+		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
 	});
+
+    setup('Customer valid credential', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
+    });
 });

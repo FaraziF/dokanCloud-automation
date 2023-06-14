@@ -88,6 +88,9 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         // storageState: 'playwright-test/.auth/admin.json',
+        /* launchOptions: {
+          slowMo: 2000,
+        }, */
       },
       dependencies: ['setup'],
     },

@@ -1,5 +1,6 @@
 {
     "workbench.preferredDarkColorTheme": "Quiet Light",
+    "files.autoSave": "onFocusChange",
     "workbench.colorTheme": "Quiet Light",
     "workbench.preferredHighContrastColorTheme": "Quiet Light",
     "workbench.colorCustomizations": {

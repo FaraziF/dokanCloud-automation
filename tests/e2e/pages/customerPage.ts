@@ -31,6 +31,11 @@ export class CustomerPage extends BasePage{
         await this.page.goto(data.subUrls.storefront.shopPage)
     }
 
+    async goToCart( ): Promise<boolean> {
+        return await isVisible(this.page, "//button[text()=' Add To Cart']");
+        
+    }
+
     async customerRegistration(customerInfo: { firstName: () => string; lastName: () => string; emailDomain: string; email: string; password: string; confirmPassword: string }): Promise<void>  
     {
         let firstName : string = customerInfo.firstName()

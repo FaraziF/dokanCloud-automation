@@ -5,6 +5,9 @@ import { BasePage } from "./basePage";
 import { data } from "../../../utils/testdata";
 
 export class AdminPage extends BasePage {
+    visualComparisons() {
+        throw new Error('Method not implemented.');
+    }
 
     constructor(page: Page) {
         super(page);
@@ -98,7 +101,7 @@ export class AdminPage extends BasePage {
         await this.page.locator(selector.admin.brand.dropDown).click()
         await this.page.getByRole('link', { name: selector.common.editLink }).click();
         await this.page.locator(selector.admin.brand.name).fill(brand.updateName())
-        await this.page.getByRole('button', { name: selector.admin.brand.save }).click();
+        await this.page.getByRole('button', { name: selector.common.update }).click();
         await this.waitForUrl(data.subUrls.admin.brand)
         // this.page.on('dialog', dialog => dialog.accept());
         await expect(this.page.getByText(data.commonMessage.updateSuccessMessage, { exact: true })).toBeVisible()
@@ -120,6 +123,10 @@ export class AdminPage extends BasePage {
 
         await this.page.locator(selector.product.productCategory).first().click();
         await this.page.getByText(selector.product.productCategorySelect).click();
+        
+        await this.page.locator(selector.product.soldBy).nth(1).click();
+        await this.page.locator(selector.product.vendorName).nth(1).fill(data.commonMessage.vendorName);
+        await this.page.getByText(data.commonMessage.vendorName, { exact: true }).click();
 
         // await this.page.locator(selector.product.regularPrice).fill('200');
         await this.page.locator(selector.product.regularPrice).fill(data.product.standard.regularPrice());
@@ -135,9 +142,6 @@ export class AdminPage extends BasePage {
         // await this.page.locator(selector.product.stockQuantity).fill('100');
         // await this.page.locator(selector.product.lowStockQuantity).nth(1).fill('90');
 
-        await this.page.locator(selector.product.soldBy).click();
-        await this.page.locator(selector.product.vendorName).nth(1).fill(data.commonMessage.vendorName);
-        await this.page.getByText(data.commonMessage.vendorName, { exact: true }).click();
 
         await this.page.getByRole('button', { name: selector.common.create }).click();
         await this.waitForUrl(data.subUrls.admin.product)

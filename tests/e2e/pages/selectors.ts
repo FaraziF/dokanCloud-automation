@@ -32,7 +32,7 @@ export const selector = {
         brand: {
             addNew: "New Brand",
             name: "#brand-name",
-            save: "Save",
+            // save: "Update",
             dropDown: "(//button[@class='dropdown-trigger'])[1]",
         },
     },

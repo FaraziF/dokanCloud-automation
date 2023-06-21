@@ -1,0 +1,38 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://farazi.dokandev.com/');
+  await page.getByRole('link', { name: 'Login' }).click();
+  await page.getByPlaceholder('youremail@example.com').click();
+  await page.getByPlaceholder('youremail@example.com').fill('farazi@wedevs.com');
+  await page.getByPlaceholder('youremail@example.com').press('Meta+a');
+  await page.getByPlaceholder('youremail@example.com').press('Meta+c');
+  await page.getByPlaceholder('Minimum 6 characters').click();
+  await page.getByPlaceholder('Minimum 6 characters').fill('farazi@wedevs.comA1');
+  await page.getByPlaceholder('Minimum 6 characters').press('Enter');
+  await page.getByRole('link', { name: 'Shop', exact: true }).click();
+  await page.getByRole('button', { name: 'Add to Cart' }).click();
+  await page.getByRole('button', { name: 'Go to Cart' }).click();
+  await page.getByRole('button', { name: 'Proceed to Checkout' }).click();
+  await page.getByPlaceholder('First name').click();
+  await page.getByPlaceholder('First name').fill('farazi');
+  await page.getByPlaceholder('First name').press('Tab');
+  await page.getByPlaceholder('Last Name').fill('test');
+  await page.getByPlaceholder('Last Name').press('Tab');
+  await page.locator('#react-select-2-input').fill('ban');
+  await page.getByText('Bangladesh', { exact: true }).click();
+  await page.getByPlaceholder('Enter address').click();
+  await page.getByPlaceholder('Enter address').fill('mirpur');
+  await page.getByText('MirpurDhaka, Bangladesh').nth(1).click();
+  await page.getByPlaceholder('Postal Code').click();
+  await page.getByPlaceholder('Postal Code').fill('1216');
+  await page.getByRole('button', { name: 'Continue to Payment' }).click();
+  await page.getByRole('button', { name: 'Continue to Payment' }).click();
+  await page.locator('div').filter({ hasText: /^Cash on Delivery$/ }).click();
+  await page.getByText('Total', { exact: true }).click();
+  await page.getByRole('heading', { name: 'Order Summary' }).click();
+  await page.locator('div').filter({ hasText: /^Order Summary$/ }).click();
+  await page.getByRole('button', { name: 'Pay $399.00' }).click();
+  await page.getByRole('button', { name: 'Pay $399.00' }).click();
+  await page.getByRole('button', { name: 'Pay $399.00' }).click();
+});

@@ -4,6 +4,7 @@ import { CustomerPage } from "../pages/customerPage";
 
 
 // let page: Page;
+test.describe.configure({ mode: 'serial' });
 
 test.describe('Customer Functionality Test', () => {
     test.use({ storageState: data.auth.customerAuthFile });
@@ -28,90 +29,185 @@ test.describe('Customer Functionality Test', () => {
     })
     */
 
-    test('Customer Order', async({ page }) => {
+    test('Customer Order', async({ page }, testInfo) => {
         // await page.goto(data.subUrls.storefront.shopPage)
+        if (testInfo.retry)
+        await cleanSomeCachesOnTheServer();
 
             await page.goto('https://farazi.dokandev.com/shop');
             // await page.getByRole('navigation').getByRole('link', { name: 'Shop' }).click();
             // await page.waitForURL('https://farazi.dokandev.com/shop')
-            // await page.getByRole('button', { name: 'Add to Cart' }).click();
             // await page.getByRole('img', { name: 'product-image' }).nth(1).click();
             await page.locator('.w-full > .relative > .overflow-hidden > .flex').first().click();
             await expect(page.getByText('Quantity')).toBeVisible();
-            // await page.getByText('Quantity').isVisible();
             
             // await customerPage.goToCart();
             await page.getByRole('button', { name: 'Add To Cart' }).click();
-            await page.getByRole('heading', { name: 'Successfully added to your cart' }).click();
-            await page.getByRole('heading', { name: 'You also maybe interested' }).click();
-            // page.on('dialog', dialog => dialog.accept());
-
-            // // Start waiting for popup before clicking. Note no await.
-            // const popupPromise = page.waitForEvent('popup');
-            // // await page.getByText('open the popup').click();
-            // await page.getByRole('button', { name: 'Add To Cart' }).click();
-            // const popup = await popupPromise;
-            // // await popup.goto('https://wikipedia.org');
-            // await popup.getByRole('button', { name: 'Go to Cart' }).click();
-
-
+            await expect(page.getByRole('heading', { name: 'Successfully added to your cart' })).toBeVisible();
+            await expect(page.getByRole('heading', { name: 'You also maybe interested' })).toBeVisible();
             await page.getByRole('button', { name: 'Go to Cart' }).click();
+
+            await expect(page.getByRole('heading', { name: 'Cart Summary' })).toBeVisible();
+            await expect(page.getByRole('button', { name: 'Have a coupon code ?' })).toBeVisible();
+
             await page.getByRole('button', { name: 'Proceed to Checkout' }).click();
+            await expect(page.getByRole('heading', { name: 'Contact information' })).toBeVisible();
+            await expect(page.getByRole('heading', { name: 'Order Summary' })).toBeVisible();
+
+            // If Guest Allow
             // await page.getByPlaceholder('youremail@example.com').click();
             // await page.getByPlaceholder('youremail@example.com').fill('farazi.test@gmail.com');
             // await page.getByRole('button', { name: 'Continue as Guest' }).click();
+
             await page.getByPlaceholder('First name').click();
             await page.getByPlaceholder('First name').fill('farazi');
             await page.getByPlaceholder('First name').press('Tab');
             await page.getByPlaceholder('Last Name').fill('test');
+
             await page.locator('.css-98q0e7').click();
             await page.locator('#react-select-2-input').fill('ban');
             await page.locator('#react-select-2-option-14').click();
-            // await page.waitForTimeout(1000)
-            // await page.getByRole('button', { name: 'Clear' }).click();
-            // await page.getByPlaceholder('Enter address').click();
-            // await page.keyboard.type('Uttara', { delay: 100 });
-            // await page.keyboard.press("Enter")
-            // await page.getByText('Uttara Dhaka, Bangladesh');
+            // await page.getByText('Bangladesh', { exact: true }).click();
+
+            // await expect(page.locator("id=status")).toContainText("Loaded!");
+            // await page.locator("text=Choose an Account").selectOption("B-002");
+            // await expect(page.locator("id=info")).toContainText(
+            //     "Coding Club was started in 1970."
+            // );
             
             await page.getByRole('button', { name: 'Clear' }).click();
-            // await page.getByPlaceholder('Enter address').click();
+            await page.getByPlaceholder('Enter address').click();
             await page.getByPlaceholder('Enter address').type('Uttara Dhaka', { delay: 100 });
-        // await page.getByPlaceholder('Enter address').fill('Uttara ');
-        // await expect(page.locator('/html/body/div[4]')).toBeVisible() 
-        // await page.getByText('UttaraDhaka, Bangladesh').nth(1).click();
-        // expect(page.getByText("UttaraDhaka, Bangladesh", { exact: true }).click())
-        // expect(page.getByText('UttaraDhaka, Bangladesh').nth(1).click())
-        //body > div:nth-child(32) > div:nth-child(1)
-        ///html/body/div[3]/div[1]
-        await page.locator("body > div:nth-child(32) > div:nth-child(1)").click()
+            // await expect(page.locator('/html/body/div[4]')).toBeVisible() 
+            // expect(page.getByText("UttaraDhaka, Bangladesh", { exact: true }).click())
+            // expect(page.getByText('UttaraDhaka, Bangladesh').nth(1).click())
+            // await page.locator("body > div:nth-child(32) > div:nth-child(1)").click()
+            // await page.getByText('UttaraDhaka, Bangladesh').nth(1).click();
 
-        // await page.waitForTimeout(1000)
-            // await page.pause();
-            await page.getByPlaceholder('Postal Code').click();
+            // await expect(page.locator("body > div:nth-child(32) > div:nth-child(1)")).toBeVisible()
+            const addressSearchResult = page.locator("body > div:nth-child(32) > div:nth-child(1)")
+            const addressSearchResultValue = "UttaraDhaka, Bangladesh"
+            // const orderSentAddress = addressSearchResult;
+            await expect(addressSearchResult).toContainText(addressSearchResultValue);
+            // await addressSearchResult.waitFor();
+            await page.waitForTimeout(1000)
+            
+            // await page.getByText(addressSearchResultValue).click()
+            await page.locator('body > div:nth-child(32) > div:nth-child(1)').click()
+            // await page.locator('body > div.pac-container.pac-logo.hdpi > div:nth-child(1)', { hasText: 'UttaraDhaka, Bangladesh' }).click();
+            //body > div.pac-container.pac-logo.hdpi > div:nth-child(1)
+            // body > div:nth-child(32) > div:nth-child(1)
+            await expect(page.getByText('State')).toBeVisible()
+
+            // await page.getByPlaceholder('Postal Code').click();
             await page.getByPlaceholder('Postal Code').fill('1216');
-            // await page.getByPlaceholder('xxx xxx xxxx').click();
-            // await page.getByPlaceholder('xxx xxx xxxx').fill('017384573487598');
+
+            // await expect(page.getByText('State')).toBeVisible()
             await page.getByRole('button', { name: 'Continue to Payment' }).click();
-            await expect(page.locator("div.space-y-5.mt-4")).toBeVisible();
+            
+            const requiredField = page.locator("//p[text()='The first name field is required.']")
+            if(await requiredField.isVisible()) {
+                await page.getByPlaceholder('First name').fill('farazi');
+                await page.getByPlaceholder('First name').press('Tab');
+                await page.getByPlaceholder('Last Name').fill('test');
+                await page.getByRole('button', { name: 'Continue to Payment' }).click();
+            }
+
+
+            // await page.waitForTimeout(1000)
+            const ContinueToPaymentLocator = page.locator("//button[text()='Continue to Payment']")
+            await expect(ContinueToPaymentLocator).toContainText('Continue to Payment');
             await page.getByRole('button', { name: 'Continue to Payment' }).click();
-            // await page.locator('.grid > div:nth-child(3)').click();
-            // await page.locator('div:nth-child(4) > div:nth-child(2) > .mt-4 > .grid > div').first().click();
-            // await page.getByPlaceholder('Card Number').click();
-            // await page.getByPlaceholder('Card Number').fill('4242 4242 4242 4242');
-            // await page.getByPlaceholder('MM/YY').click();
-            // await page.getByPlaceholder('MM/YY').fill('12/25');
-            // await page.getByPlaceholder('CVV').click();
-            // await page.getByPlaceholder('CVV').fill('121');
+            // const orderSentPay = page.locator("//button[text()='Continue to Payment']");
+            // await orderSentPay.waitFor();
+            // await page.locator("//button[text()='Continue to Payment']").click()
+
+            // Cash On delivery
+           /*  const cashOnDelivery = page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]")
+            await expect(cashOnDelivery).toContainText("Cash on Delivery")
+            await page.locator('div').filter({ hasText: /^Cash on Delivery$/ }).click();
+ */
+            // Stripe Payment
+            // const stripePayment = page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]")
+            // await expect(stripePayment).toContainText("Credit Card")
+            // await page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]").click()
+            // await expect(page.getByText("Expiry Date")).toBeVisible()
+            // // await page.getByPlaceholder('Card Number').click();
+            // await page.getByTestId("stripe-card-number").fill('4242 4242 4242 4242');
+            // // await page.getByPlaceholder('MM/YY').click();
+            // await page.getByTestId('stripe-card-expiry').fill('12/25');
+            // await page.getByTestId('stripe-card-cvc').fill('121');
+            // // await page.getByPlaceholder('CVV').click();
+            // // await page.getByPlaceholder('CVV').fill('121');
             // await page.getByPlaceholder('Name on card').click();
-            // await page.getByPlaceholder('Name on card').fill('standard');
+            // await page.getByPlaceholder('Name on card').fill('testing');
+
+
+            // Stripe
+            /* 
+            // await page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]")
+            await page.locator('div').filter({ hasText: /^Credit Card$/ }).click();
+            const orderSent = page.locator("//div[@class='border border-primary-600 rounded px-12 pt-6 pb-7 mt-6 bg-white']");
+            await orderSent.waitFor();
+
+            await page.locator("#stripe-card-number").click()
+            await page.locator("#stripe-card-number").type('4242 4242 4242 4242');
+            await page.locator('#stripe-card-expiry').click()
+            await page.locator('#stripe-card-expiry').type('12/25');
+            await page.locator('#stripe-card-cvc').click;
+            await page.locator('#stripe-card-cvc').type('121');
+            await page.locator('#stripe-card-name').type('testing'); 
+            */
+
+
+            // Paypal payment gateway
+            await page.locator("(//div[contains(@class,'relative cursor-pointer')])[3]").click()
+            // await page.locator('div').filter({ hasText: /^Test Mood$/ }).click();
+            // const payWithPayPal = page.locator('.paypal-button-label-container')
+            // await payWithPayPal.waitFor()
+            // await payWithPayPal.click()
+            await page.waitForTimeout(1000)
+            const page1Promise = page.waitForEvent('popup');
+            // await page.getByRole('link', { name: 'Pay with' }).click();
+            await page.keyboard.press('Tab')
+            await page.keyboard.press('Tab')
+            await page.keyboard.press('Enter')
+            const page1 = await page1Promise;
+            await page.getByPlaceholder('Email address or mobile number').click();
+            // await page.getByPlaceholder('Email address or mobile number').click();
+            await expect(page1.getByRole('heading', { name: 'Pay with PayPal' })).toBeVisible()
+
+            await page1.locator('#login_email').fill('farazi777@gmail.com');
+            await page1.getByRole('button', { name: 'Next' }).click();
+            //id btnNext
+            await page1.getByRole('heading', { name: 'Pay with debit or credit card' }).click();
+
+            // login form id>pwdSubTagLine confirmation "With a PayPal account, you're eligible for Purchase Protection and Rewards."
+            // password field id> password name> login_password
+
+            // login button id >btnLogin name>btnLogin
+
+            //confirmation message: "Pay with Debit or Credit Card"
+
+
+
+
+
+
+
+
             // await page.locator('.grid > div:nth-child(3)').click();
             // await page.getByRole('button', { name: 'Pay' }).click();
-            await page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]").click();
-            await page.locator("//div[@class='pt-4']//button[1]").click();
-            await (expect(page.getByText("Thank you for shopping with us. Your order has been placed! You will soon get an order confirmation email with tracking ID.", { exact: true }))).toBeVisible()
-            // await page.locator('[id="__next"] div').filter({ hasText: 'Thank you for shopping with us. Your order has been placed! You will soon get an' }).nth(4).click();
-            // await page.getByText('Thank you for shopping with us. Your order has been placed! You will soon get an').click();
+            // await page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]").click();
 
+            /* const payButton = page.locator("//div[@class='pt-4']//button[1]");
+            await expect(payButton).toBeVisible(); */
+            // await page.getByRole('button', { name: 'Pay' }).click();
+            /* await page.locator("//div[@class='pt-4']//button[1]").click();
+            await expect(page.getByText("Thank you for shopping with us. Your order has been placed! You will soon get an order confirmation email with tracking ID.", { exact: true })).toBeVisible() */
     })
 })
+
+function cleanSomeCachesOnTheServer() {
+    throw new Error("Function not implemented.");
+}

@@ -101,7 +101,6 @@ export const data = {
 
     product: {
         pageValidation: 'Products',
-
         standard: {
             productName: () => faker.commerce.productName() + (' (Standard)'),
             productDescription: () => faker.commerce.productDescription(),
@@ -110,6 +109,8 @@ export const data = {
             updateName: () => faker.commerce.productName() + (' (Update)'),
             // updateName: () => faker.helpers.unique(() => faker.random.word()),
         },
+        createMessage: 'Created Successfully',
+        editMessage: 'Product updated successfully',
     },
     
     category: {

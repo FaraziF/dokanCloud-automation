@@ -5,9 +5,6 @@ import { BasePage } from "./basePage";
 import { data } from "../../../utils/testdata";
 
 export class AdminPage extends BasePage {
-    visualComparisons() {
-        throw new Error('Method not implemented.');
-    }
 
     constructor(page: Page) {
         super(page);
@@ -37,14 +34,36 @@ export class AdminPage extends BasePage {
 
     async goToAdminDashboard() {
         await this.page.goto(data.subUrls.admin.dashboard);
+        await expect(this.page).toHaveURL(data.subUrls.admin.dashboard) 
     }
+                                                                                 /* All Element Validation Testing */
 
     async dashbaordElementValidation() {
-        this.page.getByRole('heading', { name: 'Today' })
-        this.page.getByText('Sales Report')
-        this.page.getByRole('heading', { name: 'To-Do' })
-        this.page.getByText('Top Selling Product')
+        await this.goToAdminDashboard()
+        //  Note: here two way, i assert dashboard because multiple dasboard text available 
+        // const adminDashboard = await page.innerText(selector.adminDashboard.validaton);
+        // expect(adminDashboard).toBe(data.dashboard.PageValidation);
+        expect( await this.page.innerText(selector.adminDashboard.validaton)).toBe(data.dashboard.PageValidation)
+        
+        // await expect(this.page.getByText('Today')).toBeVisible();
+        // await expect(this.page.getByText('Sales Report')).toBeVisible();
+        // await expect(this.page.getByText('To-Do')).toBeVisible();
+        // await expect(this.page.getByText('Top Selling Product')).toBeVisible();
     }
+
+    async productPageValidation() {
+
+    }
+
+
+
+
+
+
+
+
+
+                                                                                    /* All Functional Testing */
 
     async createNewCategory(category: any) {
         await this.goToCategoryPage();
@@ -145,7 +164,7 @@ export class AdminPage extends BasePage {
 
         await this.page.getByRole('button', { name: selector.common.create }).click();
         await this.waitForUrl(data.subUrls.admin.product)
-        await (expect(this.page.getByText(data.commonMessage.createSuccessMessage, {exact: true}))).toBeVisible()
+        await (expect(this.page.getByText(data.product.createMessage, {exact: true}))).toBeVisible()
     }
 
     async editProduct(product: any) {
@@ -155,7 +174,7 @@ export class AdminPage extends BasePage {
         await this.page.locator(selector.product.productName).fill(product.updateName())
         await this.page.getByRole('button', { name: selector.common.update }).click();
         // this.page.on('dialog', dialog => dialog.accept());
-        await (expect(this.page.getByText(data.commonMessage.updateSuccessMessage, { exact: true }))).toBeVisible()
+        await (expect(this.page.getByText(data.product.editMessage, { exact: true }))).toBeVisible()
     }
 
     async deleteProduct() {

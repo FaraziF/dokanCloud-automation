@@ -27,3 +27,69 @@ test('test', async ({ page }) => {
   await page.getByPlaceholder('Enter address').fill('Mirpur');
   await page.getByText('MirpurDhaka, Bangladesh').nth(1).click();
 });
+
+
+// const env = require('../../../env');
+// let page: Page;
+// let adminPage: AdminPage;
+/*
+test.describe.configure({ mode: 'parallel' ?? 'serial' });
+
+let adminPage: AdminPage;
+let page: Page;
+
+test.beforeAll(async ({ browser }) => {
+    // Create page once and sign in.
+
+    page = await browser.newPage();
+
+    const homePage = new LoginPage(page);
+    await homePage.goToAdminLoginPage();
+
+    // await new LoginPage(page).login(env('ADMIN_USERNAME'), env('ADMIN_PASSWORD'));
+    await new LoginPage(page).loginAsAdmin();
+    const userisLoggedIn = await homePage.userisLoggedIn();
+    expect(userisLoggedIn).toBeTruthy();
+});
+
+test.afterAll(async () => {
+    await page.close();
+});
+
+*/
+
+/* test.describe('Admin user functionality test', () => {
+	test.use({ storageState: { cookies: [], origins: [] } });
+
+	let loginPage: LoginPage;
+	let page: Page;
+
+	test.beforeAll(async ({ browser }) => {
+		const context = await browser.newContext();
+		page = await context.newPage();
+		loginPage = new LoginPage(page);
+	});
+
+	test.afterAll(async () => {
+		await page.close();
+	});
+
+	test('admin can login @lite @pro', async ( ) => {
+		await loginPage.loginAsAdmin(data.admin);
+	});
+}); */
+
+/* test.use({ storageState: 'playwright-test/.auth/admin.json' });
+
+    let adminPage: AdminPage;
+    let page: Page;
+
+    test.beforeAll(async ({ browser }) => {
+        const context = await browser.newContext({});
+        page = await context.newPage();
+        adminPage = new AdminPage(page);
+    });
+
+    test.afterAll(async () => {
+        await page.close();
+    }); */

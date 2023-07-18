@@ -107,7 +107,7 @@ signOut: {
 
     /*                           <<<<<<<<<<<<<< CM Common Section >>>>>>>>>>>>>>>>                              */
 productPage: {
-    validation: "h1.text-2xl",
+    validation: "h1.text-xl",
 },
 
 product: {

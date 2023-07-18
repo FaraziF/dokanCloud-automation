@@ -13,7 +13,7 @@ test('Accept User Invite Example & Open New Window', async ({ page, browser }) =
   
     // Fill out the steps to invite a new user & click save.
     await page.goto("https://app.dokandev.com/login")
-    await page.type(selector.login.eamilAddress, "farazi@wedevs.com")
+    await page.type(selector.login.eamilAddress, "farazi@wedev.com")
     await page.type(selector.login.password, "farazi@wedevs.comA1")
     await page.locator(selector.login.signIn).click()
 

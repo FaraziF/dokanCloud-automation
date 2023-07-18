@@ -114,42 +114,39 @@ test.describe('Customer Functionality Test', () => {
             }
 
 
+            // Orders Section
             // await page.waitForTimeout(1000)
             const ContinueToPaymentLocator = page.locator("//button[text()='Continue to Payment']")
             await expect(ContinueToPaymentLocator).toContainText('Continue to Payment');
-            await page.getByRole('button', { name: 'Continue to Payment' }).click();
-            // const orderSentPay = page.locator("//button[text()='Continue to Payment']");
-            // await orderSentPay.waitFor();
-            // await page.locator("//button[text()='Continue to Payment']").click()
+            /*
+                // Quantity Manage
+                const quantityIncreased = page.locator("(//*[name()='svg'][@stroke='currentColor'])[7]")
+                await quantityIncreased.dblclick()
+            */
+            // await page.getByRole('button', { name: 'Continue to Payment' }).click();
+            await ContinueToPaymentLocator.click()
+            /*
+                // Other use case for wait & find  Continue to Payment button
+                const orderSentPay = page.locator("//button[text()='Continue to Payment']");
+                await orderSentPay.waitFor();
+            */
 
+
+            
             // Cash On delivery
-           /*  const cashOnDelivery = page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]")
+            const cashOnDelivery = page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]")
             await expect(cashOnDelivery).toContainText("Cash on Delivery")
             await page.locator('div').filter({ hasText: /^Cash on Delivery$/ }).click();
- */
-            // Stripe Payment
+           
+
+
+            /*
+            // Stripe Payment 
             // const stripePayment = page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]")
             // await expect(stripePayment).toContainText("Credit Card")
-            // await page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]").click()
-            // await expect(page.getByText("Expiry Date")).toBeVisible()
-            // // await page.getByPlaceholder('Card Number').click();
-            // await page.getByTestId("stripe-card-number").fill('4242 4242 4242 4242');
-            // // await page.getByPlaceholder('MM/YY').click();
-            // await page.getByTestId('stripe-card-expiry').fill('12/25');
-            // await page.getByTestId('stripe-card-cvc').fill('121');
-            // // await page.getByPlaceholder('CVV').click();
-            // // await page.getByPlaceholder('CVV').fill('121');
-            // await page.getByPlaceholder('Name on card').click();
-            // await page.getByPlaceholder('Name on card').fill('testing');
-
-
-            // Stripe
-            /* 
-            // await page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]")
             await page.locator('div').filter({ hasText: /^Credit Card$/ }).click();
             const orderSent = page.locator("//div[@class='border border-primary-600 rounded px-12 pt-6 pb-7 mt-6 bg-white']");
             await orderSent.waitFor();
-
             await page.locator("#stripe-card-number").click()
             await page.locator("#stripe-card-number").type('4242 4242 4242 4242');
             await page.locator('#stripe-card-expiry').click()
@@ -160,6 +157,7 @@ test.describe('Customer Functionality Test', () => {
             */
 
 
+            /*
             // Paypal payment gateway
             await page.locator("(//div[contains(@class,'relative cursor-pointer')])[3]").click()
             // await page.locator('div').filter({ hasText: /^Test Mood$/ }).click();
@@ -169,42 +167,53 @@ test.describe('Customer Functionality Test', () => {
             await page.waitForTimeout(1000)
             const page1Promise = page.waitForEvent('popup');
             // await page.getByRole('link', { name: 'Pay with' }).click();
+            // await page.locator("//iframe[@id='jsx-iframe-f7c1c7f0d0']").click()
+            await page.waitForTimeout(1000)
             await page.keyboard.press('Tab')
             await page.keyboard.press('Tab')
             await page.keyboard.press('Enter')
+
             const page1 = await page1Promise;
-            await page.getByPlaceholder('Email address or mobile number').click();
+            await page1.waitForTimeout(1000)
+            //await page.getByPlaceholder('Email or mobile number').click();
             // await page.getByPlaceholder('Email address or mobile number').click();
             await expect(page1.getByRole('heading', { name: 'Pay with PayPal' })).toBeVisible()
-
-            await page1.locator('#login_email').fill('farazi777@gmail.com');
+            await page1.locator('#email').fill('farazi.forhad-customer@personal.example.com');
+            
             await page1.getByRole('button', { name: 'Next' }).click();
             //id btnNext
-            await page1.getByRole('heading', { name: 'Pay with debit or credit card' }).click();
+            await page.waitForTimeout(1000)
+            const payWithCard = page1.getByRole('heading', { name: 'Pay with debit or credit card' })
+            if(await payWithCard.isVisible()) {
+                await page1.locator('#password').fill('D]9-PPJw'); // be careful while push to github
+                await page1.getByRole('button', { name: 'Complete Purchase' }).click();
+            }
+
+            // await expect(page1.getByRole('heading', { name: 'Pay with debit or credit card' })).toBeVisible()
+            // await page1.getByRole('button', { name: 'Complete Purchase' }).click();
 
             // login form id>pwdSubTagLine confirmation "With a PayPal account, you're eligible for Purchase Protection and Rewards."
             // password field id> password name> login_password
 
             // login button id >btnLogin name>btnLogin
-
             //confirmation message: "Pay with Debit or Credit Card"
+           */
 
 
 
-
-
-
-
-
+            /*
+            // Pay Button For Manual & Card Payment
             // await page.locator('.grid > div:nth-child(3)').click();
             // await page.getByRole('button', { name: 'Pay' }).click();
             // await page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]").click();
-
-            /* const payButton = page.locator("//div[@class='pt-4']//button[1]");
-            await expect(payButton).toBeVisible(); */
+            const payButton = page.locator("//div[@class='pt-4']//button[1]");
+            await expect(payButton).toBeVisible();
             // await page.getByRole('button', { name: 'Pay' }).click();
-            /* await page.locator("//div[@class='pt-4']//button[1]").click();
-            await expect(page.getByText("Thank you for shopping with us. Your order has been placed! You will soon get an order confirmation email with tracking ID.", { exact: true })).toBeVisible() */
+            await payButton.click();
+            */
+
+            // Payment Confirmation Assertion
+            await expect(page.getByText("Thank you for shopping with us. Your order has been placed! You will soon get an order confirmation email with tracking ID.", { exact: true })).toBeVisible()
     })
 })
 

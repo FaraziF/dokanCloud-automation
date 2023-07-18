@@ -59,7 +59,7 @@ setup('authenticate as admin', async ({ page }) => {
 
 setup.describe('Authenticate with', () => {
 
-	setup.skip('Admin valid credential', async ({ page }) => {
+	setup('Admin valid credential', async ({ page }) => {
 		const loginPage = new LoginPage(page);
 		await loginPage.loginAsAdmin(data.adminCredentials, data.auth.adminAuthFile);
 	});

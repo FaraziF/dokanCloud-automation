@@ -3,9 +3,9 @@ on:
   schedule:
     - cron: "0 3 * * *"
   push:
-    branches: [ main, master ]
+    branches: [ main, master, adminExplorating ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, adminExplorating ]
   
   # workflow can be manually triggered
   workflow_dispatch:

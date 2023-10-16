@@ -55,7 +55,7 @@ jobs:
       if: steps.playwright-cache.outputs.cache-hit != 'true'
 
     - name: Run Playwright tests
-      run: test:api
+      run: npm run test:api
     - uses: actions/upload-artifact@v2
       if: always()
       with:

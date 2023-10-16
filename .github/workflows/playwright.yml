@@ -17,10 +17,11 @@ permissions:
     issues: write
     pull-requests: write
 env:
-  URL: ${{ secrets.URL }}
-  TENANT: ${{ secrets.TENANT }}
-  ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-  ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+  TESTING_ENV: STAGING
+  STAGING_URL: ${{ secrets.URL }}
+  STAGING_TENANT: ${{ secrets.TENANT }}
+  STAGING_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+  STAGING_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 jobs:
   test:
     name: api tests

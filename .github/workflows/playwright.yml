@@ -17,10 +17,10 @@ permissions:
     issues: write
     pull-requests: write
 env:
-  STAGING_URL: ${{ secrets.URL }}
-  STAGING_TENANT: ${{ secrets.TENANT }}
-  STAGING_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-  STAGING_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+  URL: ${{ secrets.URL }}
+  TENANT: ${{ secrets.TENANT }}
+  ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 jobs:
   test:
     name: api tests
@@ -71,7 +71,7 @@ jobs:
     - name: "Echo in file"
       env:
         SECRETS_VARS: ${{ toJson(secrets) }}
-      run: echo "$STAGING_URL" > ".env"
+      run: echo "$URL" > ".env"
       
     - uses: actions/upload-artifact@v3
       name: Upload Artifact

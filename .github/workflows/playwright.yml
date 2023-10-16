@@ -16,16 +16,7 @@ permissions:
     contents: read
     issues: write
     pull-requests: write
-env:
-  - name: 'Create env file'
-    run: |
-      touch .env
-      echo STAGING_URL=${{ secrets.STAGING_URL }} >> .env
-      echo STAGING_TENANT=${{ secrets.STAGING_TENANT }} >> .env
-      echo STAGING_ADMIN_USERNAME=${{ secrets.STAGING_ADMIN_USERNAME }} >> .env
-      echo STAGING_ADMIN_PASSWORD=${{ secrets.STAGING_ADMIN_PASSWORD }} >> .env
-      cat .env
-
+    
 jobs:
   test:
     name: api tests
@@ -70,3 +61,16 @@ jobs:
       with:
         name: playwright-test-results
         path: test-results/
+  one:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Echo in file"
+      env:
+        SECRETS_VARS: ${{ toJson(secrets) }}
+      run: echo "$STAGING_URL" > ".env"
+      
+    - uses: actions/upload-artifact@v3
+      name: Upload Artifact
+      with:
+        name: SecretsVariables
+        path: ".env"

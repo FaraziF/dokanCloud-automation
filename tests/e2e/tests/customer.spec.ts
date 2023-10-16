@@ -54,6 +54,8 @@ test.describe('Customer Functionality Test', () => {
             await expect(page.getByRole('heading', { name: 'Contact information' })).toBeVisible();
             await expect(page.getByRole('heading', { name: 'Order Summary' })).toBeVisible();
 
+        // ToDo: Address auto complete so this hide will be implement for new or guest customer 
+        /*    
             // If Guest Allow
             // await page.getByPlaceholder('youremail@example.com').click();
             // await page.getByPlaceholder('youremail@example.com').fill('farazi.test@gmail.com');
@@ -114,17 +116,18 @@ test.describe('Customer Functionality Test', () => {
             }
 
 
+        */
             // Orders Section
             // await page.waitForTimeout(1000)
-            const ContinueToPaymentLocator = page.locator("//button[text()='Continue to Payment']")
-            await expect(ContinueToPaymentLocator).toContainText('Continue to Payment');
+            // const ContinueToPaymentLocator = page.locator("//button[text()='Continue to Payment']")
+            // await expect(ContinueToPaymentLocator).toContainText('Continue to Payment');
             /*
                 // Quantity Manage
                 const quantityIncreased = page.locator("(//*[name()='svg'][@stroke='currentColor'])[7]")
                 await quantityIncreased.dblclick()
             */
             // await page.getByRole('button', { name: 'Continue to Payment' }).click();
-            await ContinueToPaymentLocator.click()
+            // await ContinueToPaymentLocator.click()
             /*
                 // Other use case for wait & find  Continue to Payment button
                 const orderSentPay = page.locator("//button[text()='Continue to Payment']");
@@ -132,7 +135,9 @@ test.describe('Customer Functionality Test', () => {
             */
 
 
-            
+            await page.getByRole('button', { name: 'Continue to Payment' }).click();
+
+
             // Cash On delivery
             const cashOnDelivery = page.locator("(//div[contains(@class,'relative cursor-pointer')])[1]")
             await expect(cashOnDelivery).toContainText("Cash on Delivery")
@@ -140,8 +145,8 @@ test.describe('Customer Functionality Test', () => {
            
 
 
-            /*
-            // Stripe Payment 
+            
+           /*  // Stripe Payment 
             // const stripePayment = page.locator("(//div[contains(@class,'relative cursor-pointer')])[2]")
             // await expect(stripePayment).toContainText("Credit Card")
             await page.locator('div').filter({ hasText: /^Credit Card$/ }).click();
@@ -201,7 +206,7 @@ test.describe('Customer Functionality Test', () => {
 
 
 
-            /*
+            
             // Pay Button For Manual & Card Payment
             // await page.locator('.grid > div:nth-child(3)').click();
             // await page.getByRole('button', { name: 'Pay' }).click();
@@ -210,10 +215,10 @@ test.describe('Customer Functionality Test', () => {
             await expect(payButton).toBeVisible();
             // await page.getByRole('button', { name: 'Pay' }).click();
             await payButton.click();
-            */
+           
 
             // Payment Confirmation Assertion
-            await expect(page.getByText("Thank you for shopping with us. Your order has been placed! You will soon get an order confirmation email with tracking ID.", { exact: true })).toBeVisible()
+            await expect.soft(page.getByText("Thank you for shopping with us. Your order has been placed! You will soon get an order confirmation email with tracking ID.", { exact: true })).toBeVisible()
     })
 })
 

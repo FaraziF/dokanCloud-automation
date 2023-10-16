@@ -13,3 +13,5 @@ config.json
 /test-results/
 /playwright-report/
 /playwright/.cache/
+.vscode/
+/playwright-test/

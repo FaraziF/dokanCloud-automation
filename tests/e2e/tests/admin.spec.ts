@@ -26,69 +26,85 @@ test.describe("Admin Exploratory Testing", ()=> {
         await adminPage.dashbaordElementValidation()
     });
 
-    test('Product Page Validation', async () => {
-        await page.goto(data.subUrls.admin.product);
-        
-        expect (await page.innerText(selector.productPage.validation)).toBe(data.product.pageValidation)
-        
-        // Validate Add New Product page loading
-        await page.getByRole('link', { name: 'Add Product'}).click()
-            await expect(page).toHaveURL('/admin/products/create')
-            await expect(page.getByText('Product Name')).toBeVisible()    
-        await page.getByRole('link', { name: 'Products'}).nth(1).click()
-            await expect(page).toHaveURL('/admin/products')
-        
-        //Validate Published page loading 
-        await page.getByRole('button', { name: 'Published' }).click();
-            await expect(page).toHaveURL('/admin/products?filters[status]=published')
-            await expect(page.locator('div.mt-4')).toBeVisible()
-            // await expect(page.getByRole('cell', { name: 'PRICE', exact:true})).toBeVisible()
-            await expect(page.getByRole('button', { name: 'Filter' })).toBeVisible()
-        
-        // Validate Draft page loading
-        await page.getByRole('button', {name: 'Draft'}).click()
-            await expect(page).toHaveURL('/admin/products?filters[status]=draft')
-            await expect(page.locator('div.mt-4')).toBeVisible()
-            // await expect(page.getByRole('cell', { name: 'PRICE', exact:true})).toBeVisible()
-            await expect(page.getByRole('button', { name: 'Filter' })).toBeVisible()
-        
-        await page.getByRole('button', {name: 'All'}).click()
-        await expect(page.getByPlaceholder('Press enter to search...')).toBeVisible()
-        await expect(page.getByRole('button', { name: 'Filter' })).toBeVisible()
-        // await expect(page.getByRole('cell', { name: 'PRICE', exact:true})).toBeVisible()
-        await expect(page.getByRole('cell', { name: 'Price' })).toBeVisible()
-        await expect(page.getByRole('cell', { name: 'Status' })).toBeVisible()
-        await expect(page.getByRole('cell', { name: 'Stock' })).toBeVisible()
-        await expect(page.getByRole('cell', { name: 'Action' })).toBeVisible()
-        await expect(page.locator('div.pagination')).toBeVisible()
+    test('Product Page Validation', async ()=> {
+        await adminPage.productElementValidation()
     });
-
+    
     test('Category Page Validation', async ( )=> {
-        // await adminPage.createNewCategory(data.category)
-        await page.goto('/admin/categories')
-        // await page.getByRole('link', { name: 'New Category' }).click();
-        // // await this.page.getByRole('heading', { name: 'New Category' }).click();
-        // await page.getByPlaceholder('e.g. T-shirt').click();
-        // await page.getByPlaceholder('e.g. T-shirt').fill('sdfdhjs');
-        // await page.locator('div').filter({ hasText: /^Select one$/ }).first().click();
-        // await page.getByText('demo-3').click();
-        // await page.getByLabel('Description').click();
-        // await page.getByLabel('Description').fill('jdsjfdshsdhfkdshkfhdsk dhfjdshkfs');
-        // await page.getByRole('button', { name: 'Save' }).click();
-        await (expect(page.getByRole('link', { name: 'New Category' })).toBeVisible()); 
-        // ToDo: we need to use below line, above line using for testing purpose ¡™
-        // await page.getByRole('link', { name: 'Categories' }).click() 
-        
-
+        await adminPage.categoryElementValidation()
     });
 
+    test('Brands Page Validation', async ( )=> {
+        await adminPage.brandElementValidation()
+    });
+    
+    test('Orders Page Validation', async ( )=> {
+        await adminPage.ordersElementValidation()
+    });
+    
+    test('Payout Page Validation', async ( )=> {
+        await adminPage.payoutElementValidation()
+    });
+    test('Subscription Page Validation', async ( )=> {
+        await adminPage.subscriptionElementValidation()
+    });
+    
+    
+    test('Vendor Page Validation', async ( )=> {
+        await adminPage.vendorElementValidation()
+    });
+    
+    test('Customer Page Validation', async ( )=> {
+        await adminPage.customerElementValidation()
+    });
+    
+    test('Design Page Page Validation', async ( )=> {
+        await adminPage.designPageElementValidation()
+    });
+    
+    test('General Settings Page Validation', async ( )=> {
+        await adminPage.generalSettingsElementValidation()
+    });
+
+    test('Team Settings Page Validation', async ( )=> {
+        await adminPage.teamSettingsElementValidation()
+    });
+    
+    test('Payment Settings Page Validation', async ( )=> {
+        await adminPage.paymentSettingsElementValidation()
+    });
+    
+    test('Payout Settings Page Validation', async ( )=> {
+        await adminPage.payoutSettingsElementValidation()
+    });
+    
+    test('Shipping Settings Page Validation', async ( )=> {
+        await adminPage.shippingSettingsElementValidation()
+    });
+    
+    test('Notification Settings Page Validation', async ( )=> {
+        await adminPage.notificationSettingsElementValidation()
+    });
+    
+    test('Tax Settings Page Validation', async ( )=> {
+        await adminPage.taxSettingsElementValidation()
+    });
+    
+    test('SEO Settings Page Validation', async ( )=> {
+        await adminPage.seoSettingsElementValidation()
+    });
+    
+    test('Policies Settings Page Validation', async ( )=> {
+        await adminPage.policiesSettingsElementValidation()
+    });
+    
 })
 
 
 
-test.describe.skip("Admin functional Testing", ()=> {
+test.describe("Admin functional Testing", ()=> {
     // test.use({ storageState: 'playwright-test/.auth/admin.json' });
-/*     test.use({ storageState: data.auth.adminAuthFile });
+    /* test.use({ storageState: data.auth.adminAuthFile });
 
     let adminPage: AdminPage;
     let page: Page;
@@ -101,8 +117,12 @@ test.describe.skip("Admin functional Testing", ()=> {
 
     test.afterAll(async () => {
         await page.close();
+    }); */
+
+    test("Go TO Dashboard", async() => {
+        await adminPage.goToAdminDashboard()
     });
- */
+
     test("Create New Category @cc", async()=> {
         await adminPage.createNewCategory(data.category)
     });
@@ -133,6 +153,25 @@ test.describe.skip("Admin functional Testing", ()=> {
     });
     test("Delete Product @pd", async()=> {
         await adminPage.deleteProduct()
+    });
+    test("Subscription Create @sc @subs", async() => {
+        await adminPage.createSubscription()
+    });
+    test("Edit Subscription @se @subs", async() => {
+        await adminPage.editSubscription()
+    });
+    test("Delete Subscription @sd @subs", async() => {
+        await adminPage.deleteSubscription()
+    });
+    test("Tax Class CRUD @tax", async() => {
+        await adminPage.taxClassCRUD()
+    });
+    
+    test("Tax Rate Add For Entire Country @tax", async() => {
+        await adminPage.taxRateAddForEntireCountry()
+    });
+    test("Different Tax Rate For State, City & Zip @tax", async() => {
+        await adminPage.differentTaxRateStateCityZip()
     });
     
 })

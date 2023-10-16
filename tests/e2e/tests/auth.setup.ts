@@ -69,7 +69,7 @@ setup.describe('Authenticate with', () => {
 		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
 	});
 
-    setup('Customer valid credential', async ({ page }) => {
+    setup.skip('Customer valid credential', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
     });

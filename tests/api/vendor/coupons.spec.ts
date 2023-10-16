@@ -1,8 +1,8 @@
 import { expect, request, test } from "@playwright/test";
-import { endPoints } from "../../utils/apiEndPoints";
-import { ApiUtils } from "../../utils/apiUtils";
-import { payloads } from "../../utils/payloads";
-import { data } from "../../utils/testdata";
+import { endPoints } from "../../../utils/apiEndPoints";
+import { ApiUtils } from "../../../utils/apiUtils";
+import { payloads } from "../../../utils/payloads";
+import { data } from "../../../utils/testdata";
 
 let apiUtils: any;
 let coupon_id: string;

@@ -1,5 +1,5 @@
 import { expect, request, test } from "@playwright/test";
-import { endPoints } from "../../utils/apiEndPoints";
+import { endPoints } from "../../../utils/apiEndPoints";
 
 let vendorAuth = { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}` }
 

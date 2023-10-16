@@ -1,19 +1,108 @@
 export const selector = {
 
     common: {
-        dropDown: "(//button[@class='dropdown-trigger'])[1]",
+        // dropDown: "(//button[@class='dropdown-trigger'])[1]",
+        dropDown: "(//*[name()='svg'][@class='text-gray-600'])[1]",
         create: "Save",
         update: "Update",
         editLink: "Edit",
         deleteLink: "Delete",
     },
-
-
-    /*                <<<<<<<<<<<<<< Admin Section >>>>>>>>>>>>>>>>           */
     
-    adminDashboard: {
-        validaton: "//h1[text()='Dashboard']",
+    /*                           <<<<<<<<<<<<<< CM Common Section For Admin & Vendor >>>>>>>>>>>>>>>>                              */
+    
+    productPage: {
+        validation: "h1.text-xl",
     },
+    
+    product: {
+        menuLink: 'All Products',
+        addNew: "Add Product",
+        productName: "#product-name",
+        productDescription: "Description",
+        productCategory: "input.flex-grow.bg-transparent",
+        productCategorySelect: "Clothing",
+        productStatus: 'Published',
+        soldBy: "//div[@id='react-select-2-placeholder']/following-sibling::div[1]",
+        vendorName: "#react-select-2-input",
+        regularPrice: "#regular-price",
+        salePrice: "#sale-price",
+        taxClass: ".css-98q0e7",
+        selectTax: "#react-select-2-option-0",
+        sku: "#sku",
+        stockQuantity: "#stock-quantity",
+        lowStockQuantity: "#low-stock-threshold",
+        shippingWeight: "#shipping-weight",
+        shippingHeight: "#shipping-height",
+        shippingWidth: "#shipping-width",
+        shippingLength: "#shipping-length",
+        shippingProfile: "//div[@id='react-select-7-placeholder']",
+        updateButton: "Update"
+    },
+
+    order: {
+        menuLink: 'All Orders',
+        // detailsPreview: "(//tr[@class='cursor-pointer'])[1]",
+        detailsPreview: "//tbody/tr[1]/td[1]",
+    },
+
+    subscriptions: {
+        menuLink: 'Subscriptions',
+    },
+
+    payouts: {
+        menuLink: 'Payouts',
+    },
+
+    vendors: {
+        menuLink: 'Vendors',
+    },
+
+    customerMenu: {
+        menuLink: 'Customers',
+    },
+
+    designPage: {
+        menuLink: 'Pages',
+    },
+
+    generalSettings: {
+        menuLink: 'General',
+    },
+    teamSettings: {
+        menuLink: 'Team',
+    },
+
+    paymentSettings: {
+        menuLink: 'Payment',
+    },
+
+    payoutSettings: {
+        menuLink: 'Payout',
+    },
+
+    shippingSettings: {
+        menuLink: 'Shipping',
+    },
+
+    notificationSettings: {
+        menuLink: 'Notification',
+    },
+
+    taxSettings: {
+        menuLink: 'Tax',
+    },
+
+    seoSettings: {
+        menuLink: 'SEO',
+    },
+
+    policiesSettings: {
+        menuLink: 'Policies',
+    },
+
+    /*                     <<<<<<<<<<<<<<<<< AS-> Admin Section >>>>>>>>>>>>>>>>           */
+    
     admin: {
         loginPage: {
             validation: `${'body #__next div:nth-child(2)'}`,
@@ -22,21 +111,96 @@ export const selector = {
             validation: "//h1[text()='Dashboard']",
         },
         category: {
+            menuLink: 'Categories',
             addNew: "New Category",
             titleField: "#category-name",
             descriptionField: "Description",
             createSuccessMessage: "Created successfully",
             dropDown: "(//button[@class='dropdown-trigger'])[1]",
             backListPage: "Categories",
+            imageUploadLocation: "input[type='file']",
         },
         brand: {
+            menuLink: 'Brands',
             addNew: "New Brand",
             name: "#brand-name",
             // save: "Update",
             dropDown: "(//button[@class='dropdown-trigger'])[1]",
         },
+        subscription: {
+            menuLink: 'Subscriptions',
+            addNewPlan: 'New Plan',
+            titleField: 'Silver',
+            descriptionField: '.ql-editor',
+            priceField: 'Price',
+            setupFee: 'Setup Fee (One Time)',
+            billingCycle: 'Billing Cycle',
+            taxApplicable: "(//button[@role='switch'])[2]",
+            taxClass: "//div[@class=' css-98q0e7']",
+            selectTaxClass: 'Reduced Rate Update',
+            enableTrailPriod: "(//button[@role='switch'])[3]",
+            selectTrailPriod: 'Trial Period',
+            selectTrailPriod2: '[id="-simple-select"]',
+            percentageCommissions: '2',
+            flatCommissions: '250.0',
+            continueSteps: 'Continue',
+            numberOfPhysicalProducts: '#noofpyscialproducts',
+            numberOfDigitalProducts: "(//input[@id='noofdigitalproducts'])[1]",
+            couponCreation: "(//button[@role='switch'])[2]",
+            allowMultipleAddress: "(//button[@role='switch'])[3]",
+            numberOfVendorStaff: '2',
+            createAndPublish: 'Create & Publish',
+            //Edit
+            titleEditField: '.ql-editor',
+            updatePlan: 'Update Plan',
+        },
+        tax: {
+            classTab: 'Tax Class',
+            createTaxClss: 'Create Tax Class',
+            popupValidation: 'New Tax Class',
+            className: 'e.g Standard',
+            createButton: 'Create',
+
+            renameLink: 'Rename',
+            saveButton: 'Save',
+
+            deleteLink: 'Delete',
+            deleteValidation: "//div[contains(@class,'h-20 w-20')]",
+            deleteButton: 'Yes, Delete',
+            
+            countryTab: 'Country',
+            addCountryButton: 'Add Country',
+            countryPopupValidation: 'Select Country',
+            selectCountry: 'Afghanistan',
+            continueButton: 'Continue',
+            selectTaxClassValidation: 'Select Tax Class',
+            taxClassCountryValidation: "//div[text()='Afghanistan']",
+            addCountry: "(//button[contains(@class,'inline-flex gap-2')])[3]",
+
+            sameTaxRate: 'Same tax rate for entire country State, Province and Zip code of a country maintain a same tax rate.',
+            taxName: 'Write here',
+            enableCollectTaxesOnShipping: 'Collect taxes on shipping',
+            EnablecollectTaxesOnDigitalProducts: 'Collect taxes on digital products',
+
+            manageButton: 'Manage',
+            manageValidation: 'Select Tax Class',
+            manageDone: 'Done',
+            saveChanges: 'Save Changes',  
+            manageBackButton: 'Back',          
+
+            differentTaxRate: 'Different tax rate for state, city and zip Tax rate may varies upon State, Province, City and even Zip code.',
+
+            addState: 'Add State',
+            selectState: 'Select State',
+            searchState: 'Search State...',
+            continueState: 'Continue',
+        },
+
     },
     
+    
+    
+
     backend: {
         admin: {
             eamilAddress: "input[name = 'email']",
@@ -47,7 +211,12 @@ export const selector = {
         }
     },
 
-    /*                   <<<<<<<<<<<<<< VS Vendor Section >>>>>>>>>>>>>>>>           */
+
+
+
+
+
+    /*                   <<<<<<<<<<<<<< VS-> Vendor Section >>>>>>>>>>>>>>>>           */
 
 login: {
     eamilAddress: "input[name = 'email']",
@@ -105,40 +274,11 @@ signOut: {
 },
 
 
-    /*                           <<<<<<<<<<<<<< CM Common Section >>>>>>>>>>>>>>>>                              */
-productPage: {
-    validation: "h1.text-xl",
-},
-
-product: {
-
-    addNew: "Add Product",
-    productName: "#product-name",
-    productDescription: "Description",
-    productCategory: "input.flex-grow.bg-transparent",
-    productCategorySelect: "Clothing",
-    soldBy: ".css-17wv8nz",
-    vendorName: "#react-select-2-input",
-    regularPrice: "#regular-price",
-    salePrice: "#sale-price",
-    taxClass: ".css-98q0e7",
-    selectTax: "#react-select-2-option-0",
-    sku: "#sku",
-    stockQuantity: "#stock-quantity",
-    lowStockQuantity: "#low-stock-threshold",
-    shippingWeight: "#shipping-weight",
-    shippingHeight: "#shipping-height",
-    shippingWidth: "#shipping-width",
-    shippingLength: "#shipping-length",
-    shippingProfile: "//div[@id='react-select-7-placeholder']",
-    updateButton: "Update"
-
-
-},
 
 
 
-    /*                           <<<<<<<<<<<<<< CS Customer Section >>>>>>>>>>>>>>>>                              */
+
+    /*                           <<<<<<<<<<<<<< CS-> Customer Section >>>>>>>>>>>>>>>>                              */
 
 customer: {
     registration: {

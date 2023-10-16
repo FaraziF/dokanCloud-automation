@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 
+const env = require('../env')
 /* export const user ={
     admin: {
         email: '',
@@ -30,7 +31,7 @@ export { admin, user };
 
 export const data = {
 
-    // Generated  test data
+    /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Generated  test data <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 	auth: {
 		adminAuthFile: 'playwright-test/.auth/adminStorageState.json',
 		vendorAuthFile: 'playwright-test/.auth/vendorStorageState.json',
@@ -38,8 +39,8 @@ export const data = {
 	},
 
     adminCredentials: {
-		username: String(process.env.ADMIN_USERNAME),
-		password: String(process.env.ADMIN_PASSWORD),
+		username: String(env('ADMIN_USERNAME')),
+		password: String(env('ADMIN_PASSWORD')),
 	},
     vendorCredentials: {
 		username: String(process.env.VENDOR_USERNAME),
@@ -50,13 +51,40 @@ export const data = {
 		password: String(process.env.CUSTOMER_PASSWORD),
 	},
 
-    commonMessage:
-    {
+
+
+ /*  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Common Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+    dashboard: {
+        PageValidation: 'Dashboard',
+    },
+
+    commonLink: {
+        allProduct: 'All Products'
+    },
+
+    commonMessage:{
         createSuccessMessage: 'Created successfully',
         updateSuccessMessage: 'Updated successfully',
         deleteSuccessMessage: 'Deleted successfully',
-        vendorName: 'farazi',
+        // vendorName: 'farazi',
+        vendorName: 'jamuna-future-park',
     },
+
+    product: {
+        pageValidation: 'Products',
+        standard: {
+            productName: () => faker.commerce.productName() + (' (Standard)'),
+            productDescription: () => faker.commerce.productDescription(),
+            regularPrice: () => (faker.finance.amount(100, 200, faker.helpers.arrayElement([1, 2]))),
+            sku: () => faker.helpers.unique(() => faker.random.alpha(10)),
+            updateName: () => faker.commerce.productName() + (' (Update)'),
+            // updateName: () => faker.helpers.unique(() => faker.random.word()),
+        },
+        createMessage: 'Created Successfully',
+        editMessage: 'Product updated successfully',
+    },
+
+    /*  <<<<<<<<<<<<<<<<<<<<<<<<<<< Sub URL section <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
     subUrls: {
         admin: {
@@ -65,6 +93,21 @@ export const data = {
             product: '/admin/products',
             category: '/admin/categories',
             brand: '/admin/brands',
+            order: '/admin/orders',
+            subscription: '/admin/subscriptions',
+            payouts: '/admin/payouts',
+            vendor: '/admin/vendors',
+            customer: '/admin/customers',
+            page: '/admin/pages',
+            generalSettings: '/admin/settings/general',
+            teamSettings: '/admin/settings/team',
+            paymentSettings: '/admin/settings/payment',
+            payoutSettings: '/admin/settings/payout',
+            shippingSettings: '/admin/settings/shipping',
+            notificationSettings: '/admin/settings/notification',
+            taxSettings: '/admin/settings/tax',
+            seoSettings: '/admin/settings/seo',
+            policiesSettings: '/admin/settings/policies',
         },
         vendor: {
             dashboard: '/vendor',
@@ -80,8 +123,23 @@ export const data = {
         },
     },
 
-    dashboard: {
-        PageValidation: 'Dashboard',
+    /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Admin Section <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+    
+    category: {
+        pageValidation: 'Categories',
+        // insertName: () => faker.commerce.productAdjective() + (' (New)'),
+        insertName: () => faker.helpers.unique(() => faker.random.word()),
+        insertDescription: () => faker.commerce.productDescription(),
+        updateName: () => faker.helpers.unique(() => faker.random.word()),
+        imageUpload: "/Users/faraziforhad/MyDevice/Programming/Automation/playwright-test/utils/images/avocado.png",
+
+    },
+    brand: {
+        pageValidation: 'Brands',
+        // insertName: () => faker.commerce.productAdjective() + (' (New)'),
+        insertName: () => faker.helpers.unique(() => faker.random.word()),
+        // updateName: () => faker.commerce.productAdjective() + (' (Update)'),
+        updateName: () => faker.helpers.unique(() => faker.random.word()),
     },
 
     attribute: {
@@ -99,32 +157,104 @@ export const data = {
         }
     },
 
-    product: {
-        pageValidation: 'Products',
-        standard: {
-            productName: () => faker.commerce.productName() + (' (Standard)'),
-            productDescription: () => faker.commerce.productDescription(),
-            regularPrice: () => (faker.finance.amount(100, 200, faker.helpers.arrayElement([1, 2]))),
-            sku: () => faker.helpers.unique(() => faker.random.alpha(10)),
-            updateName: () => faker.commerce.productName() + (' (Update)'),
-            // updateName: () => faker.helpers.unique(() => faker.random.word()),
-        },
-        createMessage: 'Created Successfully',
-        editMessage: 'Product updated successfully',
+    order: {
+        pageValidation: 'Orders'
+    },
+
+    subscription: { 
+        pageValidation: 'Subscription Plans', 
+        titleField: 'pro subscription pack',
+        descriptionField: 'this is new subscription pack',
+        priceField: '20',
+        setupFee: '10',
+        billingCycle: '5',
+        selectTrailPriod: '5',
+        selectTrailPriod2: 'week',
+        percentageCommissions: '5',
+        flatCommissions: '10',
+        numberOfPhysicalProducts: '10',
+        numberOfDigitalProducts: '10',
+        numberOfVendorStaff: '5',
+        createSuccessMessage: 'Subscription plan is created successfully',
+        // edit
+        descriptionUpdateField: 'this is new subscription pack update description',
+        updateSuccessMessage: 'Subscription plan has been updated successfully',
+        deleteSuccessMessage: 'Subscription plan deleted successfully',
+
+
+    },
+
+    payout: {
+        pageValidation: 'Payout Requests'
+    },
+
+    vendors: {
+        pageValidation: 'Vendors'
+    },
+
+    customersPage: {
+        pageValidation: 'Customers'
+    },
+
+    designPage: {
+        pageValidation: 'Pages'
     },
     
-    category: {
-        // insertName: () => faker.commerce.productAdjective() + (' (New)'),
-        insertName: () => faker.helpers.unique(() => faker.random.word()),
-        insertDescription: () => faker.commerce.productDescription(),
-        updateName: () => faker.helpers.unique(() => faker.random.word()),
+    generalSettings: {
+        pageValidation: 'General Settings'
     },
-    brand: {
-        // insertName: () => faker.commerce.productAdjective() + (' (New)'),
-        insertName: () => faker.helpers.unique(() => faker.random.word()),
-        // updateName: () => faker.commerce.productAdjective() + (' (Update)'),
-        updateName: () => faker.helpers.unique(() => faker.random.word()),
+
+    teamSettings: {
+        pageValidation: 'Team'
     },
+
+    paymentSettings: {
+        pageValidation: 'Payment Settings'
+    },
+
+    payoutSettings: {
+        pageValidation: 'Payout Options'
+    },
+    
+    shippingSettings: {
+        pageValidation: 'Shipping Settings'
+    },
+
+    notificationSettings: {
+        pageValidation: 'Notifications'
+    },
+
+    taxSettings: {
+        pageValidation: 'Tax',
+        className: 'New Tax Class',
+        classNameUpdate: 'Update Tax Class',
+        validateSuccessMessage: 'Tax class created successfully.',
+
+        renameValidation: 'Rename Tax Class',
+        updateValidateSuccessMessage: 'Tax class updated successfully.',
+
+        deleteValidationSuccessMessage: 'Tax class deleted successfully.',
+
+        countrySearch: 'afg',
+        countryValidation: 'Afghanistan',
+        taxName: 'aftaxname',
+
+        manageSuccessMessageValidation: 'Tax rates have been saved successfully.',
+
+        stateName: 'kabul',
+
+    },
+
+    seoSettings: {
+        pageValidation: 'SEO Settings'
+    },
+
+    policiesSettings: {
+        pageValidation: 'privacy-policy'
+    },
+
+
+    
 
     
 

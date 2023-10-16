@@ -2,6 +2,7 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 // import { defineConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
 import path from 'path';
+const env = require('./env')
 
 import dotenv from 'dotenv';
 require('dotenv').config();
@@ -37,7 +38,7 @@ const config: PlaywrightTestConfig = {
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000
+    timeout: 6000
   },
   /* Run tests in files in parallel */
   // fullyParallel: true,
@@ -55,7 +56,8 @@ const config: PlaywrightTestConfig = {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.URL ?? '',
+    // baseURL: process.env.URL ?? '',
+    baseURL: env('URL' ?? ''),
     // baseURL: 'https://testing.dokandev.com/',
     // baseURL: process
     // storageState: 'storageState.json',

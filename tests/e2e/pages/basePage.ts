@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { Page, expect, Response } from "@playwright/test";
 import { data } from "../../../utils/testdata";
 
 export class BasePage {
@@ -44,6 +44,15 @@ export class BasePage {
         }
     }
 
+    // In every page check error
+    async errorCheck() {
+        // await this.page.waitForTimeout(1000)
+        await expect(this.page.getByRole('alert')).not.toBeVisible()
+        await expect(this.page.getByText('Request failed with status code 500')).not.toBeVisible();
+        await expect(this.page.getByText('Request failed with status code 404')).not.toBeVisible();
+        await expect(this.page.getByText('Sorry! Page not found')).not.toBeVisible();
+    }
+
      // wait for url to be loaded
      async waitForUrl(url: string, options?: any): Promise<void> {
         await this.page.waitForURL(url, options);
@@ -56,5 +65,15 @@ export class BasePage {
             this.page.locator(selector).click(),
         ]);
     }
+
+    // click & wait for response
+	async clickAndWaitForResponse(subUrl: string, selector: string, code = 200): Promise<Response> {
+		const [response] = await Promise.all([
+			this.page.waitForResponse((resp) => resp.url().includes(subUrl) && resp.status() === code),
+			this.page.locator(selector).click()
+		]);
+		return response;
+	}
+
 
 }

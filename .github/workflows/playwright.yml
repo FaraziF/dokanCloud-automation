@@ -17,14 +17,14 @@ permissions:
     issues: write
     pull-requests: write
 env:
-  - name: 'Create env file'
-    run: |
-      touch .env
-      echo STAGING_URL="https://farazi.staging.dokandev.com" >> .env
-      echo STAGING_TENANT=${{ secrets.STAGING_TENANT }} >> .env
-      echo STAGING_ADMIN_USERNAME=${{ secrets.STAGING_ADMIN_USERNAME }} >> .env
-      echo STAGING_ADMIN_PASSWORD=${{ secrets.STAGING_ADMIN_PASSWORD }} >> .env
-      cat .env
+  name: 'Create env file'
+  run: |
+    touch .env
+    echo STAGING_URL="https://farazi.staging.dokandev.com" >> .env
+    echo STAGING_TENANT=${{ secrets.STAGING_TENANT }} >> .env
+    echo STAGING_ADMIN_USERNAME=${{ secrets.STAGING_ADMIN_USERNAME }} >> .env
+    echo STAGING_ADMIN_PASSWORD=${{ secrets.STAGING_ADMIN_PASSWORD }} >> .env
+    cat .env
 
 jobs:
   test:

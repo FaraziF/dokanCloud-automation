@@ -32,6 +32,10 @@ jobs:
       id: playwright-version
       run: echo "PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq --raw-output '.dependencies["@playwright/test"].version')" >> $GITHUB_ENV
     
+    - name: Get Playwright version
+      id: playwright-version1
+      run: echo ${{ env.PLAYWRIGHT_VERSION }}
+
     - name: Cache playwright binaries
       uses: actions/cache@v3
       id: playwright-cache
@@ -42,7 +46,7 @@ jobs:
         restore-keys: |
                       ${{ runner.os }}-playwright-
     - run: npm ci
-    - run: npx playwright install --with-deps
+    - run: npx playwright install --with-deps chromium
       if: steps.playwright-cache.outputs.cache-hit != 'true'
     - run: npx playwright install-deps
       if: steps.playwright-cache.outputs.cache-hit != 'true'

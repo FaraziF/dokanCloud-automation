@@ -1,8 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
-import { LoginPage } from "../pages/loginPage";
-import { selector } from "../pages/selectors";
-import { user, data } from "../../../utils/testdata";
-import { AdminPage } from '../pages/adminPage';
+import { LoginPage } from "../../pages/loginPage";
+import { selector } from "../../pages/selectors";
+import { user, data } from "../../../../utils/testdata";
+import { AdminPage } from '../../pages/adminPage';
 
 test.use({ storageState: data.auth.adminAuthFile });
 

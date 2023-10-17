@@ -1,10 +1,10 @@
 import { test, expect, Page } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-import { LoginPage } from "../pages/loginPage";
-import { user } from "../../../utils/testdata";
-import { selector } from "../pages/selectors";
-import { Registration } from "../pages/registrationPage";
-import { DashboardPage } from "../pages/dashboardPage";
+import { LoginPage } from "../../pages/loginPage";
+import { user } from "../../../../utils/testdata";
+import { selector } from "../../pages/selectors";
+import { Registration } from "../../pages/registrationPage";
+import { DashboardPage } from "../../pages/dashboardPage";
 
 
 test.describe('Vendor Validation With', () => {

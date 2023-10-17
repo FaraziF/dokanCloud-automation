@@ -5,9 +5,10 @@ import { ApiUtils } from "../../../utils/apiUtils";
 
 let apiUtils: ApiUtils;
 let productId: string;
+let category_id;
 // Coupon
 /* 
-TODO: 
+TODO: Pending vendor all scenario
     - Pending vendor try to create new product
     - try to access coupon without login
     
@@ -17,12 +18,12 @@ TODO:
 
 test.beforeAll(async ({ request }) => {
 	apiUtils = new ApiUtils(request);
-	[, productId,] = await apiUtils.vendorCreateProduct(payloads.productCreate());
+	[, productId,] = await apiUtils.vendorCreateProduct(payloads.productCreate(category_id));
 });
 
 test.describe("Authentication Test", () => {
     test('Pending vendor try to create product', async () => {
-        const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: payloads.productCreate(), ...payloads.stroreOwner() });
+        const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: payloads.productCreate(category_id), ...payloads.stroreOwner() });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         console.log(await responseBody.json())

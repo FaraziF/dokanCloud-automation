@@ -1,10 +1,10 @@
 import { test, expect, type Page } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-import { LoginPage } from "../pages/loginPage";
-import { VendorPage } from "../pages/vendorPage";
-import { data, user } from "../../../utils/testdata";
-import { selector } from "../pages/selectors";
-import { Registration } from "../pages/registrationPage";
+import { LoginPage } from "../../pages/loginPage";
+import { VendorPage } from "../../pages/vendorPage";
+import { data, user } from "../../../../utils/testdata";
+import { selector } from "../../pages/selectors";
+import { Registration } from "../../pages/registrationPage";
 
 
 // const env = require('../../../env');

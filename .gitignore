@@ -14,4 +14,3 @@ config.json
 /playwright-report/
 /playwright/.cache/
 .vscode/
-/playwright-test/

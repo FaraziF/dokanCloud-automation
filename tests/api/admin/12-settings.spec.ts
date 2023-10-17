@@ -150,7 +150,7 @@ test.describe("team settings", () => {
 
 
 // Payment settings
-test.describe("Payment settings", () => {
+test.describe.only("Payment settings", () => {
     test("get Stripe payment", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.getBusinessDetailsSettings);
 		expect(response.ok()).toBeTruthy();
@@ -163,6 +163,11 @@ test.describe("Payment settings", () => {
     }) 
     test("get paypal payment", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.getPaypalPaymentSettings);
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+    }) 
+    test("update paypal test credential", async() => {
+        const [response, responseBody] = await apiUtils.put(endPoints.updatePaypalPaymentSettings, {data: payloads.updatePaypalTestCredentials()});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
     }) 

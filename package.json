@@ -22,9 +22,12 @@
   "homepage": "https://github.com/FaraziF/playwright-test#readme",
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
-    "@playwright/test": "^1.36.2",
+    "@playwright/test": "^1.39.0",
     "@types/node": "^20.5.7",
     "dotenv": "^16.0.3",
     "mailslurp-client": "^15.17.2"
+  },
+  "dependencies": {
+    "playwright": "^1.39.0"
   }
 }

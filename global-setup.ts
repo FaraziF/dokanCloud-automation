@@ -10,7 +10,6 @@ async function globalSetup(config: FullConfig) {
     // Admin Login
     let adminData = { email: env('ADMIN_USERNAME'), password: env('ADMIN_PASSWORD'), strategy: "admin" };
     const _adminResponse = await context.post(env('URL') + '/api/v1/auth/login', { data: adminData })
-    console.log(env('URL'))
     const adminResonseBody = (await _adminResponse.json())
     process.env.Admin_API_TOKEN = adminResonseBody.token
 
@@ -25,6 +24,7 @@ async function globalSetup(config: FullConfig) {
     const _customerResponse = await context.post(env('URL') + '/api/v1/auth/login', { data: customerData })
     const customerResonseBody = (await _customerResponse.json())
     process.env.Customer_API_TOKEN = customerResonseBody.token
+    
 }
 
 export default globalSetup;

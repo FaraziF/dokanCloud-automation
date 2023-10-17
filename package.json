@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx playwright test --headed",
     "test:e2e": "playwright test --project=chromium",
-    "test:api": "npx playwright test tests/api/admin/",
+    "test:api": "npx playwright test tests/api/admin/1-dashboard.spec.ts",
     "test:e2e-i": "playwright test --project=chromium --headed"
   },
   "repository": {

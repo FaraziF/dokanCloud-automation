@@ -25,6 +25,7 @@ test.beforeAll( async({ request }) => {
 	expect(responseBody).toBeTruthy();  
     const res = await response.json();
     category_id = res.data.id;
+    console.log("cat id: " + category_id)
 })
 
 test.describe("Category & Attribute API test", () => {

@@ -212,11 +212,11 @@ export const endPoints = {
         // createNewTaxClass: 'http://farazi.mydokan.io:3001/api/v1/tax/classes',
         // updateNewTaxClass: 'http://farazi.mydokan.io:3001/api/v1/tax/classes/4',
         // deleteTaxClass: 'http://farazi.mydokan.io:3001/api/v1/tax/classes/2?assign_to=1',
-    getTax: `${url}/api/v1/tax/country/${process.env.TAX_COUNTRY}`,
+    getTax: `${url}/api/v1/tax/country/${env('TAX_COUNTRY')}`,
         
     // Product
     productGetAll: `${url}/api/v1/admin/products`,
-    individualProductGet: `${url}/api/v1/products/${process.env.PRODUCT_ID}`,
+    individualProductGet: `${url}/api/v1/products/${env('PRODUCT_ID')}`,
     searchIndividualProduct:(productTitle: string) => `${url}/api/v1/admin/products?search=${productTitle}`,
     createProduct: `${url}/api/v1/admin/products`,
     productUpdate: (productID: string) => `${url}/api/v1/admin/products/${productID}`,

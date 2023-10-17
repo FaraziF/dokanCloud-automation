@@ -150,7 +150,7 @@ test.describe("team settings", () => {
 
 
 // Payment settings
-test.describe.only("Payment settings", () => {
+test.describe("Payment settings", () => {
     test("get Stripe payment", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.getBusinessDetailsSettings);
 		expect(response.ok()).toBeTruthy();

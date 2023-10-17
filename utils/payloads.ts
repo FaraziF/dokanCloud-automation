@@ -19,7 +19,7 @@ export const payloads = {
     categoryCreate: () => {
         return {
             // name : faker.commerce.productAdjective() + faker.datatype.uuid(),
-            name : faker.commerce.productAdjective(),
+            name : faker.commerce.productAdjective() + faker.datatype.uuid(),
         }
     },
     categoryUpdate: () => {
@@ -349,11 +349,11 @@ export const payloads = {
                 enabled: true,
                 testMode: true,
                 test: {
-                  clientId: process.env.STRIPE_TEST_CLIENT_ID,
-                  secretKey: process.env.STRIPE_TEST_SECRET_KEY,
-                  publishableKey: process.env.STRIPE_TEST_PUBLISH_KEY,
-                  webhookSecret: process.env.STRIPE_TEST_WEBHOOK_SECRET,
-                  webhookId: process.env.STRIPE_TEST_WEBHOOK_ID
+                  clientId: env('STRIPE_TEST_CLIENT_ID'),
+                  secretKey: env('STRIPE_TEST_SECRET_KEY'),
+                  publishableKey: env('STRIPE_TEST_PUBLISH_KEY'),
+                  webhookSecret: env('STRIPE_TEST_WEBHOOK_SECRET'),
+                  webhookId: env('STRIPE_TEST_WEBHOOK_ID')
                 }
             }
         }
@@ -366,8 +366,8 @@ export const payloads = {
                 enabled: true,
                 testMode: true,
                 test: {
-                  clientId: process.env.PAYPAL_SANDBOX_CLIENT_ID,
-                  secretKey: process.env.PAYPAL_SANDBOX_SECRET_KEY
+                  clientId: env('PAYPAL_SANDBOX_CLIENT_ID'),
+                  secretKey: env('PAYPAL_SANDBOX_SECRET_KEY')
                 }
               }
         }
@@ -409,8 +409,8 @@ export const payloads = {
 
     addTaxCountry: () => {
         return {
-            name: process.env.TAX_NAME,
-            country: process.env.TAX_COUNTRY,
+            name: env('TAX_NAME'),
+            country: env('TAX_COUNTRY'),
             onShipping: true,
             onDigital: true,
             taxRates: [
@@ -429,8 +429,8 @@ export const payloads = {
     },
     mangeSameTaxCountry: () => {
         return {
-            name: process.env.TAX_NAME,
-            country: process.env.TAX_COUNTRY,
+            name: env('TAX_NAME'),
+            country: env('TAX_COUNTRY'),
             onShipping: true,
             onDigital: true,
             taxRates: [
@@ -466,8 +466,8 @@ export const payloads = {
                       effectiveRate: 7.12
                     }
                   ],
-                  country: process.env.TAX_COUNTRY,
-                  state: process.env.COUNTRY_STATE,
+                  country: env('TAX_COUNTRY'),
+                  state: env('COUNTRY_STATE'),
                   onDigital: true,
                   onShipping: true,
                   override: true
@@ -495,8 +495,8 @@ export const payloads = {
                       effectiveRate: 7.12
                     }
                   ],
-                  country: process.env.TAX_COUNTRY,
-                  state: process.env.COUNTRY_STATE,
+                  country: env('TAX_COUNTRY'),
+                  state: env('COUNTRY_STATE'),
                   onDigital: true,
                   onShipping: true,
                   override: true
@@ -665,21 +665,21 @@ export const payloads = {
         return {
             vendor:
             {
-                "id": process.env.STORE_OWNER_ID,
-                "storeName": process.env.STORE_OWNER_NAME,
-                "creatorId": process.env.STORE_OWNER_ID,
+                "id": env('STORE_OWNER_ID'),
+                "storeName": env('STORE_OWNER_NAME'),
+                "creatorId": env('STORE_OWNER_ID'),
                 "country": "BD",
                 "active": true
             }
         }
     },
-    productCreate: () => {
+    productCreate: (category_id ) => {
         return {
             "vendor":
             {
-                "id": process.env.STORE_OWNER_ID,
-                "storeName": process.env.STORE_OWNER_NAME,
-                "creatorId": process.env.CDREATOR_ID,
+                "id": env('STORE_OWNER_ID'),
+                "storeName": env('STORE_OWNER_NAME'),
+                "creatorId": env('CDREATOR_ID'),
                 "country": "BD",
                 "active": true
             },
@@ -695,7 +695,7 @@ export const payloads = {
             description: faker.commerce.productDescription(),
             type: "standard",
             hasVariation: false, // required
-            category: process.env.CATEGORY_ID,  // category id
+            category: category_id,  // category id
             status: "published",
             manageStock: true,
             stockQuantity: "100",
@@ -705,13 +705,13 @@ export const payloads = {
             allowOnPos: true, //required
         }
     },
-    productUpdate: () => {
+    productUpdate: (category_id) => {
         return {
             "vendor":
             {
-                "id": process.env.STORE_OWNER_ID,
-                "storeName": process.env.STORE_OWNER_NAME,
-                "creatorId": process.env.CDREATOR_ID,
+                "id": env('STORE_OWNER_ID'),
+                "storeName": env('STORE_OWNER_NAME'),
+                "creatorId": env('CDREATOR_ID'),
                 "country": "BD",
                 "active": true
             },
@@ -726,7 +726,7 @@ export const payloads = {
             description: faker.commerce.productDescription(),
             type: "standard",
             hasVariation: false, // required
-            category: process.env.CATEGORY_ID, // category id
+            category: category_id, // category id
             status: "published",
             manageStock: true,
             stockQuantity: "100",
@@ -743,7 +743,7 @@ export const payloads = {
         return {
             lineItems: [
                 {
-                    productId: process.env.PRODUCT_ID,
+                    productId: env('PRODUCT_ID'),
                     quantity: 1
                 }
             ]

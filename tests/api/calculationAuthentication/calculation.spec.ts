@@ -1,6 +1,8 @@
 import { test, expect, request } from "@playwright/test";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
+const env = require('../../../env')
+
 // const orderId: number;
 // let res;
 let productID;
@@ -74,14 +76,19 @@ test.describe("Calculation Test", () => {
         _ExistingProductPrice = res.data.price;
         _taxClassId = res.data.taxClassId;
         _shippingProfileId = res.data.shippingProfileId
+
         console.log("Existing Product Price: " + _ExistingProductPrice)
+        console.log("Tax Class ID: " + _taxClassId)
+        console.log("Shipping Profile ID: " + _shippingProfileId)
     })
     
     test("Get Shipping price", async ({ request }) => {
         let _response = await request.get(endPoints.getShipping, { headers: {
             ...vendorAuth,
             // tenant: 'jamuna-future-park'
-            tenant: `${String(process.env.TENANT)}`
+            // tenant: `${String(process.env.PRODUCTION_TENANT)}`
+            tenant: `${String(env('TENANT'))}`
+
     }})
         expect(_response.ok()).toBeTruthy()
             const res = await _response.json()
@@ -97,7 +104,8 @@ test.describe("Calculation Test", () => {
     test("Get subscription price", async({ request }) => {
         const _response = await request.get(endPoints.getSubscription, { headers: {
             ...vendorAuth,
-            tenant: `${String(process.env.TENANT)}`
+            // tenant: `${String(process.env.PRODUCTION_TENANT)}`
+            tenant: `${String(env('TENANT'))}`
         }} )
         expect(_response.ok()).toBeTruthy()
         const res = await _response.json()
@@ -129,7 +137,7 @@ test.describe("Calculation Test", () => {
         // console.log("Two " + _existingTaxClassIdTwo +  + _existingTaxClassTwoRate)
 
         _existingProductTaxClassOneRate = (_existingTaxClassOneRate * _ExistingProductPrice) / 100
-        console.log("Existing Product Tax" + _existingProductTaxClassOneRate)
+        console.log("Existing Product Tax: " + _existingProductTaxClassOneRate)
          
 
     })

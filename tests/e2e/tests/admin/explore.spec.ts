@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 
+
 test('test', async ({ page }) => {
   
+  await page.goto('https://farazi.staging/dokandev.com/admin/');
   await page.locator('a').filter({ hasText: /^Products$/ }).click();
   await page.getByRole('link', { name: 'All Products' }).click();
-  await page.goto('https://farazi.dokandev.com/admin/products');
+  await page.goto('https://farazi.staging/dokandev.com/admin/products');
   await page.getByRole('heading', { name: 'Products' }).click();
 
   await page.getByRole('link', { name: 'Categories' }).click();

@@ -24,7 +24,8 @@ export const payloads = {
     },
     categoryUpdate: () => {
         return {
-            name: faker.commerce.productAdjective() + faker.datatype.uuid(),
+            name: faker.commerce.productAdjective() + faker.datatype.uuid() + " update",
+            slug: "slug-update2"
         }
     },
     attributeCreate: () => {
@@ -59,6 +60,7 @@ export const payloads = {
         return {
             name: faker.commerce.productAdjective() + " Update",
             description: faker.commerce.productDescription(),
+            slug: "slug-update"
         }
      },
  
@@ -166,6 +168,90 @@ export const payloads = {
             },
         }
     },
+    saveDraftSubscription: () => {
+        return {
+            name: faker.commerce.productAdjective() + "update",
+            description: faker.commerce.productDescription(),
+            isFreePlan: false,
+            price: 20,
+            setupFee: 10,
+            status: "draft",
+            isTaxable: false,
+            capabilities:{
+                products:{
+                    enabled:true,
+                    publishProductDirectly:true,
+                    physicalProductQuantity:20,
+                    digitalProductQuantity: 18
+                },
+                storeSettings:{
+                    enabled:true,
+                    canCreateCoupon:false,
+                    canAllowMultipleAddress:false,
+                    vendorStaffQuantity: 20
+                },
+                seo:{
+                    enabled:true,
+                    canApplyStoreSEO:true,
+                    canApplyProductSEO: true
+                },
+                report:{
+                    enabled:true
+                }
+            },
+            trialPeriodConfig:{
+                enabled: false,
+                value: 1,
+                unit: "day"
+            },
+            billingCycleConfig:{
+                frequency: 1,
+                unit:"day",
+                expireCycle:1
+            },
+            commissionConfig:{
+                type:"flat",
+                flat:
+                    {
+                    percent:2,
+                    fixed:10,
+                    }
+            },
+        }
+    },
+
+
+                                                    /* Vendors */
+    editVendorGeneralSettings: () => {
+        return {
+            vatId: "",
+            storeName: "vendor.200 update",
+            businessRegistrationNumber: "",
+            legalBusinessName: "",
+            mobile: "013485840",
+            email: "farazi+vendor200@wedevs.com",
+            status: "active",
+            firstName: "Vendor",
+            lastName: "TwoHundred",
+        }
+    },
+    editVendorAddressSettings: () => {
+        return {
+            country: "US",
+            city: "Tallahassee",
+            postCode: "32306",
+            state: "Florida",
+            address1: "Florida State University",
+            address2: "Road:1, House:2",
+        }
+    },
+    editVendorSocialSettings: () => {
+        return {
+            facebook:"https://www.facebook.com/",
+            twitter:"https://twitter.com/"
+        }
+    },
+
 
 
                                                     /* Customers */
@@ -190,8 +276,8 @@ export const payloads = {
     },
     resetPassword: () => {
         return {
-            password: 'aA123456',
-            passwordConfirmation: 'aA123456'
+            password: '!!@@1122QQqq',
+            passwordConfirmation: '!!@@1122QQqq'
         }
     },
 
@@ -269,6 +355,7 @@ export const payloads = {
         return {
             unitSystem: "metric",
             defaultWeightUnit: "kg",
+            defaultDimensionUnit: "mm",
             orderPrefix: "INV-"
         }
     },
@@ -287,32 +374,20 @@ export const payloads = {
     },
     updateBrand: () => {
         return {
-            logo: {
-                _id: "65043018256a3a40044b3752",
-                name: "Screenshot 2023-09-15 at 4.20.07 PM.png",
-                size: 48340,
-                mimetype: "image/png",
-                path: "42a4d9bd5b31070602bc35b6a4e1a85a/2023/09/clmkg8xwv00bt0rikhp5g31sk-Screenshot-2023-09-15-at-4.20.07-PM.png"
+            socialLinks: {
+              facebook: "https://www.facebook.com/weDevs",
+              twitter: "https://twitter.com/weDevs",
+              instagram: "",
+              linkedin: "https://www.linkedin.com/company/wedevs",
+              youtube: "",
+              pinterest: ""
+            },
+            colors: {
+                accent: "#e60000",
+                brand: "#c24c4c"
               },
-              icon: {
-                _id: "6504302c256a3a40044b3756",
-                name: "Screenshot 2023-09-15 at 4.20.39 PM.png",
-                size: 54058,
-                mimetype: "image/png",
-                path: "42a4d9bd5b31070602bc35b6a4e1a85a/2023/09/clmkg9dkn00bu0rik23bqcxl7-Screenshot-2023-09-15-at-4.20.39-PM.png"
-              },
-              colors: {
-                brand: "#7dd900",
-                accent: "#7cee00"
-              },
-              socialLinks: {
-                facebook: "https://www.facebook.com/weDevs",
-                twitter: "https://twitter.com/weDevs",
-                instagram: "",
-                linkedin: "https://www.linkedin.com/company/wedevs",
-                youtube: "https://www.youtube.com/user/wedevs",
-                pinterest: ""
-              }
+            iconId: `${env('ICON_ID')}`,
+            logoId: `${env('LOGO_ID')}`,
         }
     },
 
@@ -517,6 +592,7 @@ export const payloads = {
         }
     },
 
+    // SEO Settings
     saveSEOGeneral: () => {
         return {
             title: "Sell your products on Jamuna Future Park",
@@ -524,6 +600,12 @@ export const payloads = {
             description: "Our sellers and their millions of amazing products help make Jamuna Future Park one of the fastest-growing eCommerce platforms in the World. Whether you’re a small business or a global brand, our innovative solutions simplify the selling experience and help deliver growth at scale. Let’s grow together!\n"
         }
     },
+    saveSocialShare: () => {
+        return {
+
+        }
+    },
+
     saveAdvanceSEO: () => {
         return {
             richMarkupType: "website",
@@ -540,7 +622,7 @@ export const payloads = {
     },
     saveSiteVerification: () => {
         return {
-            googleVerificationId: "",
+            google:"google-site-verification: google8506dd51509a20b9.html",
             bingWebmasterId: "",
             baiduVerificationId: "",
             yandexVerificationId: "",
@@ -673,7 +755,7 @@ export const payloads = {
             }
         }
     },
-    productCreate: (category_id ) => {
+    productCreate: ( ) => {
         return {
             "vendor":
             {
@@ -681,31 +763,35 @@ export const payloads = {
                 "storeName": env('STORE_OWNER_NAME'),
                 "creatorId": env('CDREATOR_ID'),
                 "country": "BD",
+                "slug":env('STORE_OWNER_NAME'),
                 "active": true
             },
             title: faker.commerce.productName() + faker.datatype.uuid(),
-            sku: faker.helpers.unique(() => faker.random.alpha(10)),
+            sku: faker.helpers.unique(() => faker.random.alpha(5)),
             priceType: "single",
             price: faker.commerce.price(),
             // price: 290,
             // salePrice: 275,
             tieredPrice: false, // required
-            collectTax: true,
-            taxClassId: 3,
+            collectTax: false,
+            taxClassId: "",
             description: faker.commerce.productDescription(),
             type: "standard",
             hasVariation: false, // required
-            category: category_id,  // category id
+            // category: category_id,  // category id
+            category: env('CATEGORY_ID'),  // category id
             status: "published",
             manageStock: true,
             stockQuantity: "100",
             lowStockThreshold: "90",
+            media: [],
+            mediaIds: [],
             shippingProfileId: "",
             hideFromStoreFront: false, //required
             allowOnPos: true, //required
         }
     },
-    productUpdate: (category_id) => {
+    productUpdate: () => {
         return {
             "vendor":
             {
@@ -713,6 +799,7 @@ export const payloads = {
                 "storeName": env('STORE_OWNER_NAME'),
                 "creatorId": env('CDREATOR_ID'),
                 "country": "BD",
+                "slug":env('STORE_OWNER_NAME'),
                 "active": true
             },
             title: faker.commerce.productName() + " Update",
@@ -720,17 +807,21 @@ export const payloads = {
             priceType: "single",
             price: faker.commerce.price(),
             // salePrice: "190",
+            slug: faker.helpers.unique(() => faker.random.alpha(10)),
             tieredPrice: false, // required
             collectTax: true,
             taxClassId: 3,
             description: faker.commerce.productDescription(),
             type: "standard",
             hasVariation: false, // required
-            category: category_id, // category id
+            // category: category_id, // category id
+            category: env('CATEGORY_ID'), // category id
             status: "published",
             manageStock: true,
             stockQuantity: "100",
             lowStockThreshold: "90",
+            media: [],
+            mediaIds: [],
             shippingProfileId: "",
             hideFromStoreFront: false, //required
             allowOnPos: true, //required
@@ -777,9 +868,11 @@ export const payloads = {
               active: true,
               isAdmin: false,
               role: "customer",
-              defaultAddressId: "3"
+              defaultAddressId: "3",
+              isTest: true,
             },
             paymentMethod: "cod",
+            requiresShipping: true,
             shipping: {
               id: 3,
               userId: "24",
@@ -810,10 +903,378 @@ export const payloads = {
         
             }
           }
+    },
+
+
+
+
+
+    /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<< Vendor Section>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+
+
+    saveShippingPreference: () => {
+        return {
+            weightUnit: "kg",
+            dimensionUnit: "mm",
+            profileType: "custom"
+        }
+    },
+    getShippingProfileID: () => {
+        return {
+            name: faker.helpers.unique(() => faker.random.alpha(2)),
+            mode: "weight",
+            handlingTimeInDays: 3,
+            cutOffTime: "15:43",
+        }
+    },
+    createShippingProfile: () => {
+        return {
+            locations: [
+                {
+                  country: "Afghanistan",
+                  continent: "Asia",
+                  filteredStates: [
+                    "Badakhshan"
+                  ],
+                  filteredZipCodes: []
+                }
+              ],
+              transitTimeDayStart: 2,
+              transitTimeDayEnd: 3,
+              handlingFee: 2,
+              costAppliedOn: "item",
+              defaultCost: 3,
+              weightCost: 4,
+              shippingTypeId: 1,
+              saved: false,
+              minAmountForFree: 0,
+              category: "domestic",
+        }
+    },
+    updateShippingProfile: () => {
+        return {
+            name: "kl update",
+            mode: "weight",
+            handlingTimeInDays: 3,
+            cutOffTime: "15:43:00"
+        }
+    },
+    updateShippingWeighRule: () => {
+        return {
+            name: "kl update",
+            mode: "weight",
+            handlingTimeInDays: 2,
+            cutOffTime: "15:43:00",
+
+            category: "domestic",
+            costAppliedOn: "item_qty",
+            createdAt: "2023-11-30T10:30:32Z",
+            defaultCost: 9,
+            handlingFee: 9,
+            id: 11,
+            locations: [
+              {
+                continent: "Asia",
+                country: "Afghanistan",
+                filteredStates: [
+                  "Badakhshan"
+                ],
+                "filteredZipCodes": []
+              }
+            ],
+            minAmountForFree: 0,
+            shippingProfileId: 22,
+            shippingTypeId: 1,
+            transitTimeDayEnd: 5,
+            transitTimeDayStart: 3,
+            updatedAt: "2023-11-30T10:47:11Z",
+            weightCost: 9
+        }
+    },
+    vendorSaveBasicSettings: () => {
+        return {
+            logo: {
+                id: "655c326660a862432a6117f2",
+                _id: "655c326660a862432a6117f2",
+                name: "mart_log.png",
+                path: "c4ca4238a0b923820dcc509a6f75849b/2023/11/clp7u80en000q0ulz0ydv1na0-mart_log.png",
+                size: 39264,
+                mimetype: "image/png"
+              },
+              about: "<p>Introducing our Elegant Versatility Midi Dress – a timeless piece designed to seamlessly transition from day to night with grace and style.</p>",
+              banner: {
+                id: "655c326560a862432a6117f0",
+                _id: "655c326560a862432a6117f0",
+                name: "mart-2.png",
+                path: "c4ca4238a0b923820dcc509a6f75849b/2023/11/clp7u801n000p0ulzf22ifzko-mart-2.png",
+                size: 113161,
+                mimetype: "image/png"
+              }
+        }
+    },
+    vendorSaveStoreDetails: () => {
+        return {
+            showOnWidgets: true,
+            weeklyTiming: {
+              sunday: {
+                isOpen: true,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              },
+              monday: {
+                isOpen: false,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              },
+              tuesday: {
+                isOpen: false,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              },
+              wednesday: {
+                isOpen: false,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              },
+              thursday: {
+                isOpen: false,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              },
+              friday: {
+                isOpen: false,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              },
+              saturday: {
+                isOpen: false,
+                times: [
+                  {
+                    opensAt: "8:00 am",
+                    closesAt: "5:00 pm"
+                  }
+                ]
+              }
+            }
+        }
+    },
+    vendorSaveDefaultAddress: () => {
+        return {
+            country: "US",
+            state: "New York",
+            address1: "New York",
+            address2: "Road-12, A-34",
+            latitude: 0,
+            longitude: 0,
+            city: "New York",
+            postCode: "1084950",
+            email: "farazi+vendor1@wedevs.com",
+            phone: "01347589437985",
+            label: "Home1"
+        }
+    },
+    vendorAddNewLocation: () => {
+        return {
+            country: "US",
+            state: "New Mexico",
+            address1: "New Mexico",
+            address2: "A-324",
+            latitude: 34.9727305,
+            longitude: -105.0323635,
+            city: "New Mexico",
+            postCode: "1220493",
+            email: "farazi+vendor1@wedevs.com",
+            phone: "01234783895",
+            label: "Main"
+        }
+    },
+    vendorUpdateLocation: () => {
+        return {
+            country: "US",
+            state: "New Mexico",
+            address1: "New Mexico",
+            address2: "A-324",
+            latitude: 34.972731,
+            longitude: -105.032364,
+            city: "New Mexico",
+            postCode: "1220493",
+            email: "farazi+vendor1@wedevs.com",
+            phone: "01234783895",
+            label: "Main1"
+        }
+    },
+    vendorInviteNewMember: () => {
+        return {
+            email: faker.internet.exampleEmail(),
+            mobile: faker.phone.imei(),
+            designation: faker.commerce.department(),
+            status: "active",
+            permissions: [
+                "product.view",
+                "product.create",
+                "product.update",
+                "product.delete",
+            ]
+        }
+    },
+    vendorUpdateManualPayout: () => {
+        return {
+            type: "manual",
+            options: {
+              schedule: ""
+            },
+            payoutMethods: [
+              {
+                name: "PayPal",
+                configParams: [
+                  "email"
+                ],
+                isDefaultMethod: true,
+                configParamsValue: {
+                  "email": "farazi.test@gmail.com"
+                }
+              }
+            ],
+            defaultPayoutMethod: "PayPal"
+        }
+    },
+    vendorUpdateAutomaticPayout: () => {
+        return {
+            type: "automatic",
+            options: {
+              schedule: "onceAWeekConfig"
+            },
+            payoutMethods: [
+              {
+                name: "PayPal",
+                configParams: [
+                  "email"
+                ],
+                isDefaultMethod: true,
+                configParamsValue: {
+                  email: "farazi.test@gmail.com"
+                }
+              }
+            ],
+            defaultPayoutMethod: "PayPal"
+        }
+    },
+    vendorUpdateProfile: () => {
+        return {
+            firstName: "Vendor",
+            lastName: "One",
+            email: "farazi+vendor1@wedevs.com",
+            gender: "male",
+            mobile: "01438765834",
+            imageId: "6594f783673b262055dbb2c1",
+        }
+    },
+
+    enableVendorLiveChat: () => {
+        return {
+            isEnabled: true,
+            config: {
+            provider: "fb-messenger",
+            pageId: "1855001814797311",
+            number: "",
+            color: "#3670a6",
+            prefilledMessage: ""
+            },
+        }
+    },
+
+
+
+
+
+ /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Customer Section <<<<<<<<<<<<<<<<<<<<<< */
+
+ customerRegistration: () => {
+    return {
+        "firstName": faker.name.firstName(),
+        "lastName": faker.name.lastName(),
+        "email": faker.internet.exampleEmail(),
+        "password": "bogase7935@jalunaki.comA1",
+        "passwordConfirmation": "bogase7935@jalunaki.comA1"
     }
+ },
 
+ customerSaveProfile: () => {
+    return {
+        "firstName": "Customer",
+        "lastName": "One",
+        "email": "farazi+customer1@wedevs.com",
+        "birthDate": "1980-12-05",
+        "gender": "male",
+        "mobile": faker.phone.imei(),
+        "image": {
+          "name": "apple.png",
+          "_id": "656efe816cb432df43e8e9de",
+          "path": "c4ca4238a0b923820dcc509a6f75849b/2023/12/clps7nw9b00080sj3ep2m6drc-apple.png",
+          "size": 27695,
+          "mimetype": "image/png",
+          "uploaded": true
+        }
+    }
+ },
 
-
-
+ customerAddNewAddress: () => {
+    return {
+        "firstName": faker.name.firstName(),
+        "lastName": faker.name.lastName(),
+        "address1": "Mirpur 10 Roundabout",
+        "address2": "A-324",
+        "country": "BD",
+        "state": "Dhaka",
+        "city": "Dhaka",
+        "postCode": "1216",
+        "phone": faker.phone.imei(),
+        "label": faker.helpers.unique(() => faker.random.alpha(2)),
+        "isDefault": false,
+        "latitude": 23.8069245,
+        "longitude": 90.36869779999999
+    }
+ },
+ customerEditAddress: () => {
+    return {
+        "firstName": faker.name.firstName(),
+        "lastName": faker.name.lastName(),
+        "address1": "Mirpur 10 Roundabout",
+        "address2": "A-324",
+        "country": "BD",
+        "state": "Dhaka",
+        "city": "Dhaka",
+        "postCode": "1216",
+        "phone": faker.phone.imei(),
+        "label": faker.helpers.unique(() => faker.random.alpha(10)),
+        "isDefault": false,
+        "latitude": 23.8069245,
+        "longitude": 90.36869779999999
+    }
+ }
 
 }

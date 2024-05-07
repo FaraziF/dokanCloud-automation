@@ -7,22 +7,37 @@ export const selector = {
         update: "Update",
         editLink: "Edit",
         deleteLink: "Delete",
+        deleteButton: "Delete",
     },
     
     /*                           <<<<<<<<<<<<<< CM Common Section For Admin & Vendor >>>>>>>>>>>>>>>>                              */
     
-    productPage: {
-        validation: "h1.text-xl",
-    },
+    // productPage: {
+    //     validation: "h1.text-xl",
+    // },
     
     product: {
-        menuLink: 'All Products',
+        menuLink: 'Products',
+        subMenuLink: 'All Products',
         addNew: "Add Product",
-        productName: "#product-name",
-        productDescription: "Description",
-        productCategory: "input.flex-grow.bg-transparent",
+        name: "#product-name",
+        createPageValidation: 'Product Name',
+        description: "//div[@class='ql-editor ql-blank']",
+        productCategory: "//input[@placeholder='Search']", 
         productCategorySelect: "Clothing",
-        productStatus: 'Published',
+        status: 'Published',
+        publishedTab: 'Published',
+        publishedPageURLValidation: '/admin/products?filters[status]=published',
+        publishedPageElementValidation: '//th[text()="Product"]',
+        filter: "(//button[contains(@class,'inline-flex items-center')])[2]",
+        draftStatus: 'Draft',
+        draftPageURLValidation: '/admin/products?filters[status]=draft',
+        all: 'All',
+        search: 'Press enter to search...',
+        priceCell: 'Price',
+        statusCell: 'Status',
+        stockCell: 'Stock',
+        actionCell: 'Action',
         soldBy: "//div[@id='react-select-2-placeholder']/following-sibling::div[1]",
         vendorName: "#react-select-2-input",
         regularPrice: "#regular-price",
@@ -37,7 +52,9 @@ export const selector = {
         shippingWidth: "#shipping-width",
         shippingLength: "#shipping-length",
         shippingProfile: "//div[@id='react-select-7-placeholder']",
-        updateButton: "Update"
+        updateButton: "Update",
+        pagination: '.pagination',
+        create: 'Create',
     },
 
     order: {
@@ -47,7 +64,7 @@ export const selector = {
     },
 
     subscriptions: {
-        menuLink: 'Subscriptions',
+        menuLink: 'Subscription Plans',
     },
 
     payouts: {
@@ -71,6 +88,21 @@ export const selector = {
     },
     teamSettings: {
         menuLink: 'Team',
+        emailAddress: 'ex- abc@gmail.com',
+        phoneNumber: 'ex-  +1 123 456 789',
+        designation: 'ex- Marketer, Manager...',
+        selectAllProduct: 'Products Select All',
+        selectAllOrder: 'Orders Select All',
+        selectAllCustomer: 'Customer Select All',
+        selectAllVendor: 'Vendor Select All',
+        selectAllSettings: 'Settings Select All',
+        selectAllMisc: 'Misc Select All',
+        sendInvitation: 'Send Invitation',
+        invitedTabView: 'Invited',
+        viewAction: "(//div[@role='button'])[1]",
+
+        registerButton: 'Register',
+        loginButton: 'Login Page',
     },
 
     paymentSettings: {
@@ -83,6 +115,10 @@ export const selector = {
 
     shippingSettings: {
         menuLink: 'Shipping',
+        saveButton: "//section[@class='flex justify-end']//button[1]",
+        shippingLocation: '.css-98q0e7',
+        saveShippingLocation: 'Save',
+        
     },
 
     notificationSettings: {
@@ -115,33 +151,35 @@ export const selector = {
             addNew: "New Category",
             titleField: "#category-name",
             descriptionField: "Description",
-            createSuccessMessage: "Created successfully",
-            dropDown: "(//button[@class='dropdown-trigger'])[1]",
+            
+            dropDown: "(//div[@role='button'])[1]",
             backListPage: "Categories",
-            imageUploadLocation: "input[type='file']",
+            imageUploadLocation: "//button[text()='Upload']",
         },
         brand: {
             menuLink: 'Brands',
             addNew: "New Brand",
             name: "#brand-name",
+            description: "#brand-description",
             // save: "Update",
-            dropDown: "(//button[@class='dropdown-trigger'])[1]",
+            dropDown: "(//div[@role='button'])[1]",
+            saveChanges: 'Save Changes',
         },
         subscription: {
-            menuLink: 'Subscriptions',
+            menuLink: 'Subscription Plans',
             addNewPlan: 'New Plan',
-            titleField: 'Silver',
+            titleField: 'Eg: Sliver',
             descriptionField: '.ql-editor',
             priceField: 'Price',
-            setupFee: 'Setup Fee (One Time)',
+            setupFee: 'Setup Fee',
             billingCycle: 'Billing Cycle',
             taxApplicable: "(//button[@role='switch'])[2]",
-            taxClass: "//div[@class=' css-98q0e7']",
-            selectTaxClass: 'Reduced Rate Update',
+            taxClass: "//div[@class=' css-17wv8nz']",
+            selectTaxClass: 'Reduced Rate',
             enableTrailPriod: "(//button[@role='switch'])[3]",
             selectTrailPriod: 'Trial Period',
             selectTrailPriod2: '[id="-simple-select"]',
-            percentageCommissions: '2',
+            percentageCommissions: '5',
             flatCommissions: '250.0',
             continueSteps: 'Continue',
             numberOfPhysicalProducts: '#noofpyscialproducts',
@@ -149,22 +187,22 @@ export const selector = {
             couponCreation: "(//button[@role='switch'])[2]",
             allowMultipleAddress: "(//button[@role='switch'])[3]",
             numberOfVendorStaff: '2',
-            createAndPublish: 'Create & Publish',
+            createAndPublish: 'Publish',
             //Edit
             titleEditField: '.ql-editor',
-            updatePlan: 'Update Plan',
+            updatePlan: 'Update',
         },
         tax: {
             classTab: 'Tax Class',
-            createTaxClss: 'Create Tax Class',
+            createTaxClss: "//div[@class='ms-auto']//button[1]",
             popupValidation: 'New Tax Class',
             className: 'e.g Standard',
             createButton: 'Create',
 
-            renameLink: 'Rename',
+            renameLink: "(//button[contains(@class,'gap-2 shadow-sm')])[1]",
             saveButton: 'Save',
 
-            deleteLink: 'Delete',
+            deleteLink: "(//button[contains(@class,'gap-2 shadow-sm')]/following-sibling::button)",
             deleteValidation: "//div[contains(@class,'h-20 w-20')]",
             deleteButton: 'Yes, Delete',
             
@@ -175,7 +213,7 @@ export const selector = {
             continueButton: 'Continue',
             selectTaxClassValidation: 'Select Tax Class',
             taxClassCountryValidation: "//div[text()='Afghanistan']",
-            addCountry: "(//button[contains(@class,'inline-flex gap-2')])[3]",
+            addCountry: "//section[contains(@class,'flex flex-row-reverse')]//button[1]",
 
             sameTaxRate: 'Same tax rate for entire country State, Province and Zip code of a country maintain a same tax rate.',
             taxName: 'Write here',
@@ -194,6 +232,17 @@ export const selector = {
             selectState: 'Select State',
             searchState: 'Search State...',
             continueState: 'Continue',
+
+            additionalTaxCollection: 'Additional Tax collection',
+            onShipping: 'On Shipping',
+            onDigitalProduct: 'On Digital Products',
+            overrideCountryTax: 'Override Country Tax',
+
+            compoundTax: '#tax-state-compound',
+            compoundState: '#tax-state-compound',
+
+            differentStateTax: '#state-0-compound',
+            save: 'Save',
         },
 
     },
@@ -219,7 +268,10 @@ export const selector = {
     /*                   <<<<<<<<<<<<<< VS-> Vendor Section >>>>>>>>>>>>>>>>           */
 
 login: {
-    eamilAddress: "input[name = 'email']",
+    // eamilAddress: "input[name = 'email']",
+    adminEamilAddress: "#login-email",
+    vendorEamilAddress: "#login-email",
+    customerEamilAddress: "#reg-email",
     password: "input[name = 'password']",
     keepMeSignIn: "input[type='checkbox']",
     signIn: "button.w-full.inline-flex",

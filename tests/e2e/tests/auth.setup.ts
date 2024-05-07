@@ -64,12 +64,12 @@ setup.describe('Authenticate with', () => {
 		await loginPage.loginAsAdmin(data.adminCredentials, data.auth.adminAuthFile);
 	});
 
-    setup.skip('Vendor valid credential', async ({ page }) => {
+    setup('Vendor valid credential', async ({ page }) => {
 		const loginPage = new LoginPage(page);
 		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
 	});
 
-    setup.skip('Customer valid credential', async ({ page }) => {
+    setup('Customer valid credential', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
     });

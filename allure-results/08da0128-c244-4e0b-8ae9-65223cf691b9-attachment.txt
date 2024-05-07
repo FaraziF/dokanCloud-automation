@@ -1,0 +1,7 @@
+Cat ID: 65646ffaca29a1d19328528e
+End-point:  https://farazi.staging.dokandev.com/api/v1/admin/products
+Status Code:  401
+Error:  expect(received).toBeTruthy()
+
+Received: false
+Response text:  {"message":"Invalid token"}

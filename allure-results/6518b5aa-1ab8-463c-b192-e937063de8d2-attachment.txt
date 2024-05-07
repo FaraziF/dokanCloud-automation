@@ -1,0 +1,22 @@
+{
+  message: 'Customer updated successfully',
+  data: {
+    id: 82,
+    createdAt: '2023-11-27T12:14:40.000Z',
+    updatedAt: '2023-11-27T12:14:40.561Z',
+    firstName: 'Shyanne40',
+    lastName: 'Ed49',
+    email: 'lucile9@example.com',
+    emailVerifiedAt: null,
+    active: false,
+    role: 'customer',
+    mobile: '97-298566-321310-2',
+    mobileVerifiedAt: null,
+    gender: null,
+    birthDate: null,
+    image: null,
+    lastOrderedAt: null,
+    verificationType: null,
+    defaultAddressId: 0
+  }
+}

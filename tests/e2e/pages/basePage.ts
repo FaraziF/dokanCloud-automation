@@ -66,6 +66,16 @@ export class BasePage {
         ]);
     }
 
+
+    // click & wait for load state to complete
+    async clickAndWaitForLoadState(selector: string): Promise<void> {
+        await Promise.all([
+            this.page.waitForLoadState('networkidle'),
+            // this.page.waitForLoadState( 'domcontentloaded' ),
+            this.page.locator(selector).click(),
+        ]);
+    }
+
     // click & wait for response
 	async clickAndWaitForResponse(subUrl: string, selector: string, code = 200): Promise<Response> {
 		const [response] = await Promise.all([
@@ -75,5 +85,68 @@ export class BasePage {
 		return response;
 	}
 
+    // assert element to be visible
+    async toBeVisible(selector: string) {
+        await expect(this.page.locator(selector)).toBeVisible();
+    }
+
+    // returns whether the locator is visible
+    async isVisibleLocator(selector: string): Promise<boolean> {
+        const locator = this.page.locator(selector);
+        return await locator.isVisible();
+    }
+
+    // returns whether the element is visible
+    async isVisible(selector: string): Promise<boolean> {
+        return await this.isVisibleLocator(selector);
+        // return await this.isVisibleViaPage(selector);
+    }
+
+    // assert element to contain text
+    async toContainText(selector: string, text: string) {
+        await expect(this.page.locator(selector)).toContainText(text);
+    }
+
+    // get element text content
+    async getElementTextViaPage(selector: string): Promise<string | null> {
+        return await this.page.textContent(selector);
+    }
+
+
+    // get locator text content
+    async textContentOfLocator(selector: string): Promise<null | string> {
+        const locator = this.page.locator(selector);
+        return await locator.textContent();
+    }
+    // get element text content
+    async getElementText(selector: string): Promise<string | null> {
+        return await this.textContentOfLocator(selector);
+        // return await this.page.textContent(selector);
+    }
+    // get element text if visible
+    async getElementTextIfVisible(selector: string): Promise<void | string | null> {
+        const isVisible = await this.isVisible(selector);
+        if (isVisible) {
+            return await this.getElementText(selector);
+        }
+    }
+
+    // get element has test or not
+    async hasText(selector: string, text: string): Promise<boolean> {
+        const elementText = await this.textContentOfLocator(selector);
+        return elementText?.trim() === text ? true : false;
+    }
+
+
+    // returns whether the locator is enabled
+    async isEnabledLocator(selector: string): Promise<boolean> {
+        const locator = this.page.locator(selector);
+        return await locator.isEnabled();
+    }
+    // returns whether the locator is enabled
+    async isDisabledLocator(selector: string): Promise<boolean> {
+        const locator = this.page.locator(selector);
+        return await locator.isDisabled();
+    }
 
 }

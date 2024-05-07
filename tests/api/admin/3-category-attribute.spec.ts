@@ -41,7 +41,8 @@ test.describe("Category & Attribute API test", () => {
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
     })
-
+    
+// ToDo: search category
 
 // ToDo: create category with parent category
 
@@ -59,6 +60,12 @@ test.describe("Category & Attribute API test", () => {
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
     })
+    /* test("Delete attribute", async() => {
+        const [response, responseBody] = await apiUtils.delete(endPoints.attributeDelete(category_id, attribute_id), {headers: adminAuth})
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+    }) */
+
 
     test("Delete Category", async() => {
         const [response, responseBody] = await apiUtils.delete(endPoints.categoryDelete(category_id), {headers: adminAuth})

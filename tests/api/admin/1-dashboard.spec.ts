@@ -13,6 +13,11 @@ test.beforeAll(async ({ request }) => {
 test.describe('admin dashbaord', () => {
 test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" } });
 
+	test('get set up guide', async () => {
+		const [response, responseBody] = await apiUtils.get(endPoints.getSetupGuide);
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+	});
 	test('get today report', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.getadminDashbaordTodayReport);
 		expect(response.ok()).toBeTruthy();

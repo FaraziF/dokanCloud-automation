@@ -62,6 +62,11 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
+	test('get pagination orders', async () => {
+		const [response, responseBody] = await apiUtils.get(endPoints.getPaginationOrder);
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+	});
 });
 
 test.describe("customer order processing", () => {
@@ -73,17 +78,19 @@ test.describe("customer order processing", () => {
 		expect(responseBody).toBeTruthy();
         const res = await response.json()
         _cartID = res.data.id;
+				console.log("Cart ID" + _cartID)
     })
 	test("create order", async() => {
         const [response, responseBody] = await apiUtils.post(endPoints.pay, {data: payloads.checkout(_cartID )})
         expect(response.ok()).toBeTruthy();
-		expect(responseBody).toBeTruthy();
+				expect(responseBody).toBeTruthy();
 		const _res = await response.json()
 		singleOrderID = _res.data.orders[0].id
 		lineItemId= _res.data.orders[0].lineItems[0].id
 
 		orderTotalAmount= _res.data.orders[0].total
 		orderTotalAmountParse = parseFloat(orderTotalAmount)
+		console.log("Order Total Amount", orderTotalAmountParse)
 
 		subtotal = _res.data.orders[0].subtotal
 		subtotalParse = parseFloat(subtotal)
@@ -136,19 +143,15 @@ test.describe("order details test", () => {
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
+
 	/* test('cancel order', async () => {
 		const [response, responseBody] = await apiUtils.patch(endPoints.cancelOrder(singleOrderID));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	}); */
 
-	test('create shipment', async () => {
-		const [response, responseBody] = await apiUtils.post(endPoints.createShipment, {data: payloads.createShipment(singleOrderID, lineItemId)});
-		expect(response.ok()).toBeTruthy();
-		expect(responseBody).toBeTruthy();
-	});
 	test('charge order', async () => {
-		const [response, responseBody] = await apiUtils.post(endPoints.chargeOrder(singleOrderID), {data: payloads.chargeOrder(orderTotalAmount)});
+		const [response, responseBody] = await apiUtils.post(endPoints.chargeOrder(singleOrderID), {data: payloads.chargeOrder(orderTotalAmountParse)});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
@@ -160,7 +163,11 @@ test.describe("order details test", () => {
 		// console.log(_res)
 		paymentID = _res.data[0].id
 		// console.log("PaymentID: " + paymentID);
-		
+	});
+	test('create shipment', async () => {
+		const [response, responseBody] = await apiUtils.post(endPoints.createShipment, {data: payloads.createShipment(singleOrderID, lineItemId)});
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
 	});
 	test('refund order', async () => {
 		const _refundOrder = payloads.refundOrder(lineItemId, subtotalParse, productTaxParse, orderTotalAmountParse, paymentID)

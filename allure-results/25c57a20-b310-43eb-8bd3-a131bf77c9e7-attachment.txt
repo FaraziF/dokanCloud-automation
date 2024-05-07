@@ -1,0 +1,108 @@
+{
+  data: {
+    id: '8',
+    type: 2,
+    title: 'fwpoorgvyz',
+    description: null,
+    amount: 3,
+    freeShipping: false,
+    startsAt: null,
+    endsAt: null,
+    minPurchaseAmount: null,
+    minItemsQuantity: null,
+    maxUse: null,
+    maxUsePerCustomer: null,
+    disallowConjunction: false,
+    forAllProducts: true,
+    forAllVendors: false,
+    forAllCategories: true,
+    forAllEmails: true,
+    code: 'sxbhvgpuja',
+    codes: [ [Object] ],
+    includeProducts: [],
+    excludeProducts: [],
+    emails: [],
+    includeCategories: [],
+    excludeCategories: [],
+    vendorId: 30,
+    status: 1,
+    createdAt: '2023-11-30T13:28:37.000Z',
+    updatedAt: '2023-11-30T13:28:37.000Z'
+  }
+}
+8
+{
+  data: [
+    {
+      id: '8',
+      title: 'fwpoorgvyz',
+      type: 2,
+      amount: 3,
+      status: 1,
+      startsAt: null,
+      endsAt: null,
+      usage: 0,
+      maxUse: 0,
+      maxUsePerCustomer: 0,
+      state: 'active',
+      codes: [Object]
+    },
+    {
+      id: '7',
+      title: 'demo',
+      type: 1,
+      amount: 10,
+      status: 1,
+      startsAt: null,
+      endsAt: null,
+      usage: 0,
+      maxUse: 0,
+      maxUsePerCustomer: 0,
+      state: 'active',
+      codes: [Object]
+    },
+    {
+      id: '6',
+      title: 'expired_coupon',
+      type: 1,
+      amount: 12,
+      status: 1,
+      startsAt: '2023-11-15 10:00:00',
+      endsAt: '2023-11-24 22:00:00',
+      usage: 0,
+      maxUse: 0,
+      maxUsePerCustomer: 0,
+      state: 'expired',
+      codes: [Object]
+    },
+    {
+      id: '5',
+      title: 'draft_cooupon',
+      type: 1,
+      amount: 12,
+      status: 0,
+      startsAt: '2023-11-30 07:00:00',
+      endsAt: '2023-12-01 02:00:00',
+      usage: 0,
+      maxUse: 12,
+      maxUsePerCustomer: 0,
+      state: 'draft',
+      codes: [Object]
+    },
+    {
+      id: '4',
+      title: 'test',
+      type: 1,
+      amount: 10,
+      status: 1,
+      startsAt: '2023-11-29 12:00:00',
+      endsAt: '2023-12-09 12:00:00',
+      usage: 0,
+      maxUse: 10,
+      maxUsePerCustomer: 0,
+      state: 'active',
+      codes: [Object]
+    }
+  ],
+  meta: { totalPage: 1, current: 1, totalItem: 5, perPage: 20 }
+}

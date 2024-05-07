@@ -1,0 +1,1 @@
+{ message: 'Tax class deleted successfully.' }

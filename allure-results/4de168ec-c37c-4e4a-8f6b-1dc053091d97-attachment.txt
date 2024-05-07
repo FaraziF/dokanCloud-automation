@@ -1,0 +1,6 @@
+End-point:  https://farazi.staging.dokandev.com/api/v1/vendor/products/656839ef81d0907505dcebc7
+Status Code:  422
+Error:  expect(received).toBeTruthy()
+
+Received: false
+Response text:  {"message":"The given data is invalid.","errors":{"slug":["This slug is already been taken."]}}

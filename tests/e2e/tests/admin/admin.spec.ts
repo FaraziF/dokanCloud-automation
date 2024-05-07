@@ -3,13 +3,21 @@ import { LoginPage } from "../../pages/loginPage";
 import { selector } from "../../pages/selectors";
 import { user, data } from "../../../../utils/testdata";
 import { AdminPage } from '../../pages/adminPage';
+import { ApiUtils } from '../../../../utils/apiUtils';
+import { endPoints } from '../../../../utils/apiEndPoints';
+import { request } from 'http';
+
+let apiUtils: ApiUtils;
+let individualTeamMmeberToken;
 
 test.use({ storageState: data.auth.adminAuthFile });
+let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" }
 
 let adminPage: AdminPage;
 let page: Page;
 
-test.beforeAll(async ({ browser }) => {
+test.beforeAll(async ({ browser, request }) => {
+    // apiUtils = new ApiUtils(request); // no activities this line
     const context = await browser.newContext({});
     page = await context.newPage();
     adminPage = new AdminPage(page);
@@ -22,79 +30,82 @@ test.afterAll(async () => {
 
 test.describe("Admin Exploratory Testing", ()=> {
 
-    test('Dashbaord Validation', async () => {
+    test('Dashbaord page loading and element verification', async () => {
         await adminPage.dashbaordElementValidation()
     });
 
-    test('Product Page Validation', async ()=> {
+    test('Product page loading and element verification', async ()=> {
         await adminPage.productElementValidation()
     });
     
-    test('Category Page Validation', async ( )=> {
+    test('Category page loading and element verification', async ( )=> {
         await adminPage.categoryElementValidation()
     });
 
-    test('Brands Page Validation', async ( )=> {
+    test('Brand page loading and element verification', async ( )=> {
         await adminPage.brandElementValidation()
     });
     
-    test('Orders Page Validation', async ( )=> {
+    test('Order page loading and element verification', async ( )=> {
         await adminPage.ordersElementValidation()
     });
     
-    test('Payout Page Validation', async ( )=> {
+    test('Payout page loading and element verification', async ( )=> {
         await adminPage.payoutElementValidation()
     });
-    test('Subscription Page Validation', async ( )=> {
+    test('Subscription page loading and element verification', async ( )=> {
         await adminPage.subscriptionElementValidation()
     });
     
     
-    test('Vendor Page Validation', async ( )=> {
+    test('Vendor page loading and element verification', async ( )=> {
         await adminPage.vendorElementValidation()
     });
     
-    test('Customer Page Validation', async ( )=> {
+    test('Customer page loading and element verification', async ( )=> {
         await adminPage.customerElementValidation()
     });
     
-    test('Design Page Page Validation', async ( )=> {
+    test('Design page loading and element verification', async ( )=> {
         await adminPage.designPageElementValidation()
     });
     
-    test('General Settings Page Validation', async ( )=> {
+    // Design Menu & Theme page validation
+
+
+    test('General settings page loading and element verification', async ( )=> {
         await adminPage.generalSettingsElementValidation()
     });
 
-    test('Team Settings Page Validation', async ( )=> {
+    test('Team settings page loading and element verification', async ( )=> {
         await adminPage.teamSettingsElementValidation()
     });
     
-    test('Payment Settings Page Validation', async ( )=> {
+    test('Payment settings page loading and element verification', async ( )=> {
         await adminPage.paymentSettingsElementValidation()
     });
     
-    test('Payout Settings Page Validation', async ( )=> {
+    test('Payout settings page loading and element verification', async ( )=> {
         await adminPage.payoutSettingsElementValidation()
     });
     
-    test('Shipping Settings Page Validation', async ( )=> {
+    test('Shipping settings page loading and element verification', async ( )=> {
         await adminPage.shippingSettingsElementValidation()
     });
     
-    test('Notification Settings Page Validation', async ( )=> {
+    test('Notification settings page loading and element verification', async ( )=> {
         await adminPage.notificationSettingsElementValidation()
     });
     
-    test('Tax Settings Page Validation', async ( )=> {
+    test('Tax settings page loading and element verification', async ( )=> {
         await adminPage.taxSettingsElementValidation()
     });
     
-    test('SEO Settings Page Validation', async ( )=> {
+    test('SEO settings page loading and element verification', async ( )=> {
         await adminPage.seoSettingsElementValidation()
     });
     
-    test('Policies Settings Page Validation', async ( )=> {
+    test('Policies settings page loading and element verification', async ( )=> {
         await adminPage.policiesSettingsElementValidation()
     });
     
@@ -119,7 +130,7 @@ test.describe("Admin functional Testing", ()=> {
         await page.close();
     }); */
 
-    test("Go TO Dashboard", async() => {
+    test("Go To Dashboard", async() => {
         await adminPage.goToAdminDashboard()
     });
 
@@ -154,8 +165,8 @@ test.describe("Admin functional Testing", ()=> {
     test("Delete Product @pd", async()=> {
         await adminPage.deleteProduct()
     });
-    test("Subscription Create @sc @subs", async() => {
-        await adminPage.createSubscription()
+    test("Subscription Create @sc @subs", async({request}) => {
+        await adminPage.createSubscription({request})
     });
     test("Edit Subscription @se @subs", async() => {
         await adminPage.editSubscription()
@@ -163,15 +174,25 @@ test.describe("Admin functional Testing", ()=> {
     test("Delete Subscription @sd @subs", async() => {
         await adminPage.deleteSubscription()
     });
+    /* test("shipping enable & location validation", async() => {
+        await adminPage.shippingEnable()
+    }) */
+    /* test("shipping location add, update & remove validation", async() => {
+        await adminPage.shippingLocationConfigure()
+    }) */
     test("Tax Class CRUD @tax", async() => {
         await adminPage.taxClassCRUD()
     });
-    
-    test("Tax Rate Add For Entire Country @tax", async() => {
-        await adminPage.taxRateAddForEntireCountry()
+    test("Tax Rate Add For Entire Country @tax", async({request}) => {
+        await adminPage.taxRateAddForEntireCountry({request})
     });
     test("Different Tax Rate For State, City & Zip @tax", async() => {
         await adminPage.differentTaxRateStateCityZip()
     });
-    
+    test("invited new team member and register by invitation link", async({browser,request}) => {
+        await adminPage.teamMemberInvitation({request, browser}) 
+        await adminPage.teamMemeberRegisterFromInvitationLink({request})
+        
+    })
+
 })

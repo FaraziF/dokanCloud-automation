@@ -28,6 +28,12 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
         brandID = _res.data.id
 		brandName = _res.data.name
 	});
+	test('pagination filter brand', async () => {
+		const [response, responseBody] = await apiUtils.get(endPoints.paginationFilterBrand);
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+        console.log(await response.json())
+	});
 	test('search brand', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.searchBrand(brandName));
 		expect(response.ok()).toBeTruthy();
@@ -44,4 +50,6 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(responseBody).toBeTruthy();
         console.log(await response.json())
 	});
+	
+
 });

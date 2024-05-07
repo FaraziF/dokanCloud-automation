@@ -36,12 +36,40 @@ test.afterAll(async ({}) => {
 test.describe("Product Test", () => {
 
    test("Get all products", async() => {
-        const [response, responseBody] = await apiUtils.get(endPoints.productGetAll, { headers: adminAuth } )
+        const [response, responseBody] = await apiUtils.get(endPoints.getAllProduct, { headers: adminAuth } )
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
    })
-   test("Create new products", async() => {
-        const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: {...payloads.productCreate(category_id )}, headers: adminAuth })
+   test("Get all products filter by pagination", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getAllProductFilterPagination, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+
+    test("Get all published product", async() => {
+           const [response, responseBody] = await apiUtils.get(endPoints.getAllPublishedProduct, { headers: adminAuth } )
+           expect(response.ok()).toBeTruthy();
+           expect(responseBody).toBeTruthy();
+    })
+   test("Get all published product filter by pagination", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getAllPublishedProductFilterPagination, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();
+    })
+    
+   test("Get all draft product", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getAllDraftProduct, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();
+    })
+   test("Get all draft product filter by pagination", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getAllDraftProductFilterPagination, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();
+    })
+    
+   test("Create new products @pc", async() => {
+        const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: {...payloads.productCreate( )}, headers: adminAuth })
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();    
         const res = await response.json()
@@ -49,15 +77,14 @@ test.describe("Product Test", () => {
         productTitle = res.data.title
         console.log("Product ID & Title " + product_id + " " + productTitle)
    })
-   test("search individua all products", async() => {
+   test("search individual all products", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.searchIndividualProduct(productTitle), { headers: adminAuth } )
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
-
    })
 
     test("Edit Product", async () => {
-        const [response, responseBody] = await apiUtils.put(endPoints.productUpdate(product_id), { data: { ...payloads.productUpdate(category_id) }, headers: adminAuth })
+        const [response, responseBody] = await apiUtils.put(endPoints.productUpdate(product_id), { data: { ...payloads.productUpdate() }, headers: adminAuth })
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
     })
@@ -68,5 +95,53 @@ test.describe("Product Test", () => {
 	    expect(responseBody).toBeTruthy();
         console.log(await response.json());
     })
+
     // Product delete wrong message appear: message: 'Category deleted successfully.'
+
+    /* test("Export products", async() => {
+        const exportData = {search:"demo-1",filters:"",format:"csv"}
+        const [response, responseBody] = await apiUtils.post(endPoints.exportProduct, { data: exportData}, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   }) */
+    test("Get products category filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getCategoryFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get Standard products type filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getStandardProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get digital products type filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getDigitalProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get in stock products filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getInStockProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get out of stock products filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getOutOfStockProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get On Backorder products filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getOnBackorderProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get low stock products filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getLowStockProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
+    test("Get unmanaged products filter", async() => {
+        const [response, responseBody] = await apiUtils.get(endPoints.getUnmanagedProductTypeFilter, { headers: adminAuth } )
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+   })
 })

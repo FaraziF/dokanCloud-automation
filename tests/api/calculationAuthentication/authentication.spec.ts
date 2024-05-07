@@ -18,12 +18,12 @@ TODO: Pending vendor all scenario
 
 test.beforeAll(async ({ request }) => {
 	apiUtils = new ApiUtils(request);
-	[, productId,] = await apiUtils.vendorCreateProduct(payloads.productCreate(category_id));
+	[, productId,] = await apiUtils.vendorCreateProduct(payloads.productCreate());
 });
 
 test.describe("Authentication Test", () => {
     test('Pending vendor try to create product', async () => {
-        const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: payloads.productCreate(category_id), ...payloads.stroreOwner() });
+        const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: payloads.productCreate(), ...payloads.stroreOwner() });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         console.log(await responseBody.json())

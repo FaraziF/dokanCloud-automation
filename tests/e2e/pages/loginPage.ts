@@ -44,7 +44,7 @@ export class LoginPage {
         
     }
     async emailErrorMessageIsVisible( ): Promise<boolean> {
-            await this.page.locator(selector.login.eamilAddress).fill('');
+            await this.page.locator(selector.login.customerEamilAddress).fill('');
             await this.page.locator(selector.login.password).fill('');
             await this.page.click(selector.login.signIn);
             await this.page.waitForTimeout(1000);
@@ -57,9 +57,9 @@ export class LoginPage {
     // user manual Login Login with 
 	async adminManualLogin(user: user, url: string = data.subUrls.admin.login, storageState?: string): Promise<void> {
         await this.page.goto(url)
-        await this.page.type(selector.login.eamilAddress, user.username);
-        await this.page.type(selector.login.password, user.password);
-        await this.page.locator(selector.login.keepMeSignIn).check();
+        await this.page.locator(selector.login.adminEamilAddress).fill(user.username);
+        await this.page.locator(selector.login.password).fill(user.password);
+        // await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
         await this.page.waitForURL(data.subUrls.admin.dashboard)
         if (storageState){
@@ -74,9 +74,9 @@ export class LoginPage {
      // user manual Login Login with 
 	async vendorManualLogin(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void> {
         await this.page.goto(url)
-        await this.page.type(selector.login.eamilAddress, user.username);
-        await this.page.type(selector.login.password, user.password);
-        await this.page.locator(selector.login.keepMeSignIn).check();
+        await this.page.locator(selector.login.vendorEamilAddress).fill(user.username);
+        await this.page.locator(selector.login.password).fill(user.password);
+        // await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
         await this.page.waitForURL(data.subUrls.vendor.dashboard)
         if (storageState){
@@ -89,8 +89,8 @@ export class LoginPage {
 
     async customerManualLogin(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void>  {
         await this.page.goto(url)
-        await this.page.type(selector.login.eamilAddress, user.username);
-        await this.page.type(selector.login.password, user.password);
+        await this.page.locator(selector.login.customerEamilAddress).fill(user.username);
+        await this.page.locator(selector.login.password).fill(user.password);
         await this.page.click(selector.login.signIn);
         await expect(this.page.getByText(data.customer.loginSuccessfully, { exact: true })).toBeVisible()
         if (storageState){
@@ -115,8 +115,8 @@ export class LoginPage {
         await this.page.click(selector.login.signIn);
     } */
     async loginAsInvalidVendor() {
-        await this.page.type(selector.login.eamilAddress, process.env.VENDOR_INVALID_EMAIL ?? '');
-        await this.page.type(selector.login.password, process.env.VENDOR_INVALID_PASSWORD ?? '');
+        await this.page.locator(selector.login.customerEamilAddress).fill(process.env.VENDOR_INVALID_EMAIL ?? '');
+        await this.page.locator(selector.login.password).fill(process.env.VENDOR_INVALID_PASSWORD ?? '');
         await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
     }

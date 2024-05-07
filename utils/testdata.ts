@@ -43,12 +43,12 @@ export const data = {
 		password: String(env('ADMIN_PASSWORD')),
 	},
     vendorCredentials: {
-		username: String(process.env.VENDOR_USERNAME),
-		password: String(process.env.VENDOR_PASSWORD),
+		username: String(env('VENDOR_USERNAME')),
+		password: String(env('VENDOR_PASSWORD')),
 	},
     customerCredentials: {
-		username: String(process.env.CUSTOMER_USERNAME),
-		password: String(process.env.CUSTOMER_PASSWORD),
+		username: String(env('CUSTOMER_USERNAME')),
+		password: String(env('CUSTOMER_PASSWORD')),
 	},
 
 
@@ -63,11 +63,11 @@ export const data = {
     },
 
     commonMessage:{
-        createSuccessMessage: 'Created successfully',
+        createSuccessMessage: 'Created successfully', 
         updateSuccessMessage: 'Updated successfully',
         deleteSuccessMessage: 'Deleted successfully',
-        // vendorName: 'farazi',
-        vendorName: 'jamuna-future-park',
+        vendorName: String(env('STORE_OWNER_NAME')),
+        // vendorName: 'jamuna-future-park',
     },
 
     product: {
@@ -79,9 +79,12 @@ export const data = {
             sku: () => faker.helpers.unique(() => faker.random.alpha(10)),
             updateName: () => faker.commerce.productName() + (' (Update)'),
             // updateName: () => faker.helpers.unique(() => faker.random.word()),
+            noShippingConfirmation: 'No Shipping Profile Detected',
         },
-        createMessage: 'Created Successfully',
+        createMessage: 'Product created successfully.',
         editMessage: 'Product updated successfully',
+        deleteMessage: 'Product deleted successfully.',
+        productDeleteConfirmationMessage: 'Are you sure want to delete product?',
     },
 
     /*  <<<<<<<<<<<<<<<<<<<<<<<<<<< Sub URL section <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
@@ -91,10 +94,11 @@ export const data = {
             login: '/admin/login',
             dashboard: '/admin',
             product: '/admin/products',
+            productCreate: '/admin/products/create',
             category: '/admin/categories',
             brand: '/admin/brands',
             order: '/admin/orders',
-            subscription: '/admin/subscriptions',
+            subscription: '/admin/subscription-plans',
             payouts: '/admin/payouts',
             vendor: '/admin/vendors',
             customer: '/admin/customers',
@@ -132,6 +136,10 @@ export const data = {
         insertDescription: () => faker.commerce.productDescription(),
         updateName: () => faker.helpers.unique(() => faker.random.word()),
         imageUpload: "/Users/faraziforhad/MyDevice/Programming/Automation/playwright-test/utils/images/avocado.png",
+        createSuccessMessage: "Category created successfully.",
+        updateSuccessMessage: "Category updated successfully.",
+        categoryDeleteConfirmationMessage: 'Are you sure want to delete category?',
+        deleteSuccessMessage: "Category deleted successfully.",
 
     },
     brand: {
@@ -140,6 +148,10 @@ export const data = {
         insertName: () => faker.helpers.unique(() => faker.random.word()),
         // updateName: () => faker.commerce.productAdjective() + (' (Update)'),
         updateName: () => faker.helpers.unique(() => faker.random.word()),
+        creataSuccessMessage: 'Brand created successfully.',
+        updateSuccessMessage: "Brand updated successfully.",
+        brandDeleteConfirmationMessage: 'Are you sure want to delete brand?',
+        brandDeleteSuccessMessage: 'Brand deleted successfully.',
     },
 
     attribute: {
@@ -163,8 +175,8 @@ export const data = {
 
     subscription: { 
         pageValidation: 'Subscription Plans', 
-        titleField: 'pro subscription pack',
-        descriptionField: 'this is new subscription pack',
+        titleField: faker.lorem.word(),
+        descriptionField: faker.lorem.paragraph(),
         priceField: '20',
         setupFee: '10',
         billingCycle: '5',
@@ -176,9 +188,10 @@ export const data = {
         numberOfDigitalProducts: '10',
         numberOfVendorStaff: '5',
         createSuccessMessage: 'Subscription plan is created successfully',
-        // edit
+        // edit 
         descriptionUpdateField: 'this is new subscription pack update description',
         updateSuccessMessage: 'Subscription plan has been updated successfully',
+        subscriptionDeletePopupForm: 'Are you sure want to delete subscription plan?',
         deleteSuccessMessage: 'Subscription plan deleted successfully',
 
 
@@ -205,7 +218,19 @@ export const data = {
     },
 
     teamSettings: {
-        pageValidation: 'Team'
+        pageValidation: 'Team',
+        inviteNewTeamMemeber: 'Invite New Member',
+        emailAddress: faker.internet.exampleEmail(),
+        phoneNumber: faker.phone.imei(),
+        designation: "Engineer",
+        permissionSelectAll: 'Select All',
+        copyInvitationLink: 'Copy Invitation Link',
+        verified: 'Verified!',
+        verifiedPageText: 'You have to register first for accessing the admin dashboard.',
+        firstName: () => faker.name.firstName('male'),
+        lastName: () => faker.name.lastName('male'),
+        invitationConfirmation: 'Invitation Accepted!',
+        loginTextAdmin: 'You can now log in to Admin Dashboard!',
     },
 
     paymentSettings: {
@@ -217,7 +242,14 @@ export const data = {
     },
     
     shippingSettings: {
-        pageValidation: 'Shipping Settings'
+        pageValidation: 'Shipping Settings',
+        exceptTheseCountries: 'Everywhere except these countries',
+        exceptTheseCountriesValidation: 'Ship to all countries except',
+        updateValidation: 'Shipping Settings updated.',
+        onlyTheseCountries: 'Only these countries',
+        onlyTheseCountriesValidation: 'Ship only to these countries',
+        anywhereInTheWord: 'Anywhere in the world',
+
     },
 
     notificationSettings: {
@@ -226,8 +258,12 @@ export const data = {
 
     taxSettings: {
         pageValidation: 'Tax',
-        className: 'New Tax Class',
-        classNameUpdate: 'Update Tax Class',
+        // className: 'New Tax Class',
+        className: faker.lorem.word(),
+        // className: () => faker.helpers.unique(() => faker.random.word()),
+        // classNameUpdate: 'Update Tax Class',
+        classNameUpdate: faker.lorem.word() + (' update'),
+        // classNameUpdate: () => faker.helpers.unique(() => faker.random.word()),
         validateSuccessMessage: 'Tax class created successfully.',
 
         renameValidation: 'Rename Tax Class',
@@ -242,6 +278,8 @@ export const data = {
         manageSuccessMessageValidation: 'Tax rates have been saved successfully.',
 
         stateName: 'kabul',
+        taxName1: 'kabulTax',
+        taxName2: 'kabulTax2',
 
     },
 
@@ -250,8 +288,9 @@ export const data = {
     },
 
     policiesSettings: {
-        pageValidation: 'privacy-policy'
+        pageValidation: 'Policies'
     },
+    
 
 
     

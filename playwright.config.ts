@@ -55,7 +55,9 @@ const config: PlaywrightTestConfig = {
     ['html', { open: 'never',}],
     ['list', { printSteps: true } ],
     // ['./utils/summaryReporter.ts'],
-    ['./utils/summaryReporter.ts', { outputFile: './test-results/results.json' }]
+
+    ['./utils/summaryReporter.ts', { outputFile: './test-results/results.json' }],
+    // ['html'],['line'],['allure-playwright']
   ],
 
 
@@ -104,8 +106,8 @@ const config: PlaywrightTestConfig = {
           slowMo: 2000,
         }, */
       },
-      testMatch: /.*\.spec\.ts/,
-      // dependencies: ['setup'],
+      // testMatch: /.*\.spec\.ts/,
+      dependencies: ['setup'],
     },
 
     //  {

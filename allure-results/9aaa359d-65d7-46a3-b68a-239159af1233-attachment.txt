@@ -1,0 +1,8 @@
+{
+  message: 'Product deleted successfully.',
+  data: { acknowledged: true, deletedCount: 1 }
+}
+{
+  message: 'Category deleted successfully.',
+  data: { acknowledged: true, deletedCount: 1 }
+}

@@ -1,9 +1,23 @@
-import { Page, expect } from "@playwright/test";
+import { Page, chromium, expect } from "@playwright/test";
 import { isVisible } from "../framework/common-actions";
 import { selector } from "./selectors";
 import { BasePage } from "./basePage";
 import { data } from "../../../utils/testdata";
 import { faker } from "@faker-js/faker";
+import { ApiUtils } from "../../../utils/apiUtils";
+import { endPoints } from "../../../utils/apiEndPoints";
+
+let apiUtils: ApiUtils;
+let individualTeamMmeberToken;
+let taxClassName1;
+
+let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" }
+
+
+const { firefox } = require('playwright');  // Or 'chromium' or 'webkit'.
+
+
+
 
 export class AdminPage extends BasePage {
 
@@ -11,6 +25,13 @@ export class AdminPage extends BasePage {
         super(page);
     }
 
+    async browserTwo() {
+        const browser2 = await chromium.launch();  // Or 'chromium' or 'webkit'.
+        // Create a new incognito browser context.
+        const context = await browser2.newContext();
+        // Create a new page in a pristine context.
+        const page2 = await context.newPage();
+    }
     async goToAdminDashboard() {
         await this.page.goto(data.subUrls.admin.dashboard);
         await expect(this.page).toHaveURL(data.subUrls.admin.dashboard) 
@@ -20,7 +41,7 @@ export class AdminPage extends BasePage {
     async goToProductPage() {
         await this.goToAdminDashboard()
         await this.page.locator('a').filter({ hasText: /^Products$/ }).click();
-        await this.page.getByRole('link', { name: selector.product.menuLink }).click();
+        await this.page.getByRole('link', { name: selector.product.subMenuLink }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.product) 
         await this.errorCheck()
     }
@@ -37,6 +58,7 @@ export class AdminPage extends BasePage {
         await this.page.goto(data.subUrls.admin.brand)
         await this.page.getByRole('link', { name: selector.admin.brand.menuLink }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.brand) 
+        // await expect(this.page.getByRole('heading', { name: 'Edit Brand' })).toBeVisible() 
         await this.errorCheck()
     }
     
@@ -66,29 +88,34 @@ export class AdminPage extends BasePage {
     }
 
     async goToVendor() {
-        await this.page.getByRole('link', { name: selector.vendors.menuLink }).click();
+        await this.goToAdminDashboard()
+        await this.page.getByRole('link', { name: selector.vendors.menuLink, exact: true }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.vendor) 
         await this.errorCheck()
     }
     async goToCustomer() {
+        await this.goToAdminDashboard()
         await this.page.getByRole('link', { name: selector.customerMenu.menuLink }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.customer) 
         await this.errorCheck()
     }
 
     async goToDesignPage() {
+        await this.goToAdminDashboard()
         await this.page.locator('a').filter({ hasText: 'Designs' }).click();
         await this.page.getByRole('link', { name: selector.designPage.menuLink }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.page) 
         await this.errorCheck()
     }
     async goToGeneralSettings() {
+        await this.goToAdminDashboard()
         await this.page.locator('a').filter({ hasText: 'Settings' }).click();
         await this.page.getByRole('link', { name: selector.generalSettings.menuLink }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.generalSettings) 
         await this.errorCheck()
     }
     async goToTeamSettings() {
+        await this.goToAdminDashboard()
         await this.page.goto(data.subUrls.admin.teamSettings)
         // await this.page.getByRole('link', { name: selector.teamSettings.menuLink }).click();
         await expect(this.page).toHaveURL(data.subUrls.admin.teamSettings) 
@@ -136,6 +163,12 @@ export class AdminPage extends BasePage {
         await expect(this.page).toHaveURL(data.subUrls.admin.policiesSettings) 
         await this.errorCheck()
     }
+    async goToTeam() {
+        await this.page.goto(data.subUrls.admin.teamSettings)
+        await expect(this.page).toHaveURL(data.subUrls.admin.teamSettings) 
+        await this.errorCheck()
+
+    }
     
     
     
@@ -164,35 +197,36 @@ export class AdminPage extends BasePage {
         await expect(this.page.getByRole('heading', { name: data.product.pageValidation })).toBeVisible()
 
         // Validate Add New Product page loading
-        await this.page.getByRole('link', { name: 'Add Product'}).click()
-            await expect(this.page).toHaveURL('/admin/products/create')
-            await expect(this.page.getByText('Product Name')).toBeVisible()    
-        await this.page.getByRole('link', { name: 'Products'}).nth(1).click()
-            await expect(this.page).toHaveURL('/admin/products')
+        await this.page.getByRole('link', { name: selector.product.addNew }).click()
+            await expect(this.page).toHaveURL(data.subUrls.admin.productCreate)
+            await expect(this.page.getByText(selector.product.createPageValidation)).toBeVisible()    
+        await this.page.getByRole('link', { name: selector.product.menuLink}).nth(1).click()
+            await expect(this.page).toHaveURL(data.subUrls.admin.product)
         
-        //Validate Published page loading 
-        await this.page.getByRole('button', { name: 'Published' }).click();
-            await expect(this.page).toHaveURL('/admin/products?filters[status]=published')
-            await expect(this.page.locator('div.mt-4')).toBeVisible()
-            // await expect(page.getByRole('cell', { name: 'PRICE', exact:true})).toBeVisible()
-            await expect(this.page.getByRole('button', { name: 'Filter' })).toBeVisible()
+        //Validate Published product page loading & filter
+        await this.page.getByRole('button', { name: selector.product.publishedTab }).click();
+            await expect(this.page).toHaveURL(selector.product.publishedPageURLValidation)
+            await expect(this.page.locator(selector.product.publishedPageElementValidation)).toBeVisible()
+            await expect(this.page.locator(selector.product.filter)).toBeVisible()
+            // await expect(this.page.getByRole('button', { name:  selector.product.filter})).toBeVisible()
         
-        // Validate Draft page loading
-        await this.page.getByRole('button', {name: 'Draft'}).click()
-            await expect(this.page).toHaveURL('/admin/products?filters[status]=draft')
-            await expect(this.page.locator('div.mt-4')).toBeVisible()
-            // await expect(page.getByRole('cell', { name: 'PRICE', exact:true})).toBeVisible()
-            await expect(this.page.getByRole('button', { name: 'Filter' })).toBeVisible()
+        // Validate Draft product page loading & filter
+        await this.page.getByRole('button', {name: selector.product.draftStatus}).click()
+            await expect(this.page).toHaveURL(selector.product.draftPageURLValidation)
+            // await expect(this.page.locator('//th[text()="Product"]')).toBeVisible()
+            await expect(this.page.locator(selector.product.filter)).toBeVisible()
+            // await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
         
-        await this.page.getByRole('button', {name: 'All'}).click()
-        await expect(this.page.getByPlaceholder('Press enter to search...')).toBeVisible()
-        await expect(this.page.getByRole('button', { name: 'Filter' })).toBeVisible()
-        // await expect(page.getByRole('cell', { name: 'PRICE', exact:true})).toBeVisible()
-        await expect(this.page.getByRole('cell', { name: 'Price' })).toBeVisible()
-        await expect(this.page.getByRole('cell', { name: 'Status' })).toBeVisible()
-        await expect(this.page.getByRole('cell', { name: 'Stock' })).toBeVisible()
-        await expect(this.page.getByRole('cell', { name: 'Action' })).toBeVisible()
-        await expect(this.page.locator('div.pagination')).toBeVisible()
+        // Validate search field & all cloumn, pagination, filter
+        await this.page.getByRole('button', {name: selector.product.all}).click()
+        await expect(this.page.getByPlaceholder(selector.product.search)).toBeVisible()
+        // await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
+        await expect(this.page.locator(selector.product.filter)).toBeVisible()
+        await expect(this.page.getByRole('cell', { name:  selector.product.priceCell})).toBeVisible()
+        await expect(this.page.getByRole('cell', { name: selector.product.statusCell })).toBeVisible()
+        await expect(this.page.getByRole('cell', { name: selector.product.stockCell })).toBeVisible()
+        await expect(this.page.getByRole('cell', { name: selector.product.actionCell })).toBeVisible()
+        await expect(this.page.locator(selector.product.pagination)).toBeVisible()
     }
 
     async categoryElementValidation() {
@@ -208,19 +242,19 @@ export class AdminPage extends BasePage {
     async ordersElementValidation() {
         await this.goToOrderPage()
         await expect(this.page.getByRole('heading', { name: data.order.pageValidation })).toBeVisible()
+
+        // Individual Order preview
         await this.page.locator(selector.order.detailsPreview).click();
         await this.errorCheck()
-        // await this.page.goto('/admin/payouts?filters[status]=upcoming')
-        // await this.errorCheck()
-        
     }
+
     async subscriptionElementValidation() {
         await this.goToSubscription()
         await expect(this.page.getByRole('heading', { name: data.subscription.pageValidation })).toBeVisible()
     }
     async payoutElementValidation() {
         await this.goToPayout()
-        await expect(this.page.getByRole('heading', { name: data.payout.pageValidation })).toBeVisible()
+        await expect(this.page.getByRole('heading', { name: data.payout.pageValidation, exact: true })).toBeVisible()
         await this.clickAndWaitForResponse('/api/v1/admin/upcoming-withdrawals?filters[status]=upcoming', "//button[text()='Upcoming']")
         await this.errorCheck()
     }
@@ -290,7 +324,7 @@ export class AdminPage extends BasePage {
         await this.page.locator(selector.admin.category.titleField).fill(category.insertName());
         
         // File Upload
-        const handle = await this.page.locator(selector.admin.category.imageUploadLocation)
+        // const handle = await this.page.locator(selector.admin.category.imageUploadLocation)
         /* 
         // add event listner (If have any diaglog message)
         this.page.once("dialog", (dialog) => {
@@ -298,8 +332,12 @@ export class AdminPage extends BasePage {
             dialog.accept()
         })
         */
-        await handle.setInputFiles(data.category.imageUpload)
-        await this.page.waitForTimeout(1000);
+        // await handle.setInputFiles(data.category.imageUpload)
+        // await this.page.waitForTimeout(1000);
+
+        await this.page.getByRole('button', { name: 'Upload Image' }).click();
+        await this.page.locator('div:nth-child(3) > div > .h-full').click();
+        await this.page.getByRole('button', { name: 'Select' }).click();
 
         //ToDo: Unique category name validation
         //ToDo: Category add in parent category
@@ -309,7 +347,7 @@ export class AdminPage extends BasePage {
         await this.page.getByLabel(selector.admin.category.descriptionField).fill(category.insertDescription());
         await this.page.getByRole('button', { name: selector.common.create }).click();
         await this.waitForUrl(data.subUrls.admin.category)
-        await expect(this.page.getByText(data.commonMessage.createSuccessMessage, { exact: true })).toBeVisible()
+        await expect(this.page.getByText(data.category.createSuccessMessage, { exact: true })).toBeVisible()
     }
 
     async editCategory(category: any) {
@@ -320,7 +358,7 @@ export class AdminPage extends BasePage {
         await this.page.locator(selector.admin.category.titleField).fill(category.updateName());
         await this.page.getByRole('button', { name: selector.common.update }).click();
         // this.page.on('dialog', dialog => dialog.accept());
-        await expect(this.page.getByText(data.commonMessage.updateSuccessMessage, { exact: true })).toBeVisible()
+        await expect(this.page.getByText(data.category.updateSuccessMessage, { exact: true })).toBeVisible()
     }
 
     async deleteCategory(category: any) {
@@ -328,7 +366,10 @@ export class AdminPage extends BasePage {
         await this.page.getByRole('link', { name: selector.admin.category.backListPage }).click();
         await this.page.locator(selector.admin.category.dropDown).click()
         await this.page.getByRole('link', { name: selector.common.deleteLink }).click();
-        await expect(this.page.getByText(data.commonMessage.deleteSuccessMessage)).toBeVisible()
+        // await expect(this.page.getByText(data.category.categoryDeleteConfirmationMessage, {exact: true})).toBeVisible();
+        await expect(this.page.getByRole('heading', { name: 'Are you sure want to delete category?' })).toBeVisible();
+        await this.page.getByRole('button', { name: selector.common.deleteButton }).click();
+        await expect(this.page.getByText(data.category.deleteSuccessMessage)).toBeVisible()
     }
 
     async createBrand(brand: any) {
@@ -338,7 +379,7 @@ export class AdminPage extends BasePage {
         await this.page.locator(selector.admin.brand.name).fill(brand.insertName());
         await this.page.getByRole('button', { name: selector.common.create }).click();
         await this.waitForUrl(data.subUrls.admin.brand)
-        await (expect(this.page.getByText(data.commonMessage.createSuccessMessage, { exact: true })).toBeVisible())
+        await (expect(this.page.getByText(data.brand.creataSuccessMessage, { exact: true })).toBeVisible())
     }
     /* async createBrand(brand: any): Promise<boolean> {
         await this.goToBrandPage()
@@ -354,16 +395,20 @@ export class AdminPage extends BasePage {
         await this.page.getByRole('link', { name: selector.common.editLink }).click();
         await this.errorCheck()
         await this.page.locator(selector.admin.brand.name).fill(brand.updateName())
-        await this.page.getByRole('button', { name: selector.common.update }).click();
-        await this.waitForUrl(data.subUrls.admin.brand)
+        await this.page.locator(selector.admin.brand.description).fill(faker.commerce.productDescription())
+        await this.page.getByRole('button', { name: selector.admin.brand.saveChanges }).click();
+        await expect(this.page.getByRole('heading', { name: 'Edit Brand' })).toBeVisible() 
+        // await this.waitForUrl(data.subUrls.admin.brand)
         // this.page.on('dialog', dialog => dialog.accept());
-        await expect(this.page.getByText(data.commonMessage.updateSuccessMessage, { exact: true })).toBeVisible()
+        await expect(this.page.getByText(data.brand.updateSuccessMessage, { exact: true })).toBeVisible()
     }
     async deleteBrand() {
         await this.goToBrandPage()
         await this.page.locator(selector.admin.brand.dropDown).click()
-        await this.page.getByRole('link', { name: selector.common.deleteLink }).click();
-        await expect(this.page.getByText(data.commonMessage.deleteSuccessMessage, { exact: true })).toBeVisible()
+        await this.page.getByRole('button', { name: selector.common.deleteButton }).click();
+        await expect(this.page.getByText(data.brand.brandDeleteConfirmationMessage, {exact: true})).toBeVisible();
+        await this.page.getByRole('button', { name: selector.common.deleteButton }).click();
+        await expect(this.page.getByText(data.brand.brandDeleteSuccessMessage, { exact: true })).toBeVisible()
     }
 
     async createStandardProduct(productInfo: { productName: () => string; productDescription: () => string; sku: () => string; }): Promise<void> {
@@ -372,14 +417,19 @@ export class AdminPage extends BasePage {
         await this.page.getByRole('link', { name: selector.product.addNew }).click();
         await this.errorCheck()
 
-        await this.page.locator(selector.product.productName).fill(data.product.standard.productName());
-        await this.page.getByLabel(selector.product.productDescription).fill(data.product.standard.productDescription());
+        await this.page.locator(selector.product.name).fill(data.product.standard.productName());
+        await this.page.locator(selector.product.description).fill(data.product.standard.productDescription());
 
-        await this.page.locator(selector.product.productCategory).first().click();
-        await this.page.getByText(selector.product.productCategorySelect).click();
+        await this.page.getByPlaceholder('Search').click()
+        await this.page.getByPlaceholder('Search').fill(selector.product.productCategorySelect);
+        await this.page.getByPlaceholder('Search').press('Enter');
+
+        // await this.page.locator(selector.product.productCategory).click();
+        // await this.page.keyboard.type("Clothing");
+        // await this.page.getByText(selector.product.productCategorySelect).click();
 
         await this.page.locator('div').filter({ hasText: /^Draft$/ }).nth(1).click();
-        await this.page.getByText(selector.product.productStatus, { exact: true }).click();
+        await this.page.getByText(selector.product.status, { exact: true }).click();
 
         await this.page.locator(selector.product.soldBy).click();
         await this.page.locator(selector.product.vendorName).nth(1).fill(data.commonMessage.vendorName);
@@ -395,14 +445,19 @@ export class AdminPage extends BasePage {
         // await this.page.locator(selector.product.taxClass).first().click();
         // await this.page.locator(selector.product.selectTax).click();
 
-        await this.page.locator(selector.product.sku).fill(data.product.standard.sku());
+        // await this.page.locator(selector.product.sku).fill(data.product.standard.sku());
 
         // ToDo: enable product stock management
         // await this.page.locator(selector.product.stockQuantity).fill('100');
         // await this.page.locator(selector.product.lowStockQuantity).nth(1).fill('90');
 
 
-        await this.page.getByRole('button', { name: selector.common.create }).click();
+        await this.page.getByRole('button', { name: selector.product.create }).click();
+        
+        // confirmation for no shipping
+        // await expect(this.page.getByText(data.product.standard.noShippingConfirmation, {exact: true})).toBeVisible();
+        // await this.page.getByRole('button', { name: 'Okay' }).click();
+
         await this.waitForUrl(data.subUrls.admin.product)
         await (expect(this.page.getByText(data.product.createMessage, {exact: true}))).toBeVisible()
     }
@@ -412,7 +467,7 @@ export class AdminPage extends BasePage {
         await this.page.locator(selector.common.dropDown).click()
         await this.page.getByRole('link', { name: selector.common.editLink }).click()
         await this.errorCheck()
-        await this.page.locator(selector.product.productName).fill(product.updateName())
+        await this.page.locator(selector.product.name).fill(product.updateName())
         await this.page.getByRole('button', { name: selector.common.update }).click();
         // this.page.on('dialog', dialog => dialog.accept());
         await (expect(this.page.getByText(data.product.editMessage, { exact: true }))).toBeVisible()
@@ -421,11 +476,22 @@ export class AdminPage extends BasePage {
     async deleteProduct() {
         await this.goToProductPage()
         await this.page.locator(selector.common.dropDown).click()
-        await this.page.getByRole('link', { name: selector.common.deleteLink }).click()
-        await expect(this.page.getByText(data.commonMessage.deleteSuccessMessage, { exact: true })).toBeVisible()
+        await this.page.getByRole('button', { name: selector.common.deleteLink }).click()
+        await expect(this.page.getByText(data.product.productDeleteConfirmationMessage, {exact: true})).toBeVisible();
+        await this.page.getByRole('button', { name: selector.common.deleteButton }).click();
+        await expect(this.page.getByText(data.product.deleteMessage, { exact: true })).toBeVisible()
     }
     
-    async createSubscription() {
+    async createSubscription({request}) {
+        
+        // get taxClassName from API
+        apiUtils = new ApiUtils(request);
+        const [response, responseBody] = await apiUtils.get(endPoints.getTaxClasses, {headers: adminAuth})
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();  
+        const res = await response.json();
+        const taxClassName = res.data[0].name
+
         await this.goToSubscription()
         await this.page.getByRole('link', { name: selector.admin.subscription.menuLink }).click();
         await this.page.getByRole('link', { name: selector.admin.subscription.addNewPlan }).click();
@@ -439,29 +505,49 @@ export class AdminPage extends BasePage {
         await this.page.getByLabel(selector.admin.subscription.priceField).fill(data.subscription.priceField);
         await this.page.getByLabel(selector.admin.subscription.setupFee).click();
         await this.page.getByLabel(selector.admin.subscription.setupFee).fill(data.subscription.setupFee);
-        await this.page.getByRole('combobox', { name: selector.admin.subscription.billingCycle, exact: true }).selectOption(data.subscription.billingCycle);
+        // await this.page.getByRole('combobox', { name: selector.admin.subscription.billingCycle, exact: true }).selectOption(data.subscription.billingCycle);
         // await this.page.getByRole('combobox', { name: selector.admin.subscription.billingCycle }).selectOption(data.subscription.billingCycle);
+        await this.page.locator('#billingCycleFrequency').selectOption('4');
+        await this.page.locator('#billingCycleUnit').selectOption('day');
+        await this.page.getByLabel('Billing Cycle Expires').selectOption('3');
+        
+        // tax
         await this.page.locator(selector.admin.subscription.taxApplicable).click();
         await this.page.locator(selector.admin.subscription.taxClass).click();
-        await this.page.getByText(selector.admin.subscription.selectTaxClass, { exact: true }).click();
+        await this.page.getByText(`${taxClassName}`, { exact: true }).click();
+        
         await this.page.locator(selector.admin.subscription.enableTrailPriod).click();
-        await this.page.getByRole('combobox', { name: selector.admin.subscription.selectTrailPriod }).selectOption(data.subscription.selectTrailPriod);
-        await this.page.locator(selector.admin.subscription.selectTrailPriod2).first().selectOption(data.subscription.selectTrailPriod2);
+        // await this.page.getByRole('combobox', { name: selector.admin.subscription.selectTrailPriod }).selectOption(data.subscription.selectTrailPriod);
+        // await this.page.locator(selector.admin.subscription.selectTrailPriod2).first().selectOption(data.subscription.selectTrailPriod2);
+        await this.page.locator('#trialPeriod').selectOption('4');
+        await this.page.locator('#trialPeriodUnit').selectOption('week');
         //Commissions
-        await this.page.getByPlaceholder(selector.admin.subscription.percentageCommissions, { exact: true }).click();
-        await this.page.getByPlaceholder(selector.admin.subscription.percentageCommissions, { exact: true }).fill(data.subscription.percentageCommissions);
-        await this.page.getByPlaceholder(selector.admin.subscription.flatCommissions).click();
-        await this.page.getByPlaceholder(selector.admin.subscription.flatCommissions).fill(data.subscription.flatCommissions);
-        await this.page.getByRole('button', { name: selector.admin.subscription.continueSteps }).click();
+        // await this.page.getByPlaceholder(selector.admin.subscription.percentageCommissions, { exact: true }).click();
+        // await this.page.getByPlaceholder(selector.admin.subscription.percentageCommissions, { exact: true }).fill(data.subscription.percentageCommissions);
+        // await this.page.getByPlaceholder(selector.admin.subscription.flatCommissions).click();
+        // await this.page.getByPlaceholder(selector.admin.subscription.flatCommissions).fill(data.subscription.flatCommissions);
+        // await this.page.getByRole('button', { name: selector.admin.subscription.continueSteps }).click();
+        
+        // await this.page.getByPlaceholder('5', { exact: true }).click();
+        await this.page.getByPlaceholder('5', { exact: true }).fill('5');
+        // await this.page.getByPlaceholder('15').click();
+        await this.page.getByPlaceholder('15').fill('10');
+        // await this.page.getByRole('button', { name: 'Publish' }).click();
         //Capabilities & Restrictions
-        await this.page.locator(selector.admin.subscription.numberOfPhysicalProducts).click();
-        await this.page.locator(selector.admin.subscription.numberOfPhysicalProducts).fill(data.subscription.numberOfPhysicalProducts);
-        await this.page.locator(selector.admin.subscription.numberOfDigitalProducts).click();
-        await this.page.locator(selector.admin.subscription.numberOfDigitalProducts).fill(data.subscription.numberOfDigitalProducts);
-        await this.page.locator(selector.admin.subscription.couponCreation).click();
-        await this.page.locator(selector.admin.subscription.allowMultipleAddress).click();
-        await this.page.getByPlaceholder(selector.admin.subscription.numberOfVendorStaff).click();
-        await this.page.getByPlaceholder(selector.admin.subscription.numberOfVendorStaff).fill(data.subscription.numberOfVendorStaff);
+        // await this.page.locator(selector.admin.subscription.numberOfPhysicalProducts).click();
+        // await this.page.locator(selector.admin.subscription.numberOfPhysicalProducts).fill(data.subscription.numberOfPhysicalProducts);
+        // await this.page.locator(selector.admin.subscription.numberOfDigitalProducts).click();
+        // await this.page.locator(selector.admin.subscription.numberOfDigitalProducts).fill(data.subscription.numberOfDigitalProducts);
+        // await this.page.locator(selector.admin.subscription.couponCreation).click();
+        // await this.page.locator(selector.admin.subscription.allowMultipleAddress).click();
+        // await this.page.getByPlaceholder(selector.admin.subscription.numberOfVendorStaff).click();
+        // await this.page.getByPlaceholder(selector.admin.subscription.numberOfVendorStaff).fill(data.subscription.numberOfVendorStaff);
+
+        await this.page.locator('#noOfPhysicalProducts').fill('100');
+        await this.page.locator('#noOfDigitalProducts').fill('120');
+        await this.page.locator('#vendorStaffQuantity').fill('10');
+        // await this.page.getByRole('button', { name: 'Publish' }).click();
+        
         await this.page.getByRole('button', { name: selector.admin.subscription.createAndPublish }).click();
         await expect(this.page.getByText(data.subscription.createSuccessMessage, { exact: true })).toBeVisible()
     }
@@ -480,25 +566,110 @@ export class AdminPage extends BasePage {
     async deleteSubscription() {
         await this.goToSubscription()
         await this.page.locator(selector.common.dropDown).click()
-        await this.page.getByRole('link', { name: selector.common.deleteLink }).click();
+        await this.page.getByRole('button', { name: selector.common.deleteLink }).click();
+        await expect(this.page.getByText(data.subscription.subscriptionDeletePopupForm, {exact: true})).toBeVisible();
+        await this.page.getByRole('button', { name: selector.common.deleteButton }).click();
         await expect(this.page.getByText(data.subscription.deleteSuccessMessage)).toBeVisible();
     }
+
+
+    /* async shippingEnable() {
+        await this.goToShipping()
+        // await this.page.waitForTimeout(50000)
+        // const shippingEnable = await this.isEnabledLocator('//button[@id="headlessui-switch-:r2:"]')
+        // const shippingDisable = await this.isDisabledLocator('//button[@id="headlessui-switch-:r2:"]')
+        // const shippingDisable:any = this.getElementTextViaPage("//p[text()='Disabled']")
+        // const shippingEnable:any = this.getElementTextViaPage("//p[text()='Enabled']")
+        // console.log("Shipping", shippingDisable)
+
+        const shippingDisable = await this.page.isVisible("//p[contains(@class,'text-muted bold')]")
+        if(shippingDisable){
+            // console.log("Shipping", shippingEnable)
+            await this.toContainText("//p[contains(@class,'text-muted bold')]", "Enable shipping to configure locations.")
+            await this.page.locator('//button[@id="headlessui-switch-:r2:"]').click();
+            
+            // await this.isEnabledLocator('//button[@id="headlessui-switch-:r2:"]')
+            // const shippingEnableLocator = this.page.locator('//button[@id="headlessui-switch-:r2:"]')
+            // await shippingEnableLocator.isEnabled()
+            await this.page.getByRole('button', { name: 'Save' }).click();
+            await expect(this.page.getByText("Shipping location")).toBeVisible()
+            
+        } else {
+            // await this.page.locator('//button[@id="headlessui-switch-:r2:"]').click();
+            await this.isVisible('Enabled')
+            // const locator = this.page.locator('//button[@id="headlessui-switch-:r2:"]');
+            // await expect(locator).toBeEnabled();
+        }
+        // const shippingEnableLocator = this.page.locator('//button[@id="headlessui-switch-:r2:"]')
+        // await this.page.getByRole('button', { name: 'Save' }).click();
+        // await expect(shippingEnableLocator).toBeChecked()
+        // await this.page.waitForTimeout(40000)
+       
+    } */
+
+    async shippingLocationConfigure() {
+        await this.goToShipping()
+
+        await this.page.locator(selector.shippingSettings.shippingLocation).first().click();
+        await this.page.getByText(data.shippingSettings.exceptTheseCountries, { exact: true }).click();
+        await expect(this.page.getByText(data.shippingSettings.exceptTheseCountriesValidation)).toBeVisible();
+        await this.page.locator(selector.shippingSettings.shippingLocation).last().click();
+        await this.page.getByText('Afghanistan', { exact: true }).click()
+        await this.page.getByRole('button', { name: selector.shippingSettings.saveShippingLocation }).click()
+        await this.page.getByText(data.shippingSettings.updateValidation).click();
+        await this.page.getByLabel('Remove Afghanistan').click();
+        await this.page.locator(selector.shippingSettings.shippingLocation).last().click();
+        await this.page.keyboard.type("Banglad");
+        await this.page.getByText('Bangladesh', { exact: true }).click();
+        await this.page.getByRole('button', { name: selector.shippingSettings.saveShippingLocation }).click();
+        // await this.clickAndWaitForLoadState(selector.shippingSettings.saveButton)
+        await expect(this.page.getByText(data.shippingSettings.updateValidation)).toBeVisible()
+        
+        await this.page.locator(selector.shippingSettings.shippingLocation).first().click();
+        await this.page.getByText(data.shippingSettings.onlyTheseCountries, { exact: true }).click()
+        await expect(this.page.getByText(data.shippingSettings.onlyTheseCountriesValidation)).toBeVisible()
+        await this.page.getByLabel('Remove Bangladesh').click();
+        await this.page.locator(selector.shippingSettings.shippingLocation).last().click();
+        await this.page.keyboard.type("indi");
+        await this.page.getByText('India', { exact: true }).click();
+        await this.page.locator(selector.shippingSettings.shippingLocation).last().click();
+        await this.page.getByText('Angola', { exact: true }).click();
+        await this.clickAndWaitForLoadState(selector.shippingSettings.saveButton) // multiple time use save button
+        await this.page.reload(); // using reload because page are loading first so update exisitng update message randomly preview
+        // await this.page.getByRole('button', { name: selector.shippingSettings.saveShippingLocation }).click();
+        await this.clickAndWaitForLoadState(selector.shippingSettings.saveButton)
+        await expect(this.page.getByText(data.shippingSettings.updateValidation)).toBeVisible()
+        await expect(this.page.getByText(data.shippingSettings.onlyTheseCountriesValidation)).toBeVisible()
+
+        await this.page.locator(selector.shippingSettings.shippingLocation).first().click();
+        await this.page.getByText(data.shippingSettings.anywhereInTheWord, { exact: true }).click()
+        // await this.page.getByRole('button', { name: selector.shippingSettings.saveShippingLocation }).click();
+        await this.clickAndWaitForLoadState(selector.shippingSettings.saveButton)
+        await expect(this.page.getByText(data.shippingSettings.updateValidation)).toBeVisible()
+
+    }
+
+
+
 
     async taxClassCRUD() {
         const taxClassName = data.taxSettings.className;
         const taxClassUpdate = data.taxSettings.classNameUpdate;
         await this.goToTax()
         await this.page.getByRole('tab', { name: selector.admin.tax.classTab }).click();
-        await this.page.getByRole('button', { name: selector.admin.tax.createTaxClss }).click();
+        // await this.page.getByRole('button', { name: selector.admin.tax.createTaxClss }).click();
+        await this.page.locator(selector.admin.tax.createTaxClss).click();
         await this.errorCheck()
-        await expect(this.page.getByText(selector.admin.tax.popupValidation)).toBeVisible();
+        // await expect(this.page.getByText(selector.admin.tax.popupValidation)).toBeVisible();
+        // await expect(this.page.getByRole('row', { name: taxClassName })).toBeVisible();
         
         await this.page.getByPlaceholder(selector.admin.tax.className).click();
         await this.page.getByPlaceholder(selector.admin.tax.className).fill( taxClassName );
         await this.page.getByRole('button', { name: selector.admin.tax.createButton, exact: true }).click();
         await this.page.getByText(data.taxSettings.validateSuccessMessage).click();
         
-        await this.page.getByRole('row', { name: taxClassName }).getByRole('button', { name: selector.admin.tax.renameLink }).click();
+        // await this.page.getByRole('row', { name: taxClassName }).getByRole('button', { name: selector.admin.tax.renameLink }).click();
+        await this.page.getByRole('row', { name: taxClassName }).locator(selector.admin.tax.renameLink).click();
         await this.errorCheck()
         await this.page.getByPlaceholder(selector.admin.tax.className).click();
         await expect(this.page.getByText(data.taxSettings.renameValidation)).toBeVisible();
@@ -507,8 +678,11 @@ export class AdminPage extends BasePage {
         await this.page.getByRole('button', { name: selector.admin.tax.saveButton }).click();
         await this.page.getByText(data.taxSettings.updateValidateSuccessMessage).click();
         
-        await this.page.getByRole('row', { name:  taxClassUpdate }).getByRole('button', { name: selector.admin.tax.deleteLink }).click();
-        await expect(this.page.locator(selector.admin.tax.deleteValidation)).toBeVisible()
+        // await this.page.getByRole('row', { name:  taxClassUpdate }).getByRole('button', { name: selector.admin.tax.deleteLink }).click();
+        // await this.page.getByRole('row', { name:  taxClassUpdate }).locator(selector.admin.tax.deleteLink).click();
+        await this.page.getByRole('row', { name:  taxClassUpdate }).getByRole('button').nth(1).click();
+        // await expect(this.page.locator(selector.admin.tax.deleteValidation)).toBeVisible()
+        await expect (this.page.getByRole('button', { name: selector.admin.tax.deleteButton })).toBeVisible()
         await this.page.getByRole('button', { name: selector.admin.tax.deleteButton }).click()
         await expect(this.page.getByText(data.taxSettings.deleteValidationSuccessMessage)).toBeVisible()
     }
@@ -538,7 +712,17 @@ export class AdminPage extends BasePage {
         
     }
 
-    async taxRateAddForEntireCountry() {
+    async taxRateAddForEntireCountry({request}) {
+        
+        // get taxClassName from API
+        apiUtils = new ApiUtils(request);
+        const [response, responseBody] = await apiUtils.get(endPoints.getTaxClasses, {headers: adminAuth})
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();  
+        const res = await response.json();
+        const taxClassName = res.data[0].name
+        console.log("Tax class name", taxClassName)
+
         await this.goToTax()
         await this.taxAddCountry()
 
@@ -552,13 +736,13 @@ export class AdminPage extends BasePage {
 
         await this.page.getByRole('button', { name: selector.admin.tax.manageButton }).click();
         await expect(this.page.getByText(selector.admin.tax.manageValidation)).toBeVisible()
-        // await this.page.getByLabel('Zero Rate').uncheck();
+        await this.page.getByLabel(`${taxClassName}`).check();
         await this.page.getByRole('button', { name: selector.admin.tax.manageDone }).click();
+        await this.page.locator(`[id="tc-${taxClassName}"]`).click();
+        await this.page.locator(`[id="tc-${taxClassName}"]`).fill(faker.finance.amount(1));
+        await this.page.locator(`[id="tc-Standard Rate"]`).click();
+        await this.page.locator(`[id="tc-Standard Rate"]`).fill(faker.finance.amount(0));
 
-        // await this.page.locator('[id="tc-Reduced\\ Rate\\ Update"]').click();
-        // await this.page.locator('[id="tc-Reduced\\ Rate\\ Update"]').fill('5');
-        // await this.page.locator('[id="tc-Standard\\ Rate"]').click();
-        // await this.page.locator('[id="tc-Standard\\ Rate"]').fill('06');
         await this.page.getByRole('button', { name: selector.admin.tax.saveChanges }).click();
         await expect(this.page.getByText(data.taxSettings.manageSuccessMessageValidation)).toBeVisible()
     }
@@ -580,33 +764,113 @@ export class AdminPage extends BasePage {
         await this.page.getByLabel(data.taxSettings.stateName).check();
         await this.page.getByRole('button', { name: selector.admin.tax.continueState }).click();
 
-        await expect(this.page.getByText('Additional Tax collection')).toBeVisible();
+        await expect(this.page.getByText(selector.admin.tax.additionalTaxCollection)).toBeVisible();
         // await this.page.getByText('Add Tax for Kabul, Afghanistan').click();
-        await this.page.getByLabel('On Shipping', { exact: true }).check();
-        await this.page.getByLabel('On Digital Products', { exact: true }).check();
-        await this.page.getByLabel('Override Country Tax').check();
+        await this.page.getByLabel(selector.admin.tax.onShipping, { exact: true }).check();
+        await this.page.getByLabel(selector.admin.tax.onDigitalProduct, { exact: true }).check();
+        await this.page.getByLabel(selector.admin.tax.overrideCountryTax).check();
 
         // await this.page.locator("(//div[@class='relative flex']//input)[3]").getByPlaceholder('Write here').click();
         // await this.page.getByPlaceholder('Write here').fill('kabulTax');
         await this.page.keyboard.press("Tab")
-        await this.page.keyboard.type("kabulTax")
+        await this.page.keyboard.type(data.taxSettings.taxName1)
         await this.page.getByLabel('Compound tax applied').check();
         await this.page.keyboard.press("Tab")
         await this.page.keyboard.type("2")
         // await this.page.locator('input[name="tc-Reduced Rate Update"]').click();
         // await this.page.locator('input[name="tc-Reduced Rate Update"]').fill('2');
+        
+        // Add Another Rule
+        /*
         await this.page.getByRole('button', { name: 'Add Another Rule' }).click();
 
         await this.page.getByPlaceholder('Write here').nth(2).click();
-        await this.page.getByPlaceholder('Write here').nth(2).fill('kabul2tax');
+        await this.page.getByPlaceholder('Write here').nth(2).fill(data.taxSettings.taxName1);
         await this.page.locator('#state-1-compound').check();
         await this.page.getByPlaceholder('2').click();
         await this.page.getByPlaceholder('2').fill('3');
 
         await this.page.keyboard.press("Tab")
         await this.page.keyboard.type("4")
-        await this.page.getByRole('button', { name: 'Save', exact: true }).click();
-        await expect(this.page.getByText('Tax rates have been saved successfully.')).toBeVisible()
-
+        */
+        
+        await this.page.getByRole('button', { name: selector.admin.tax.save, exact: true }).click();
+        await expect(this.page.getByText(data.taxSettings.manageSuccessMessageValidation)).toBeVisible()
     }
+
+
+
+
+    // All team scenario
+    async gelAllTeamMembers({request}) {
+        apiUtils = new ApiUtils(request);
+        const [response, responseBody] = await apiUtils.get(endPoints.getAllInvitedTeamMember, { headers: adminAuth } )
+        // console.log("end point", endPoints.getAllInvitedTeamMember)
+        expect(response.ok()).toBeTruthy();
+	    expect(responseBody).toBeTruthy();
+        const res = await response.json()
+        individualTeamMmeberToken = res.data[0].token
+        console.log("individual token", individualTeamMmeberToken)
+    }
+
+    async teamMemberInvitation({browser, request}) {
+        await this.goToTeam()
+        await this.page.getByRole('link', { name: data.teamSettings.inviteNewTeamMemeber }).click();
+        await this.page.getByPlaceholder(selector.teamSettings.emailAddress).fill(data.teamSettings.emailAddress);
+        await this.page.getByPlaceholder(selector.teamSettings.phoneNumber).fill(data.teamSettings.phoneNumber);
+        await this.page.getByPlaceholder(selector.teamSettings.designation).fill(data.teamSettings.designation);
+        await this.page.getByRole('row', { name: selector.teamSettings.selectAllProduct }).getByLabel(data.teamSettings.permissionSelectAll).check();
+        await this.page.getByRole('row', { name: selector.teamSettings.selectAllOrder }).getByLabel(data.teamSettings.permissionSelectAll).check();
+        await this.page.getByRole('row', { name: selector.teamSettings.selectAllCustomer }).getByLabel(data.teamSettings.permissionSelectAll).check();
+        await this.page.getByRole('row', { name: selector.teamSettings.selectAllVendor }).getByLabel(data.teamSettings.permissionSelectAll).check();
+        await this.page.getByRole('row', { name: selector.teamSettings.selectAllSettings }).getByLabel(data.teamSettings.permissionSelectAll).check();
+        await this.page.getByRole('row', { name: selector.teamSettings.selectAllMisc }).getByLabel(data.teamSettings.permissionSelectAll).check();
+        await this.page.getByRole('button', { name: selector.teamSettings.sendInvitation }).click();
+        await this.page.getByRole('button', { name: selector.teamSettings.invitedTabView }).click();
+        await this.page.locator(selector.teamSettings.viewAction).click(); 
+
+        await expect(this.page.getByText('Invitation email has been sent.')).toBeVisible()
+        console.log("token:", individualTeamMmeberToken)
+        
+        await this.page.getByRole('link', { name: data.teamSettings.copyInvitationLink }).click();
+        await expect(this.page.getByText('Invitation link copied to clipboard!')).toBeVisible()
+    }
+
+    async teamMemeberRegisterFromInvitationLink({request}) {
+        await this.gelAllTeamMembers({request})
+        await this.goToTeam()
+
+        // open new page & clear the local storage
+        const browser2 = await chromium.launch();  // Or 'chromium' or 'webkit'.
+        const context = await browser2.newContext();
+        const page2 = await context.newPage();
+        await page2.goto('', { waitUntil: 'load' });
+        
+        // clear local storage
+        await page2.evaluate(
+            token => {
+              localStorage.clear();
+              localStorage.setItem('token', token);
+            }, `Bearer ${String(process.env.Admin_API_TOKEN)}`);
+        
+        // open invited link
+        await page2.goto(` ${endPoints.getInvitedTeamMemeberToken + individualTeamMmeberToken}`)
+
+        
+        // invited team member register by invitation link
+        await expect(page2.getByText(data.teamSettings.verified)).toBeVisible()
+        await expect(page2.getByText(data.teamSettings.verifiedPageText)).toBeVisible();
+        await  page2.locator('div').filter({ hasText: /^First Name$/ }).getByRole('textbox').fill(data.teamSettings.firstName());
+        await  page2.locator('div').filter({ hasText: /^Last Name$/ }).getByRole('textbox').fill(data.teamSettings.lastName());
+        await  page2.getByLabel('Password', { exact: true }).fill('weDevs123');
+        await  page2.getByLabel('Confirm Password').fill('weDevs123');
+        await  page2.getByRole('button', { name: selector.teamSettings.registerButton }).click();
+        await  expect(page2.getByText(data.teamSettings.invitationConfirmation)).toBeVisible();
+        await  expect(page2.getByText(data.teamSettings.loginTextAdmin)).toBeVisible();
+
+        // login invited team member
+        await  page2.getByRole('link', { name: selector.teamSettings.loginButton }).click();
+    }
+
+
 }

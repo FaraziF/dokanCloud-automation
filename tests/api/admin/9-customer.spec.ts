@@ -6,6 +6,9 @@ import { payloads } from "../../../utils/payloads";
 let apiUtils: ApiUtils;
 let customerID: number;
 let customerEmail;
+let customerFirstName;
+let customerLastName;
+let customerPhoneNumber;
 
 
 test.beforeAll(async ({ request }) => {
@@ -43,6 +46,9 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
         const _res = await response.json()
         customerID = _res.data.id
 		customerEmail = _res.data.email
+		customerFirstName = _res.data.firstName
+		customerLastName = _res.data.lastName
+		customerPhoneNumber = _res.data.phoneNumber
 	});
 	test('search customer', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.searchCustomer(customerEmail));
@@ -63,9 +69,27 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
         const _res = await response.json()
 	});
 	test('deactivate customer', async () => {
-		const [response, responseBody] = await apiUtils.patch(endPoints.deactivatedCreatedCustomer(customerID));
+		const customerInfo= {email: customerEmail, firstName: customerFirstName, lastName: customerLastName, mobile:customerPhoneNumber, active: false}
+		const [response, responseBody] = await apiUtils.patch(endPoints.deactivatedCreatedCustomer(customerID), {data: customerInfo});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
-        console.log(await response.json())
+	});
+	test('mark as customer', async () => {
+		const customerSateInfo= {state: true}
+		const [response, responseBody] = await apiUtils.patch(endPoints.markAsCustomer(customerID), {data: customerSateInfo});
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+	});
+	test('unmark as customer', async () => {
+		const customerSateInfo= {state: false}
+		const [response, responseBody] = await apiUtils.patch(endPoints.unmarkAsCustomer(customerID), {data: customerSateInfo});
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+	});
+	test('activate customer', async () => {
+		const customerInfo= {email: customerEmail, firstName: customerFirstName, lastName: customerLastName, mobile:customerPhoneNumber, active: true}
+		const [response, responseBody] = await apiUtils.patch(endPoints.activateCustomer(customerID), {data: customerInfo});
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
 	});
 });

@@ -1,0 +1,6 @@
+End-point:  https://farazi.staging.dokandev.com/api/v1/team/vendor/invitations/resend
+Status Code:  422
+Error:  expect(received).toBeTruthy()
+
+Received: false
+Response text:  {"message":"The given data is invalid.","errors":{"email":["Email is required!"]}}

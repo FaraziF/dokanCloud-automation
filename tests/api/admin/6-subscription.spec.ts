@@ -29,8 +29,13 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
+	test('get pagination subscription', async () => {
+		const [response, responseBody] = await apiUtils.get(endPoints.getPaginationSubscription);
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+	});
 
-	test('create a susbcription brands', async () => {
+	test('create a susbcription', async () => {
 		const [response, responseBody] = await apiUtils.post(endPoints.createNewSubscription, { data: payloads.createSubscription() });
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
@@ -39,6 +44,11 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 	});
 	test('edit susbcription', async () => {
 		const [response, responseBody] = await apiUtils.put(endPoints.editCreatedSubscription(subscriptionID), { data: payloads.editSubscription() });
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+	});
+	test('save draft susbcription', async () => {
+		const [response, responseBody] = await apiUtils.put(endPoints.saveDraftSubscription(subscriptionID), { data: payloads.saveDraftSubscription() });
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});

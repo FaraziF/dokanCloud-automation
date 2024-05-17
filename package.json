@@ -22,7 +22,7 @@
   "homepage": "https://github.com/FaraziF/playwright-test#readme",
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",
-    "@playwright/test": "1.39",
+    "@playwright/test": "^1.44.0",
     "@types/node": "^20.5.7",
     "allure-commandline": "^2.24.1",
     "allure-playwright": "^2.9.2",

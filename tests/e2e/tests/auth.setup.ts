@@ -1,6 +1,7 @@
 import { test as setup, expect } from '@playwright/test';
 import { LoginPage } from "../pages/loginPage";
 import { user, data } from '../../../utils/testdata';
+import { TIMEOUT } from 'dns';
 // import { STORAGE_STATE } from '../../../playwright.config';
 
 /*
@@ -62,9 +63,10 @@ setup.describe('Authenticate with', () => {
 	setup('Admin valid credential', async ({ page }) => {
 		const loginPage = new LoginPage(page);
 		await loginPage.loginAsAdmin(data.adminCredentials, data.auth.adminAuthFile);
+        
 	});
 
-    setup('Vendor valid credential', async ({ page }) => {
+   /*  setup('Vendor valid credential', async ({ page }) => {
 		const loginPage = new LoginPage(page);
 		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
 	});
@@ -72,5 +74,5 @@ setup.describe('Authenticate with', () => {
     setup('Customer valid credential', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
-    });
+    }); */
 });

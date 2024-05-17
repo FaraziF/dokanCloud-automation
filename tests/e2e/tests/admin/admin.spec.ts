@@ -10,7 +10,7 @@ import { request } from 'http';
 let apiUtils: ApiUtils;
 let individualTeamMmeberToken;
 
-test.use({ storageState: data.auth.adminAuthFile });
+// test.use({ storageState: data.auth.adminAuthFile });
 let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" }
 
 let adminPage: AdminPage;
@@ -18,9 +18,31 @@ let page: Page;
 
 test.beforeAll(async ({ browser, request }) => {
     // apiUtils = new ApiUtils(request); // no activities this line
-    const context = await browser.newContext({});
+    const context = await browser.newContext({storageState: {
+        "cookies": [],
+        "origins": [
+          {
+            "origin": "https://farazi.staging.dokandev.com",
+            "localStorage": [
+              {
+                "name": "i18nextLng",
+                "value": "en"
+              },
+              {
+                "name": "persist:auth",
+                "value": "{\"user\":\"{}\",\"isLoggedIn\":\"false\",\"strategy\":\"null\",\"token\":\"\\\"\\\"\",\"intendedURL\":\"\\\"\\\"\",\"intendedURLForDashboard\":\"\\\"\\\"\",\"permissions\":\"[]\",\"_persist\":\"{\\\"version\\\":-1,\\\"rehydrated\\\":true}\"}"
+              },
+              {
+                "name": "persist:dashboard",
+                "value": "{\"sidebar\":\"{\\\"collapsed\\\":false,\\\"open\\\":false,\\\"vendorOnboardCompletedStep\\\":0}\",\"_persist\":\"{\\\"version\\\":-1,\\\"rehydrated\\\":true}\"}"
+              }
+            ]
+          }
+        ]
+      }});
     page = await context.newPage();
     adminPage = new AdminPage(page);
+    console.log(await context.storageState());
 });
 
 test.afterAll(async () => {

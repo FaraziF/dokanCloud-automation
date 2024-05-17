@@ -225,14 +225,14 @@ export const payloads = {
     editVendorGeneralSettings: () => {
         return {
             vatId: "",
-            storeName: "vendor.200 update",
+            storeName: "vendor.one",
             businessRegistrationNumber: "",
             legalBusinessName: "",
             mobile: "013485840",
-            email: "farazi+vendor200@wedevs.com",
+            email: "farazi+vendor1@wedevs.com",
             status: "active",
             firstName: "Vendor",
-            lastName: "TwoHundred",
+            lastName: "One",
         }
     },
     editVendorAddressSettings: () => {
@@ -1187,10 +1187,10 @@ export const payloads = {
         return {
             firstName: "Vendor",
             lastName: "One",
-            email: "farazi+vendor1@wedevs.com",
+            email: `${env('VENDOR_USERNAME')}`,
             gender: "male",
             mobile: "01438765834",
-            imageId: "6594f783673b262055dbb2c1",
+            imageId: `${env('VENDOR_PROFILE_IMAGE_ID')}`,
         }
     },
 

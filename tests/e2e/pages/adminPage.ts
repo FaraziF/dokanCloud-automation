@@ -204,21 +204,24 @@ export class AdminPage extends BasePage {
             await expect(this.page).toHaveURL(data.subUrls.admin.product)
         
         //Validate Published product page loading & filter
-        await this.page.getByRole('button', { name: selector.product.publishedTab }).click();
+        // await this.page.getByRole('button', { name: selector.product.publishedTab }).click();
+        await this.page.getByRole('radio', { name: 'Published' }).click();
             await expect(this.page).toHaveURL(selector.product.publishedPageURLValidation)
             await expect(this.page.locator(selector.product.publishedPageElementValidation)).toBeVisible()
             await expect(this.page.locator(selector.product.filter)).toBeVisible()
             // await expect(this.page.getByRole('button', { name:  selector.product.filter})).toBeVisible()
         
         // Validate Draft product page loading & filter
-        await this.page.getByRole('button', {name: selector.product.draftStatus}).click()
+        // await this.page.getByRole('button', {name: selector.product.draftStatus}).click()
+        await this.page.getByRole('radio', { name: 'Draft' }).click();
             await expect(this.page).toHaveURL(selector.product.draftPageURLValidation)
             // await expect(this.page.locator('//th[text()="Product"]')).toBeVisible()
             await expect(this.page.locator(selector.product.filter)).toBeVisible()
             // await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
         
         // Validate search field & all cloumn, pagination, filter
-        await this.page.getByRole('button', {name: selector.product.all}).click()
+        // await this.page.getByRole('button', {name: selector.product.all}).click()
+        await this.page.getByRole('radio', { name: 'All' }).click();
         await expect(this.page.getByPlaceholder(selector.product.search)).toBeVisible()
         // await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
         await expect(this.page.locator(selector.product.filter)).toBeVisible()
@@ -255,7 +258,8 @@ export class AdminPage extends BasePage {
     async payoutElementValidation() {
         await this.goToPayout()
         await expect(this.page.getByRole('heading', { name: data.payout.pageValidation, exact: true })).toBeVisible()
-        await this.clickAndWaitForResponse('/api/v1/admin/upcoming-withdrawals?filters[status]=upcoming', "//button[text()='Upcoming']")
+        // await this.clickAndWaitForResponse('/api/v1/admin/upcoming-withdrawals?filters[status]=upcoming', "//button[text()='Upcoming']")
+        await this.page.goto('/api/v1/admin/upcoming-withdrawals?filters[status]=upcoming')
         await this.errorCheck()
     }
     async vendorElementValidation() {

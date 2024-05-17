@@ -108,7 +108,7 @@ test.describe("customer order processing", () => {
 test.describe("order details test", () => {
 	test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}`, strategy: "vendor" } });
 
-	test('get order details', async () => {
+	test('get vendor order details', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.vendorGetSingleOrder(singleOrderID));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();

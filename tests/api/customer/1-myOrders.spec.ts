@@ -43,7 +43,7 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Custo
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
-	test('get order details', async () => {
+	test('get customer order details', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.customerGetOrderDetails);
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();

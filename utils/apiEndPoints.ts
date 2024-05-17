@@ -440,7 +440,7 @@ export const endPoints = {
     customerGetRefunedOrders: `${url}/api/v1/orders/me?filters[status]=refunded&per_page=4`,
     customerGetAwaitingShipmentOrders: `${url}/api/v1/orders/me?filters[status]=awaiting_shipment&per_page=4`,
     customerGetCompletedOrders: `${url}/api/v1/orders/me?filters[status]=completed&per_page=4`,
-    customerGetOrderDetails: `${url}/api/v1/orders/01HGWKXM0FNVZJ47G3ZTK7N9YF`,
+    customerGetOrderDetails: `${url}/api/v1/orders/${env('CUSTOMER_ORDER_ID')}`,
     customerGetOrderPagination: `${url}/api/v1/orders/me?page=2&per_page=4`,
 
     // review management

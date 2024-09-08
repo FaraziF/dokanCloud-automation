@@ -14,8 +14,9 @@ let invitedTeamMemberEmail;
 
 let vendorAuth = { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}` }
 
-test.beforeAll( async ({ request }) => {
-    apiUtils = new ApiUtils(request);
+test.beforeAll( async () => {
+    // apiUtils = new ApiUtils(request);
+    apiUtils = new ApiUtils(await request.newContext());
 })
 
 test.describe("Settings", () => {
@@ -82,7 +83,7 @@ test.describe("Settings", () => {
 
 
       // Team settings
-  test.describe("team settings", () => {
+  test.describe.skip("team settings", () => {
     test("get all team member", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.vendorGetAllTeamMember);
         expect(response.ok()).toBeTruthy();

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
@@ -9,8 +9,9 @@ let apiUtils: ApiUtils;
 let invitedTeamMemberEmail: string;
 let taxClassID: number;
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+    apiUtils = new ApiUtils(await request.newContext());
 });
 
 test.describe('Admin setting API test', () => {
@@ -237,7 +238,7 @@ test.describe("Payment settings", () => {
 	
 
 // Payout
-test.describe("payout settings", () => {
+test.describe("payout settings",{ tag: ['@marketplace']}, () => {
     test("get payout settings", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.getPayoutsSettings);
 		expect(response.ok()).toBeTruthy();

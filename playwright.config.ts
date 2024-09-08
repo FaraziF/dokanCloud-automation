@@ -3,11 +3,13 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
 import path from 'path';
 const env = require('./env')
+// import 'dotenv/config';
+
 
 import dotenv from 'dotenv';
 require('dotenv').config();
 
-// Read from default ".env" file.
+// // Read from default ".env" file.
 dotenv.config();
 
 
@@ -44,7 +46,7 @@ const config: PlaywrightTestConfig = {
   // fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  // retries: 3,
+  // retries: 2,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
@@ -105,6 +107,11 @@ const config: PlaywrightTestConfig = {
         /* launchOptions: {
           slowMo: 2000,
         }, */
+        deviceScaleFactor: undefined,
+        viewport: null,
+        launchOptions: {
+          args: ['--start-maximized']
+        },
       },
       // testMatch: /.*\.spec\.ts/,
       dependencies: ['setup'],

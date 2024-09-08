@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
@@ -16,12 +16,16 @@ let subtotalParse;
 let productTax;
 let productTaxParse;
 
+let productShipping;
+let productShippingParse;
+
 let paymentID;
 let orderNo;
 
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+	apiUtils = new ApiUtils(await request.newContext());
 });
 
 test.describe('orders', () => {
@@ -97,11 +101,15 @@ test.describe("customer order processing", () => {
 
 		productTax = _res.data.orders[0].productTax
 		productTaxParse = parseFloat(productTax)
+		
+		productShipping = _res.data.orders[0].shippingCharge
+		productShippingParse = parseFloat(productShipping)
 
 		orderNo = _res.data.orders[0].orderNo
 
 		console.log("subtotal " + subtotalParse )
 		console.log("productTax " + productTaxParse )
+		console.log("productShipping " + productShippingParse )
 		console.log("lineItemId " + lineItemId )
 		console.log("subtotal " + subtotalParse )
 		console.log("orderTotalAmount " + orderTotalAmountParse )

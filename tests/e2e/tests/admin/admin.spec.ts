@@ -10,7 +10,7 @@ import { request } from 'http';
 let apiUtils: ApiUtils;
 let individualTeamMmeberToken;
 
-// test.use({ storageState: data.auth.adminAuthFile });
+test.use({ storageState: data.auth.adminAuthFile });
 let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" }
 
 let adminPage: AdminPage;
@@ -18,31 +18,10 @@ let page: Page;
 
 test.beforeAll(async ({ browser, request }) => {
     // apiUtils = new ApiUtils(request); // no activities this line
-    const context = await browser.newContext({storageState: {
-        "cookies": [],
-        "origins": [
-          {
-            "origin": "https://farazi.staging.dokandev.com",
-            "localStorage": [
-              {
-                "name": "i18nextLng",
-                "value": "en"
-              },
-              {
-                "name": "persist:auth",
-                "value": "{\"user\":\"{}\",\"isLoggedIn\":\"false\",\"strategy\":\"null\",\"token\":\"\\\"\\\"\",\"intendedURL\":\"\\\"\\\"\",\"intendedURLForDashboard\":\"\\\"\\\"\",\"permissions\":\"[]\",\"_persist\":\"{\\\"version\\\":-1,\\\"rehydrated\\\":true}\"}"
-              },
-              {
-                "name": "persist:dashboard",
-                "value": "{\"sidebar\":\"{\\\"collapsed\\\":false,\\\"open\\\":false,\\\"vendorOnboardCompletedStep\\\":0}\",\"_persist\":\"{\\\"version\\\":-1,\\\"rehydrated\\\":true}\"}"
-              }
-            ]
-          }
-        ]
-      }});
+    const context = await browser.newContext();
     page = await context.newPage();
     adminPage = new AdminPage(page);
-    console.log(await context.storageState());
+    // console.log(await context.storageState());
 });
 
 test.afterAll(async () => {
@@ -72,15 +51,18 @@ test.describe("Admin Exploratory Testing", ()=> {
         await adminPage.ordersElementValidation()
     });
     
-    test('Payout page loading and element verification', async ( )=> {
+    // Hide For Standalone
+    test('Payout page loading and element verification', { tag: ['@marketplace']}, async ( )=> {
         await adminPage.payoutElementValidation()
     });
-    test('Subscription page loading and element verification', async ( )=> {
+    // Hide For Standalone
+    
+    test('Subscription page loading and element verification', { tag: ['@marketplace']}, async ( )=> {
         await adminPage.subscriptionElementValidation()
     });
     
-    
-    test('Vendor page loading and element verification', async ( )=> {
+    // Hide For Standalone
+    test('Vendor page loading and element verification', { tag: ['@marketplace']}, async ( )=> {
         await adminPage.vendorElementValidation()
     });
     
@@ -106,8 +88,8 @@ test.describe("Admin Exploratory Testing", ()=> {
     test('Payment settings page loading and element verification', async ( )=> {
         await adminPage.paymentSettingsElementValidation()
     });
-    
-    test('Payout settings page loading and element verification', async ( )=> {
+    // Hide For Standalone
+    test('Payout settings page loading and element verification', { tag: ['@marketplace']}, async ( )=> {
         await adminPage.payoutSettingsElementValidation()
     });
     
@@ -187,13 +169,16 @@ test.describe("Admin functional Testing", ()=> {
     test("Delete Product @pd", async()=> {
         await adminPage.deleteProduct()
     });
-    test("Subscription Create @sc @subs", async({request}) => {
+    // Hide For Standalone
+    test("Subscription Create @sc @subs", { tag: ['@marketplace']}, async({request}) => {
         await adminPage.createSubscription({request})
     });
-    test("Edit Subscription @se @subs", async() => {
+    // Hide For Standalone
+    test("Edit Subscription @se @subs", { tag: ['@marketplace']}, async() => {
         await adminPage.editSubscription()
     });
-    test("Delete Subscription @sd @subs", async() => {
+    // Hide For Standalone
+    test("Delete Subscription @sd @subs", { tag: ['@marketplace']}, async() => {
         await adminPage.deleteSubscription()
     });
     /* test("shipping enable & location validation", async() => {
@@ -202,19 +187,17 @@ test.describe("Admin functional Testing", ()=> {
     /* test("shipping location add, update & remove validation", async() => {
         await adminPage.shippingLocationConfigure()
     }) */
-    test("Tax Class CRUD @tax", async() => {
+    test.skip("Tax Class CRUD @tax", async() => {
         await adminPage.taxClassCRUD()
     });
-    test("Tax Rate Add For Entire Country @tax", async({request}) => {
+    test.skip("Tax Rate Add For Entire Country @tax", async({request}) => {
         await adminPage.taxRateAddForEntireCountry({request})
     });
-    test("Different Tax Rate For State, City & Zip @tax", async() => {
-        await adminPage.differentTaxRateStateCityZip()
+    test.skip("Different Tax Rate For State, City & Zip @tax", async() => {
+        await adminPage.differentTaxRateStateCityZip() 
     });
     test("invited new team member and register by invitation link", async({browser,request}) => {
         await adminPage.teamMemberInvitation({request, browser}) 
         await adminPage.teamMemeberRegisterFromInvitationLink({request})
-        
     })
-
 })

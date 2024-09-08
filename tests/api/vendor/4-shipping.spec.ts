@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
@@ -9,8 +9,9 @@ let shippingProfileID;
 let weightRuleID;
 
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+	apiUtils = new ApiUtils(await request.newContext());
 });
 
 test.describe('Shipping', () => {
@@ -32,9 +33,9 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Vendo
 		expect(responseBody).toBeTruthy();
 		const _res = await response.json()
 		shippingProfileID = _res.data[0].id
-		weightRuleID = _res.data[0].priceBasedRules[0].id
+		// weightRuleID = _res.data[0].priceBasedRules[0].id
 		console.log("Profile ID: " + shippingProfileID)
-		console.log("Weight Rule ID: " + weightRuleID)
+		// console.log("Weight Rule ID: " + weightRuleID)
 
 	});
   /* test('Get Profile ID During Create New profile', async () => {

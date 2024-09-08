@@ -33,7 +33,7 @@ export const data = {
 
     /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Generated  test data <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 	auth: {
-		adminAuthFile: 'playwright-test/.auth/adminStorageState.json',
+		adminAuthFile: 'playwright-test/.auth/admin.json',
 		vendorAuthFile: 'playwright-test/.auth/vendorStorageState.json',
 		customerAuthFile:'playwright-test/.auth/customerStorageState.json'
 	},
@@ -66,7 +66,7 @@ export const data = {
         createSuccessMessage: 'Created successfully', 
         updateSuccessMessage: 'Updated successfully',
         deleteSuccessMessage: 'Deleted successfully',
-        vendorName: String(env('STORE_OWNER_NAME')),
+        vendorName: String(env('VENDOR_STORE_NAME')),
         // vendorName: 'jamuna-future-park',
     },
 
@@ -119,6 +119,7 @@ export const data = {
             login: '/vendor/login',
         },
         customer: {
+            homePage: '',
             registerPage: '/register',
             loginPage: '/login',
         },
@@ -140,6 +141,7 @@ export const data = {
         updateSuccessMessage: "Category updated successfully.",
         categoryDeleteConfirmationMessage: 'Are you sure want to delete category?',
         deleteSuccessMessage: "Category deleted successfully.",
+        
 
     },
     brand: {
@@ -177,7 +179,7 @@ export const data = {
         pageValidation: 'Subscription Plans', 
         titleField: faker.lorem.word(),
         descriptionField: faker.lorem.paragraph(),
-        priceField: '20',
+        priceField: () => faker.finance.amount(100, 200, faker.helpers.arrayElement([1, 2])),
         setupFee: '10',
         billingCycle: '5',
         selectTrailPriod: '5',
@@ -191,7 +193,7 @@ export const data = {
         // edit 
         descriptionUpdateField: 'this is new subscription pack update description',
         updateSuccessMessage: 'Subscription plan has been updated successfully',
-        subscriptionDeletePopupForm: 'Are you sure want to delete subscription plan?',
+        subscriptionDeletePopupForm: 'Are you sure want to delete subscription plan',
         deleteSuccessMessage: 'Subscription plan deleted successfully',
 
 
@@ -314,3 +316,5 @@ export const data = {
         loginSuccessfully: 'Login Successful',
     }
 }
+
+

@@ -1,6 +1,7 @@
 import { test as setup, expect } from '@playwright/test';
 import { LoginPage } from "../pages/loginPage";
 import { user, data } from '../../../utils/testdata';
+import { selector } from "../pages/selectors";
 import { TIMEOUT } from 'dns';
 // import { STORAGE_STATE } from '../../../playwright.config';
 
@@ -66,7 +67,8 @@ setup.describe('Authenticate with', () => {
         
 	});
 
-   /*  setup('Vendor valid credential', async ({ page }) => {
+    // Hide For Standalone
+    setup('Vendor valid credential', { tag: ['@marketplace']}, async ({ page }) => {
 		const loginPage = new LoginPage(page);
 		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
 	});
@@ -74,5 +76,22 @@ setup.describe('Authenticate with', () => {
     setup('Customer valid credential', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
-    }); */
+    });
 });
+
+/* 
+const adminFile = 'playwright-test/.auth/admin.json';
+setup('authenticate as admin', async ({ page }) => {
+    await page.goto("https://farazi.staging.dokandev.com/admin")
+    await page.locator(selector.login.adminEamilAddress).fill("farazi@wedevs.com");
+    await page.locator(selector.login.password).fill("farazi@wedevs.comA1");
+    await page.click(selector.login.signIn);
+    // await page.waitForTimeout(4000)
+    // await page.waitForLoadState('networkidle');
+    // await page.waitForURL(data.subUrls.admin.dashboard)
+    await page.waitForURL(data.subUrls.admin.dashboard, { waitUntil: "networkidle" })
+  
+    // End of authentication steps.
+  
+    await page.context().storageState({ path: adminFile });
+  }); */

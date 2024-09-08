@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
@@ -11,8 +11,9 @@ let customerLastName;
 let customerPhoneNumber;
 
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+	apiUtils = new ApiUtils(await request.newContext());
 });
 
 test.describe('integrations', () => {
@@ -43,7 +44,7 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
-	test('get marketplace migrator', async () => {
+	test('get marketplace migrator', { tag: ['@marketplace']}, async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.getMarketplaceMigrator);
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();

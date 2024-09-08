@@ -16,8 +16,9 @@ let category_id;
 let vendorAuth = { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}`, strategy: "vendor" }
 let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" }
 
-test.beforeAll( async ({ request }) => {
-    apiUtils = new ApiUtils(request);
+test.beforeAll( async () => {
+    // apiUtils = new ApiUtils(request);
+    apiUtils = new ApiUtils(await request.newContext());
     /* const [response, responseBody] = await apiUtils.post(endPoints.categoryCreate, { data: payloads.categoryCreate(), headers: adminAuth} )
     expect(response.ok()).toBeTruthy();
     expect(responseBody).toBeTruthy();  

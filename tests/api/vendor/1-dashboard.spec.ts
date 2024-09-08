@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
@@ -6,8 +6,9 @@ import { payloads } from "../../../utils/payloads";
 let apiUtils: ApiUtils;
 
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+	apiUtils = new ApiUtils(await request.newContext());
 });
 
 test.describe('vendor dashbaord', () => {

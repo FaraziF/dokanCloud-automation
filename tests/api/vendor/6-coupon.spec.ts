@@ -10,8 +10,9 @@ let title: string;
 
 let vendorAuth = { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}` }
 
-test.beforeAll( async ({ request }) => {
-    apiUtils = new ApiUtils(request);
+test.beforeAll( async () => {
+    // apiUtils = new ApiUtils(request);
+    apiUtils = new ApiUtils(await request.newContext());
 })
 
 test.describe("Coupon API test", () => {

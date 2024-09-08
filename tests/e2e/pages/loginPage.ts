@@ -61,7 +61,9 @@ export class LoginPage {
         await this.page.locator(selector.login.password).fill(user.password);
         // await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
-        await this.page.waitForURL(data.subUrls.admin.dashboard)
+        await this.page.waitForURL(data.subUrls.admin.dashboard, { waitUntil: "networkidle" })
+        // await this.page.waitForURL(data.subUrls.admin.dashboard)
+        // console.log("Storage:", await this.page.context().storageState())
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }
@@ -78,7 +80,8 @@ export class LoginPage {
         await this.page.locator(selector.login.password).fill(user.password);
         // await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
-        await this.page.waitForURL(data.subUrls.vendor.dashboard)
+        // await this.page.waitForURL(data.subUrls.vendor.dashboard)
+        await this.page.waitForURL(data.subUrls.vendor.dashboard, { waitUntil: "networkidle" })
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }
@@ -92,7 +95,8 @@ export class LoginPage {
         await this.page.locator(selector.login.customerEamilAddress).fill(user.username);
         await this.page.locator(selector.login.password).fill(user.password);
         await this.page.click(selector.login.signIn);
-        await expect(this.page.getByText(data.customer.loginSuccessfully, { exact: true })).toBeVisible()
+        await this.page.waitForURL(data.subUrls.customer.homePage, { waitUntil: "networkidle" })
+        // await expect(this.page.getByText(data.customer.loginSuccessfully, { exact: true })).toBeVisible()
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }

@@ -1,5 +1,6 @@
-import { faker } from '@faker-js/faker'
-import { data } from './testdata'
+import { Faker, faker } from '@faker-js/faker';
+import { data } from './testdata';
+
 import { Z_UNKNOWN } from 'zlib';
 
 const env = require('../env')
@@ -25,7 +26,7 @@ export const payloads = {
     categoryUpdate: () => {
         return {
             name: faker.commerce.productAdjective() + faker.datatype.uuid() + " update",
-            slug: "slug-update2"
+            slug: faker.helpers.unique(() => faker.random.alpha(10)),
         }
     },
     attributeCreate: () => {
@@ -724,7 +725,7 @@ export const payloads = {
             // title: faker.commerce.productAdjective(),
             codes: [faker.helpers.unique(() => faker.random.alpha(10))],
             type: 2,
-            amount: faker.datatype.number({ min: 1, max: 10 },).toString(),
+            amount: faker.datatype.number({ min: 1, max: 10 },),
             status: 1,
             freeShipping: false
         }
@@ -736,7 +737,7 @@ export const payloads = {
             // title: faker.helpers.unique(() => faker.random.alpha(10)),
             // codes: [faker.helpers.unique(() => faker.random.alpha(10))],
             type: 1,
-            amount: faker.datatype.number({ min: 1, max: 10 },).toString(),
+            amount: faker.datatype.number({ min: 1, max: 10 },),
             status: 1,
             freeShipping: false
         }
@@ -834,6 +835,7 @@ export const payloads = {
         return {
             lineItems: [
                 {
+                    // productId: env('PRODUCT_ID'),
                     productId: env('PRODUCT_ID'),
                     quantity: 1
                 }
@@ -861,21 +863,24 @@ export const payloads = {
         return {
             cartId: _cartID,
             customer: {
-              id: 24,
+              id: 45,
               firstName: "Customer",
               lastName: "One",
               email: "farazi+customer1@wedevs.com",
               active: true,
-              isAdmin: false,
               role: "customer",
-              defaultAddressId: "3",
+              defaultAddressId: "37",
               isTest: true,
+              defaultAddress: {
+                marketplaceId: "1",
+                id: "37"
+            },
             },
             paymentMethod: "cod",
             requiresShipping: true,
             shipping: {
-              id: 3,
-              userId: "24",
+              id: 37,
+              userId: "45",
               label: "Office",
               firstName: "Customer",
               lastName: "One",
@@ -888,8 +893,8 @@ export const payloads = {
               phone: "017834758943",
             },
             billing: {
-              id: 3,
-              userId: "24",
+              id: 37,
+              userId: "45",
               label: "Office",
               firstName: "Customer",
               lastName: "One",
@@ -901,7 +906,8 @@ export const payloads = {
               postCode: "1216",
               phone: "017834758943",
         
-            }
+            },
+            rates: []
           }
     },
 

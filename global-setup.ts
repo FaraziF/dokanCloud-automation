@@ -14,6 +14,7 @@ async function globalSetup(config: FullConfig) {
     process.env.Admin_API_TOKEN = adminResonseBody.data.token
     // console.log('token:', process.env.Admin_API_TOKEN)
 
+    // Hide For Standalone
     // Vendor Login
     let vendorData = { email: env('VENDOR_USERNAME'), password: env('VENDOR_PASSWORD'), strategy: "vendor" }
     const _vendorResponse = await context.post(env('URL') + '/api/v1/auth/login', { data: vendorData })

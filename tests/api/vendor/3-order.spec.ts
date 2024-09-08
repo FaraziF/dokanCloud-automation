@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
@@ -20,8 +20,9 @@ let paymentID;
 let orderNo;
 
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+	apiUtils = new ApiUtils(await request.newContext());
 });
 
 test.describe('orders', () => {
@@ -65,7 +66,7 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Vendo
 });
 
 
-test.describe("customer order processing", () => {
+test.describe("customer order processing", { tag: ['@marketplace']}, () => {
 	test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Customer_API_TOKEN)}`, strategy: "customer" } });
 
 	test("Add To Cart", async() => {

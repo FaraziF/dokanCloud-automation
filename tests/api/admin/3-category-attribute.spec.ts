@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, request } from "@playwright/test";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { faker } from "@faker-js/faker";
 import { payloads } from "../../../utils/payloads";
@@ -18,8 +18,9 @@ Scenario:
 
 let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}` }
 
-test.beforeAll( async({ request }) => {
-    apiUtils = new ApiUtils(request);
+test.beforeAll( async() => {
+    // apiUtils = new ApiUtils(request);
+    apiUtils = new ApiUtils(await request.newContext());
     const [response, responseBody] = await apiUtils.post(endPoints.categoryCreate, { data: payloads.categoryCreate(), headers: adminAuth })
     expect(response.ok()).toBeTruthy();
 	expect(responseBody).toBeTruthy();  
@@ -40,6 +41,7 @@ test.describe("Category & Attribute API test", () => {
         const [response, responseBody] = await apiUtils.put(endPoints.categoryUpdate(category_id), {data: payloads.categoryUpdate(), headers: adminAuth } )
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
+        console.log(response)
     })
     
 // ToDo: search category

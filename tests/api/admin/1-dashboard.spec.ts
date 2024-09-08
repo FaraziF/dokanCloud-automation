@@ -1,20 +1,26 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { ApiUtils } from "../../../utils/apiUtils";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
+import { user, data } from "../../../utils/testdata";
 
 let apiUtils: ApiUtils;
 
+// test.use({ storageState: data.auth.adminAuthFile });
 
-test.beforeAll(async ({ request }) => {
-	apiUtils = new ApiUtils(request);
+test.beforeAll(async () => {
+	// apiUtils = new ApiUtils(request);
+	apiUtils = new ApiUtils(await request.newContext());
 });
 
-test.describe('admin dashbaord', () => {
+test.describe('API admin dashbaord', () => {
 test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" } });
 
-	test('get set up guide', async () => {
+
+	test('get set up guide', async ({request}) => {
 		const [response, responseBody] = await apiUtils.get(endPoints.getSetupGuide);
+		// const [response, responseBody] = 
+		// await request.get(endPoints.getSetupGuide);
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});

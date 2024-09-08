@@ -1,5 +1,6 @@
 import internal from "stream";
 
+
 const env = require('../env')
 
 require('dotenv').config();
@@ -7,6 +8,9 @@ require('dotenv').config();
 // const LOCAL_SERVER_url = 'http://farazi.mydokan.io:3001';
 // const SERVER_url = 'http://farazi.mydokan.io:8081';
 const url = env('URL');
+
+// const orderUrl = env('ORDER_URL');
+// const userUrl = env('USER_URL');
 
 
 export const endPoints = {
@@ -84,7 +88,7 @@ export const endPoints = {
     getPaginationVendors:`${url}/api/v1/admin/vendors?page=2`,
     getVendorIndividualProduct:`${url}/api/v1/admin/products?filters[vendorId]=${env('VENDOR_ID')}`,
     getIndividualVendor:`${url}/api/v1/admin/vendors/${env('VENDOR_ID')}`,
-    editIndividualVendorGeneralSettings:`${url}/api/v1/admin/vendors/${env('VENDOR_ID')}/general`,
+    editIndividualVendorGeneralSettings:`${url}/api/v1/admin/vendors/${env('VENDOR_ID')}/general`, // vendor.200 id: 6207
     getIndividualVendorSubscriptionSettings:`${url}/api/v1/admin/vendors/${env('VENDOR_ID')}`,
     editIndividualVendorAddressSettings:`${url}/api/v1/admin/vendors/${env('VENDOR_ID')}/address`,
     editIndividualVendorSocialSettings:`${url}/api/v1/admin/vendors/${env('VENDOR_ID')}/social`,
@@ -270,12 +274,14 @@ export const endPoints = {
     getAllPublishedProductFilterPagination: `${url}/api/v1/admin/products?filters[status]=published&page=2`,
     getAllDraftProduct: `${url}/api/v1/admin/products?filters[status]=draft`,
     getAllDraftProductFilterPagination: `${url}/api/v1/admin/products?filters[status]=draft&page=2`,
+    // individualProductGet: `${url}/api/v1/products/${env('PRODUCT_ID')}`,
     individualProductGet: `${url}/api/v1/products/${env('PRODUCT_ID')}`,
     searchIndividualProduct:(productTitle: string) => `${url}/api/v1/admin/products?search=${productTitle}`,
     createProduct: `${url}/api/v1/admin/products`,
     productUpdate: (productID: string) => `${url}/api/v1/admin/products/${productID}`,
     productDelete: (productID: string) => `${url}/api/v1/admin/products/${productID}`,
     exportProduct: `${url}/api/v1/admin/products/export`,
+    // getCategoryFilter: `${url}/api/v1/admin/products?filters[category]=${env('CATEGORY_ID')}`,
     getCategoryFilter: `${url}/api/v1/admin/products?filters[category]=${env('CATEGORY_ID')}`,
     getStandardProductTypeFilter: `${url}/api/v1/admin/products?filters[type]=standard`,
     getDigitalProductTypeFilter: `${url}/api/v1/admin/products?filters[type]=digital`,
@@ -284,6 +290,7 @@ export const endPoints = {
     getOnBackorderProductTypeFilter: `${url}/api/v1/admin/products?filters[stockStatus]=on_backorder`,
     getLowStockProductTypeFilter: `${url}/api/v1/admin/products?filters[stockStatus]=low_stock`,
     getUnmanagedProductTypeFilter: `${url}/api/v1/admin/products?filters[stockStatus]=unmanaged`,
+    getVendorShippingProfile: `${url}/api/v1/shipping/vendors/${env('VENDOR_ID')}/profiles`,
 
     //Category & Attribute
     categoryGetAll: `${url}/api/v1/categories`,
@@ -316,6 +323,7 @@ export const endPoints = {
                                 
     // Products
     vendorProductGetAll: `${url}/api/v1/vendor/products`,
+    // vendorIndividualProductGet: `${url}/api/v1/vendor/products/${env('PRODUCT_ID')}`,
     vendorIndividualProductGet: `${url}/api/v1/vendor/products/${env('PRODUCT_ID')}`,
     vendorSearchIndividualProduct:(productTitle: string) => `${url}/api/v1/vendor/products?search=${productTitle}`,
     vendorCreateProduct: `${url}/api/v1/vendor/products`,
@@ -351,12 +359,12 @@ export const endPoints = {
     // Shipping
     vendorGetShippingPreferences: `${url}/api/v1/settings/vendor/shipping`,
     vendorSaveShippingPreferences: `${url}/api/v1/settings/vendor/shipping`,
-    vendorGetShippingProfile: `${url}/api/v1/shipping/profiles`,
-    vendorGetIndividualProfileID: `${url}/api/v1/shipping/profiles`,
+    vendorGetShippingProfile: `${url}/api/v1/shipping/vendor/profiles`,
+    vendorGetIndividualProfileID: `${url}/api/v1/shipping/vendor/profiles`,
     vendorCreateShippingProfile: (shippingProfileID: string) => `${url}/api/v1/shipping/profiles/${shippingProfileID}/weight-rules`,
-    vendorViewIndividualShippingProfile: (shippingProfileID: string) => `${url}/api/v1/shipping/profiles/${shippingProfileID}`,
+    vendorViewIndividualShippingProfile: (shippingProfileID: string) => `${url}/api/v1/shipping/vendor/profiles/${shippingProfileID}`,
     vendorUpdateIndividualShippingWeightRule: (shippingProfileID: string, weightRuleID: string) => `${url}/api/v1/shipping/profiles/${shippingProfileID}/weight-rules/${weightRuleID}`,
-    vendorGetShippingAddress: `${url}/api/v1/shipping/addresses`,
+    vendorGetShippingAddress: `${url}/api/v1/shipping/vendor/addresses`,
 
     // Payout
     vendorGetPayout: `${url}/api/v1/settings/vendor/payout`,
@@ -368,16 +376,16 @@ export const endPoints = {
     vendorGetWithdraws: `${url}/api/v1/vendor/withdrawals`,
     
     // Vendor Coupons
-    vendorGetAllCoupon: `${url}/api/v1/coupons`,
-    vendorGetActiveCoupon: `${url}/api/v1/coupons?filters[status]=active`,
-    vendorGetDraftCoupon: `${url}/api/v1/coupons?filters[status]=draft`,
-    vendorGetExpiredCoupon: `${url}/api/v1/coupons?filters[status]=expired`,
+    vendorGetAllCoupon: `${url}/api/v1/vendor/coupons`,
+    vendorGetActiveCoupon: `${url}/api/v1/vendor/coupons?filters[status]=active`,
+    vendorGetDraftCoupon: `${url}/api/v1/vendor/coupons?filters[status]=draft`,
+    vendorGetExpiredCoupon: `${url}/api/v1/vendor/coupons?filters[status]=expired`,
     
-    createCoupon: `${url}/api/v1/coupons`,
-    getIndividualCoupon: (couponID: string) => `${url}/api/v1/coupons/${couponID}`,
-    searchCoupon: (coupon_title: string) => `${url}/api/v1/coupons?search=${coupon_title}`,
-    updateCoupon: (couponID: string) => `${url}/api/v1/coupons/${couponID}`,
-    deleteCoupon: (couponID: string) => `${url}/api/v1/coupons/${couponID}`,
+    createCoupon: `${url}/api/v1/vendor/coupons`,
+    getIndividualCoupon: (couponID: string) => `${url}/api/v1/vendor/coupons/${couponID}`,
+    searchCoupon: (coupon_title: string) => `${url}/api/v1/vendor/coupons?search=${coupon_title}`,
+    updateCoupon: (couponID: string) => `${url}/api/v1/vendor/coupons/${couponID}`,
+    deleteCoupon: (couponID: string) => `${url}/api/v1/vendor/coupons/${couponID}`,
 
     // General Settings
     vendorGetBasicSettings: `${url}/api/v1/settings/vendor/general`,

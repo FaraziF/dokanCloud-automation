@@ -1,0 +1,10 @@
+End-point:  https://farazi.staging.dokandev.com/api/v1/admin/products/65649900ca29a1d1932855a0
+Status Code:  422
+Error:  expect(received).toBeTruthy()
+
+Received: false
+Response text:  {"message":"The given data is invalid","errors":{"slug":["The slug field is required"]}}
+{
+  message: 'Category deleted successfully.',
+  data: { acknowledged: true, deletedCount: 1 }
+}

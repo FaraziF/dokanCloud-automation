@@ -1,0 +1,33 @@
+{
+  message: 'Coupon has been updated',
+  data: {
+    id: '9',
+    type: 1,
+    title: 'xelbkqugzj',
+    description: null,
+    amount: 8,
+    freeShipping: false,
+    startsAt: null,
+    endsAt: null,
+    minPurchaseAmount: null,
+    minItemsQuantity: null,
+    maxUse: null,
+    maxUsePerCustomer: null,
+    disallowConjunction: true,
+    forAllProducts: true,
+    forAllVendors: false,
+    forAllCategories: true,
+    forAllEmails: true,
+    code: 'reqndfnnvb',
+    codes: [ [Object] ],
+    includeProducts: [],
+    excludeProducts: [],
+    emails: [],
+    includeCategories: [],
+    excludeCategories: [],
+    vendorId: '30',
+    status: 1,
+    createdAt: '2023-11-30T13:40:52.000Z',
+    updatedAt: '2023-11-30T13:40:53.000Z'
+  }
+}

@@ -5,3 +5,12 @@ node_modules/
 /tests-examples/
 /playwright-report/
 config.json
+/tests/e2e/tests/examples.spec.ts/
+/tests/e2e/tests/examples
+.env
+/tests/e2e/utils/testdata.ts/
+.auth
+/test-results/
+/playwright-report/
+/playwright/.cache/
+.vscode/

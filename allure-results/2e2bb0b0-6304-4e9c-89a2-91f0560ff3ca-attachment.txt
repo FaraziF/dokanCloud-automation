@@ -1,0 +1,6 @@
+End-point:  https://farazi.staging.dokandev.com/api/v1/shipping/profiles/22/weight-rules/11
+Status Code:  422
+Error:  expect(received).toBeTruthy()
+
+Received: false
+Response text:  {"errors":{"category":"cannot be blank","costAppliedOn":"cannot be blank","shippingTypeId":"cannot be blank","transitTimeDayEnd":"cannot be blank","transitTimeDayStart":"cannot be blank"}}

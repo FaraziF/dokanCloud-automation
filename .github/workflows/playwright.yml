@@ -1,27 +1,80 @@
 name: Playwright Tests
 on:
+  schedule:
+    - cron: "0 3 * * *"
   push:
-    branches: [ main, master ]
+    branches: [ main, master, adminExplorating ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, adminExplorating ]
+  
+  # workflow can be manually triggered
+  workflow_dispatch:
+
+# workflow permissions
+permissions:
+    checks: write
+    contents: read
+    issues: write
+    pull-requests: write
+env:
+  TESTING_ENV: STAGING
+  STAGING_URL: ${{ secrets.URL }}
+  STAGING_TENANT: ${{ secrets.TENANT }}
+  STAGING_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+  STAGING_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+  API_TEST_RESULT: './results.json'
 jobs:
   test:
+    name: api tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+        node-version: 16
+    - run: npm ci
+    - name: Get installed Playwright version
+      id: playwright-version
+      run: 
+        |
+        cd ./  
+        echo "PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq --raw-output '.dependencies["@playwright/test"].version')" >> $GITHUB_ENV
+    
+    - name: Get Playwright version
+      id: playwright-version1
+      run: echo ${{ env.PLAYWRIGHT_VERSION }}
+
+    - name: Cache playwright binaries
+      uses: actions/cache@v3
+      id: playwright-cache
+      with:
+        path: |
+          ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+        restore-keys: |
+            ${{ runner.os }}-playwright-
+
+    - name: Cache
+      if: steps.playwright-cache.outputs.cache-hit != 'true'      
+      run: npx playwright install --with-deps chromium
+      
     - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v2
+      run: npm run test:api
+    - uses: actions/upload-artifact@v3
       if: always()
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        name: playwright-test-results
+        path: test-results/
+    
+    # Prepare test summary
+    - name: Prepare test summary
+      id: prepare-test-summary
+      uses: actions/github-script@v6
+      if: always()
+      with:
+        result-encoding: string
+        script: |
+            const script = require("./utils/gitTestSummary.ts")
+            return await script({github, context, core})
+

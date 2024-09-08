@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test --headed",
+    "test:e2e": "playwright test --project=chromium",
+    "test:api": "npx playwright test tests/api/admin tests/api/vendor tests/api/customer",
+    "test:e2e-i": "playwright test --project=chromium --headed"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FaraziF/playwright-test.git"
@@ -16,6 +21,18 @@
   },
   "homepage": "https://github.com/FaraziF/playwright-test#readme",
   "devDependencies": {
-    "@playwright/test": "^1.25.2"
+    "@faker-js/faker": "^7.5.0",
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.5.7",
+    "allure-commandline": "^2.24.1",
+    "allure-playwright": "^2.9.2",
+    "dotenv": "^16.0.3",
+    "mailslurp-client": "^15.17.2"
+  },
+  "dependencies": {
+    "playwright": "^1.39.0"
+  },
+  "directories": {
+    "test": "tests"
   }
 }

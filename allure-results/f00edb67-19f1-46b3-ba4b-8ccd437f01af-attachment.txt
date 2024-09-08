@@ -1,0 +1,4 @@
+{
+  message: 'Product deleted successfully.',
+  data: { acknowledged: true, deletedCount: 1 }
+}

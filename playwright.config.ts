@@ -4,7 +4,7 @@ import { devices } from '@playwright/test';
 import path from 'path';
 const env = require('./env')
 // import 'dotenv/config';
-
+const { NO_SETUP } = process.env
 
 import dotenv from 'dotenv';
 require('dotenv').config();
@@ -50,7 +50,7 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter:
   [ 
@@ -70,7 +70,7 @@ const config: PlaywrightTestConfig = {
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: process.env.URL ?? '',
-    baseURL: env('URL' ?? ''),
+    baseURL: env(URL ?? ''),
     // baseURL: 'https://testing.dokandev.com/',
     // baseURL: process
     // storageState: 'storageState.json',
@@ -94,10 +94,33 @@ const config: PlaywrightTestConfig = {
   /* Configure projects for major browsers */
   projects: [
     // Setup project
-    { name: 'setup', 
+    { 
+      name: 'authsetup', 
+      // testMatch: /.*\.setup\.ts/ 
+      // testMatch: /auth\.setup\.ts/,
+      testMatch: ['_auth.setup.ts'],
+      // dependencies: NO_SETUP ? [] : ['site_setup'],
+      // fullyParallel: true,
+      retries: 1,
+    },
+    { 
+      name: 'datasetup', 
     // testMatch: /.*\.setup\.ts/ 
-      testMatch: /auth\.setup\.ts/
-  },
+      // testMatch: /data\.setup\.ts/
+      testMatch: ['_data.setup.ts'],
+      dependencies: NO_SETUP ? [] : ['authsetup'],
+      // fullyParallel: true,
+      retries: 1,
+    },
+    { 
+      name: 'uploadsetup', 
+    // testMatch: /.*\.setup\.ts/ 
+      // testMatch: /upload\.setup\.ts/
+      testMatch: ['_upload.setup.ts'],
+      dependencies: NO_SETUP ? [] : ['datasetup'],
+      // fullyParallel: true,
+      retries: 1,
+    },
 
     {
       name: 'chromium',
@@ -114,7 +137,7 @@ const config: PlaywrightTestConfig = {
         },
       },
       // testMatch: /.*\.spec\.ts/,
-      dependencies: ['setup'],
+      dependencies: ['authsetup', 'datasetup', 'uploadsetup'],
     },
 
     //  {

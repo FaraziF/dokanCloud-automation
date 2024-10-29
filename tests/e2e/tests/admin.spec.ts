@@ -1,11 +1,13 @@
 import { test, expect, Page } from '@playwright/test';
-import { LoginPage } from "../../pages/loginPage";
-import { selector } from "../../pages/selectors";
-import { user, data } from "../../../../utils/testdata";
-import { AdminPage } from '../../pages/adminPage';
-import { ApiUtils } from '../../../../utils/apiUtils';
-import { endPoints } from '../../../../utils/apiEndPoints';
+import { LoginPage } from "../pages/loginPage";
+import { selector } from "../pages/selectors";
+import { user, data } from "../../../utils/testdata";
+import { AdminPage } from '../pages/adminPage';
+import { ApiUtils } from '../../../utils/apiUtils';
+import { endPoints } from '../../../utils/apiEndPoints';
 import { request } from 'http';
+
+const { VENDOR_ID }= process.env
 
 let apiUtils: ApiUtils;
 let individualTeamMmeberToken;
@@ -161,7 +163,7 @@ test.describe("Admin functional Testing", ()=> {
     })
 
     test("Create New Standard Product @pc-s", async()=> {
-        await adminPage.createStandardProduct(data.product.standard)
+        await adminPage.createStandardProduct(data.product.standard, VENDOR_ID)
     });
     test("Edit Product @pe", async()=> {
         await adminPage.editProduct(data.product.standard)
@@ -196,7 +198,7 @@ test.describe("Admin functional Testing", ()=> {
     test.skip("Different Tax Rate For State, City & Zip @tax", async() => {
         await adminPage.differentTaxRateStateCityZip() 
     });
-    test("invited new team member and register by invitation link", async({browser,request}) => {
+    test.skip("invited new team member and register by invitation link", { tag: ['@local']}, async({browser,request}) => {
         await adminPage.teamMemberInvitation({request, browser}) 
         await adminPage.teamMemeberRegisterFromInvitationLink({request})
     })

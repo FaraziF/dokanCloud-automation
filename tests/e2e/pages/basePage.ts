@@ -54,7 +54,7 @@ export class BasePage {
     }
 
      // wait for url to be loaded
-     async waitForUrl(url: string, options?: any): Promise<void> {
+     async waitForUrl(url: string, options: { timeout?: number | undefined; waitUntil?: 'networkidle' | 'load' | 'domcontentloaded' | 'commit' | undefined } | undefined): Promise<void> {
         await this.page.waitForURL(url, options);
     }
 
@@ -73,6 +73,27 @@ export class BasePage {
             this.page.waitForLoadState('networkidle'),
             // this.page.waitForLoadState( 'domcontentloaded' ),
             this.page.locator(selector).click(),
+        ]);
+    }
+
+    async linkClickAndWaitForLoadState(linkText: string): Promise<void> {
+        await Promise.all([
+            this.page.waitForLoadState('networkidle'),
+            this.page.getByText(linkText, { exact: true }).first().click(), // Targets the link by text
+        ]);
+    }
+
+    async textClickAndWaitForLoadState(text: string): Promise<void> {
+        await Promise.all([
+            this.page.waitForLoadState('networkidle'),
+            // this.page.waitForLoadState( 'domcontentloaded' ),
+            this.page.getByText(text).click(),
+        ]);
+    }
+    async linkRoleClickAndWaitForLoadState(role: 'link' | 'button', name: string): Promise<void> {
+        await Promise.all([
+            this.page.waitForLoadState('networkidle'),
+            this.page.getByRole(role, { name }).click(),
         ]);
     }
 

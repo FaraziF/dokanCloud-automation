@@ -4,7 +4,17 @@ import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
 import { log } from "console";
 
+
+const {CATEGORY_ID}= process.env
+const { PRODUCT_ID }= process.env
+
+// process.env.CATEGORY_ID
+
 let apiUtils: ApiUtils;
+let category_id;
+let productTitle;
+let product_id: string;
+
 let _cartID;
 let singleOrderID;
 let lineItemId;
@@ -22,11 +32,23 @@ let productShippingParse;
 let paymentID;
 let orderNo;
 
+let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" }
 
 test.beforeAll(async () => {
 	// apiUtils = new ApiUtils(request);
 	apiUtils = new ApiUtils(await request.newContext());
+	// const [, categoryID] = await apiUtils.createCategory(payloads.categoryCreate(), payloads.adminAuth)
+	// category_id = categoryID
+	// const [responseBody, productId, productName] = await apiUtils.createProduct({...payloads.productCreate(CATEGORY_ID)}, payloads.adminAuth)
+	// product_id = productId
+	// productTitle = productName
 });
+test.afterAll(async ({}) => {
+	// await apiUtils.deleteCategory(category_id)
+	// await apiUtils.deleteProduct(product_id)
+});
+
+
 
 test.describe('orders', () => {
 test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" } });
@@ -73,11 +95,23 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 	});
 });
 
+/* test.describe("product create", () => {
+	test("product create", async() => {
+		const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: {...payloads.productCreate(category_id)}, headers: adminAuth })
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();    
+		const res = await response.json()
+		product_id = res.data.id;
+		productTitle = res.data.title
+		console.log("Product ID & Title " + product_id + " " + productTitle)
+	})
+}) */
+
 test.describe("customer order processing", () => {
 	test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Customer_API_TOKEN)}`, strategy: "customer" } });
 
 	test("Add To Cart", async() => {
-        const [response, responseBody] = await apiUtils.post(endPoints.addToCart, {data: payloads.addToCart() })
+        const [response, responseBody] = await apiUtils.post(endPoints.addToCart, {data: payloads.addToCart(PRODUCT_ID) })
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
         const res = await response.json()
@@ -117,6 +151,14 @@ test.describe("customer order processing", () => {
     })
 })
 
+/* test.describe("admin product delete", () => {
+	test("product create", async() => {
+		const [response, responseBody] = await apiUtils.delete(endPoints.productDelete(product_id), { headers: adminAuth } )
+		expect(response.ok()).toBeTruthy();
+		expect(responseBody).toBeTruthy();
+		console.log(await response.json());
+})
+}) */
 
 test.describe("order details test", () => {
 	test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" } });

@@ -6,6 +6,10 @@ import { payloads } from "../../../utils/payloads";
 let apiUtils: ApiUtils;
 
 
+const { VENDOR_ID }= process.env
+const { VENDOR_SLUG }= process.env
+const { VENDOR_STORE_NAME }= process.env
+
 test.beforeAll(async () => {
 	// apiUtils = new ApiUtils(request);
 	apiUtils = new ApiUtils(await request.newContext());
@@ -50,7 +54,7 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(responseBody).toBeTruthy();
 	});
 	test('get Search vendor', async () => {
-		const [response, responseBody] = await apiUtils.get(endPoints.getSearchVendors);
+		const [response, responseBody] = await apiUtils.get(endPoints.getSearchVendors(VENDOR_STORE_NAME));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
@@ -60,33 +64,33 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(responseBody).toBeTruthy();
 	});
 	test('get vendor individual product', async () => {
-		const [response, responseBody] = await apiUtils.get(endPoints.getVendorIndividualProduct);
+		const [response, responseBody] = await apiUtils.get(endPoints.getVendorIndividualProduct(VENDOR_ID));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
 	test('get individual vendor', async () => {
-		const [response, responseBody] = await apiUtils.get(endPoints.getIndividualVendor);
+		const [response, responseBody] = await apiUtils.get(endPoints.getIndividualVendor(VENDOR_ID));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
     
 	test('edit individual vendor general settings', async () => {
-		const [response, responseBody] = await apiUtils.patch(endPoints.editIndividualVendorGeneralSettings, { data: payloads.editVendorGeneralSettings() });
+		const [response, responseBody] = await apiUtils.patch(endPoints.editIndividualVendorGeneralSettings(VENDOR_ID), { data: payloads.editVendorGeneralSettings() });
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
 	test('get individual vendor susbcription settings', async () => {
-		const [response, responseBody] = await apiUtils.get(endPoints.getIndividualVendorSubscriptionSettings);
+		const [response, responseBody] = await apiUtils.get(endPoints.getIndividualVendorSubscriptionSettings(VENDOR_ID));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
 	test('edit individual vendor address settings', async () => {
-		const [response, responseBody] = await apiUtils.patch(endPoints.editIndividualVendorAddressSettings, { data: payloads.editVendorAddressSettings() });
+		const [response, responseBody] = await apiUtils.patch(endPoints.editIndividualVendorAddressSettings(VENDOR_ID), { data: payloads.editVendorAddressSettings() });
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
 	test('edit individual vendor social settings', async () => {
-		const [response, responseBody] = await apiUtils.patch(endPoints.editIndividualVendorSocialSettings, { data: payloads.editVendorSocialSettings() });
+		const [response, responseBody] = await apiUtils.patch(endPoints.editIndividualVendorSocialSettings(VENDOR_ID), { data: payloads.editVendorSocialSettings() });
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});

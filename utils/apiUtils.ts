@@ -37,6 +37,8 @@ let _currentProductSalesPrice;
 let _currentVendorEarning;
 let _currentProductTaxParse;
 
+let category_id;
+
 // type responseBody = any;
 
 
@@ -67,7 +69,7 @@ export class ApiUtils {
 
 
     // async goToAdminDashboard() {
-    //     await this.page.goto(data.subUrls.admin.dashboard);
+    //     await this.page.goto(endpoints.adminDashboard);
     // }
 
     // get responseBody
@@ -177,16 +179,36 @@ export class ApiUtils {
 		}
 	}
 
+	// Category
+	async createCategory(payload: object, auth? : auth): Promise<[responseBody, string, string]> {
+		const [, responseBody] = await this.post(endPoints.categoryCreate, { data: payload, headers: adminAuth } );
+		const categoryID = responseBody.data.id;
+		const categoryName = responseBody.data.name;
+		return [responseBody, categoryID, categoryName];
+	}
 
+	// delete product
+	async deleteCategory(category_id: string, auth?: auth): Promise<responseBody> {
+		const [, responseBody] = await this.delete(endPoints.categoryDelete(category_id), { headers: adminAuth });
+		return responseBody;
+}
+
+// create product
+async createProduct(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
+	const [, responseBody] = await this.post(endPoints.createProduct, { data: payload, headers: adminAuth });
+	const productId = responseBody.data.id;
+	const productName = responseBody.data.title;
+	return [responseBody, productId, productName];
+}
+
+// delete product
+async deleteProduct(product_id: string, auth?: auth): Promise<responseBody> {
+	const [, responseBody] = await this.delete(endPoints.productDelete(product_id), { headers: adminAuth });
+	return responseBody;
+}
 
 
     // create product
-	async createProduct(payload: object, auth? : auth): Promise<[responseBody, string, string]> {
-		const [, responseBody] = await this.post(endPoints.createProduct, { data: payload, headers: adminAuth } );
-		const productId = responseBody.id;
-		const productName = responseBody.name;
-		return [responseBody, productId, productName];
-	}
 	async vendorCreateProduct(payload: object, auth? : auth): Promise<[responseBody, string, string]> {
 		const [, responseBody] = await this.post(endPoints.createProduct, { data: payload, headers: vendorAuth } );
 		const productId = responseBody.id;

@@ -2,9 +2,18 @@ import { Faker, faker } from '@faker-js/faker';
 import { data } from './testdata';
 
 import { Z_UNKNOWN } from 'zlib';
+import { stringify } from 'querystring';
 
 const env = require('../env')
 let emailAddress: any;
+
+const { VENDOR_ID }= process.env
+const { VENDOR_SLUG }= process.env
+const { VENDOR_STORE_NAME }= process.env
+const { TAX_NAME } = process.env
+const { COUNTRY_NAME } = process.env
+const { LOGO_ID } = process.env
+const { BANNER_ID } = process.env
 
 const basicAuth = (email: any, password: any) => 'Basic ' + Buffer.from(email + ':' + password).toString('base64');
 
@@ -15,12 +24,15 @@ export const payloads = {
     adminAuth: {
         Authorization: basicAuth(process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD),
     },
+    vendorAuth: {
+        Authorization: basicAuth(process.env.VENDOR_USERNAME, process.env.VENDOR_PASSWORD),
+    },
 
                                                     /* >>>>>> Category AND Attribute Section <<<<<<<<< */
     categoryCreate: () => {
         return {
             // name : faker.commerce.productAdjective() + faker.datatype.uuid(),
-            name : faker.commerce.productAdjective() + faker.datatype.uuid(),
+            name : faker.commerce.productAdjective() + ' ' + faker.random.word(),
         }
     },
     categoryUpdate: () => {
@@ -226,11 +238,11 @@ export const payloads = {
     editVendorGeneralSettings: () => {
         return {
             vatId: "",
-            storeName: "vendor.one",
+            storeName: String(VENDOR_STORE_NAME),
             businessRegistrationNumber: "",
             legalBusinessName: "",
             mobile: "013485840",
-            email: "farazi+vendor1@wedevs.com",
+            email: `${env('VENDOR_USERNAME')}`,
             status: "active",
             firstName: "Vendor",
             lastName: "One",
@@ -373,7 +385,7 @@ export const payloads = {
               }
         }
     },
-    updateBrand: () => {
+    updateBrand: ( BANNER_ID, LOGO_ID) => {
         return {
             socialLinks: {
               facebook: "https://www.facebook.com/weDevs",
@@ -387,8 +399,22 @@ export const payloads = {
                 accent: "#e60000",
                 brand: "#c24c4c"
               },
-            iconId: `${env('ICON_ID')}`,
-            logoId: `${env('LOGO_ID')}`,
+            iconId: LOGO_ID,
+            logoId: BANNER_ID,
+        }
+    },
+    updateVendorOnboading: () => {
+        return {
+            vendor: {
+            isEnabled: true,
+            emailVerification: false,
+            businessDetails: true,
+            identityDetails: {
+                contact: true,
+                identity: true,
+                bank: true
+            }
+            },
         }
     },
 
@@ -485,65 +511,58 @@ export const payloads = {
 
     addTaxCountry: () => {
         return {
-            name: env('TAX_NAME'),
-            country: env('TAX_COUNTRY'),
+            name: ('az'),
+            country: ('AF'),
+            // name: ('az'),
+            // country: ('AZ'),
             onShipping: true,
             onDigital: true,
             taxRates: [
                 {
-                taxClassId: 20,
+                taxClassId: 1,
                 rate: 2,
                 effectiveRate: 2
-                },
-                {
-                taxClassId: 1,
-                rate: 3,
-                effectiveRate: 3
                 }
             ]
         }
     },
-    mangeSameTaxCountry: () => {
+    mangeSameTaxCountry: (COUNTRY_NAME, TAX_NAME ) => {
         return {
-            name: env('TAX_NAME'),
-            country: env('TAX_COUNTRY'),
+            name: String(TAX_NAME),
+            country: String(COUNTRY_NAME),
+            // name: env('TAX_NAME'),
+            // country: env('TAX_COUNTRY'),
+            // name: ('az'),
+            // country: ('AZ'),
             onShipping: true,
             onDigital: true,
             taxRates: [
                 {
-                taxClassId: 20,
+                taxClassId: 1,
                 rate: 4,
                 effectiveRate: 2
-                },
-                {
-                taxClassId: 1,
-                rate: 3,
-                effectiveRate: 3
                 }
             ]
         }
     },
-    mangeDifferentTaxCountry: () => {
+    mangeDifferentTaxCountry: (TAX_NAME, COUNTRY_NAME) => {
         return {
             data: [
                 {
-                  name: "ewr",
+                  name: "manageDifferentTax",
                   compound: true,
                   priority: 1,
                   taxRates: [
                     {
-                      taxClassId: 20,
+                      taxClassId: 1,
                       rate: 5,
                       effectiveRate: 6.08
-                    },
-                    {
-                      taxClassId: 1,
-                      rate: 6,
-                      effectiveRate: 7.12
                     }
                   ],
-                  country: env('TAX_COUNTRY'),
-                  state: env('COUNTRY_STATE'),
+                  country: String(COUNTRY_NAME),
+                //   state: env('COUNTRY_STATE'),
+                //   country: ('AZ'),
+                  state: ('Abseron Rayonu'),
                   onDigital: true,
                   onShipping: true,
                   override: true
@@ -552,27 +571,24 @@ export const payloads = {
               delete: []
         }
     },
-    editStateTaxCountry: () => {
+    editStateTaxCountry: (COUNTRY_NAME) => {
         return {
             data: [
                 {
-                  name: "ewr update10",
+                  name: "manageDifferentTax Update",
                   compound: true,
                   priority: 1,
                   taxRates: [
                     {
-                      taxClassId: 20,
-                      rate: 50,
-                      effectiveRate: 6.08
-                    },
-                    {
                       taxClassId: 1,
-                      rate: 60,
-                      effectiveRate: 7.12
+                      rate: 5,
+                      effectiveRate: 6.08
                     }
                   ],
-                  country: env('TAX_COUNTRY'),
-                  state: env('COUNTRY_STATE'),
+                  country: String(COUNTRY_NAME),
+                //   state: env('COUNTRY_STATE'),
+                //   country: ('AZ'),
+                  state: ('Abseron Rayonu'),
                   onDigital: true,
                   onShipping: true,
                   override: true
@@ -756,18 +772,18 @@ export const payloads = {
             }
         }
     },
-    productCreate: ( ) => {
+    productCreate: (category_id, VENDOR_ID, VENDOR_SLUG, VENDOR_STORE_NAME ) => {
         return {
             "vendor":
             {
-                "id": env('STORE_OWNER_ID'),
-                "storeName": env('STORE_OWNER_NAME'),
-                "creatorId": env('CDREATOR_ID'),
-                "country": "BD",
-                "slug":env('STORE_OWNER_NAME'),
-                "active": true
+                "id": VENDOR_ID,
+                "slug": VENDOR_SLUG,
+                "storeName": VENDOR_STORE_NAME,
+                // "creatorId": env('CDREATOR_ID'),
+                // "country": "BD",
+                // "active": true
             },
-            title: faker.commerce.productName() + faker.datatype.uuid(),
+            title: faker.commerce.productName() + ' ' + faker.random.word(),
             sku: faker.helpers.unique(() => faker.random.alpha(5)),
             priceType: "single",
             price: faker.commerce.price(),
@@ -779,8 +795,7 @@ export const payloads = {
             description: faker.commerce.productDescription(),
             type: "standard",
             hasVariation: false, // required
-            // category: category_id,  // category id
-            category: env('CATEGORY_ID'),  // category id
+            category: category_id,  // category id
             status: "published",
             manageStock: true,
             stockQuantity: "100",
@@ -792,16 +807,13 @@ export const payloads = {
             allowOnPos: true, //required
         }
     },
-    productUpdate: () => {
+    productUpdate: (category_id, VENDOR_ID, VENDOR_SLUG, VENDOR_STORE_NAME ) => {
         return {
             "vendor":
             {
-                "id": env('STORE_OWNER_ID'),
-                "storeName": env('STORE_OWNER_NAME'),
-                "creatorId": env('CDREATOR_ID'),
-                "country": "BD",
-                "slug":env('STORE_OWNER_NAME'),
-                "active": true
+               "id": VENDOR_ID,
+                "slug": VENDOR_SLUG,
+                "storeName": VENDOR_STORE_NAME,
             },
             title: faker.commerce.productName() + " Update",
             sku: faker.helpers.unique(() => faker.random.alpha(10)),
@@ -815,8 +827,39 @@ export const payloads = {
             description: faker.commerce.productDescription(),
             type: "standard",
             hasVariation: false, // required
-            // category: category_id, // category id
-            category: env('CATEGORY_ID'), // category id
+            category: category_id, // category id
+            status: "published",
+            manageStock: true,
+            stockQuantity: "100",
+            lowStockThreshold: "90",
+            media: [],
+            mediaIds: [],
+            shippingProfileId: "",
+            hideFromStoreFront: false, //required
+            allowOnPos: true, //required
+        }
+    },
+    vendorUpdateProduct: (category_id, VENDOR_ID, VENDOR_SLUG, VENDOR_STORE_NAME ) => {
+        return {
+            "vendor":
+            {
+               "id": VENDOR_ID,
+                "slug": VENDOR_SLUG,
+                "storeName": VENDOR_STORE_NAME,
+            },
+            title: faker.commerce.productName() + " Update",
+            sku: faker.helpers.unique(() => faker.random.alpha(10)),
+            priceType: "single",
+            price: faker.commerce.price(),
+            // salePrice: "190",
+            slug: faker.helpers.unique(() => faker.random.alpha(10)),
+            tieredPrice: false, // required
+            collectTax: true,
+            taxClassId: 3,
+            description: faker.commerce.productDescription(),
+            type: "standard",
+            hasVariation: false, // required
+            category: category_id, // category id
             status: "published",
             manageStock: true,
             stockQuantity: "100",
@@ -831,12 +874,12 @@ export const payloads = {
 
 
                                                 /* >>>>>>>>> Order <<<<<<< */
-    addToCart: () => {
+    addToCart: (product_id) => {
         return {
             lineItems: [
                 {
                     // productId: env('PRODUCT_ID'),
-                    productId: env('PRODUCT_ID'),
+                    productId: product_id,
                     quantity: 1
                 }
             ]
@@ -1088,6 +1131,13 @@ export const payloads = {
             }
         }
     },
+    vendorSaveBannerImage:(banner_id, logo_id) => {
+        return {
+            "about": "",
+            "bannerId": banner_id,
+            "logoId": logo_id,
+        }
+    },
     vendorSaveDefaultAddress: () => {
         return {
             country: "US",
@@ -1115,7 +1165,7 @@ export const payloads = {
             postCode: "1220493",
             email: "farazi+vendor1@wedevs.com",
             phone: "01234783895",
-            label: "Main"
+            label: faker.helpers.unique(() => faker.random.alpha(2)),
         }
     },
     vendorUpdateLocation: () => {
@@ -1130,7 +1180,7 @@ export const payloads = {
             postCode: "1220493",
             email: "farazi+vendor1@wedevs.com",
             phone: "01234783895",
-            label: "Main1"
+            label: faker.helpers.unique(() => faker.random.alpha(2)) + " Update",
         }
     },
     vendorInviteNewMember: () => {
@@ -1196,7 +1246,7 @@ export const payloads = {
             email: `${env('VENDOR_USERNAME')}`,
             gender: "male",
             mobile: "01438765834",
-            imageId: `${env('VENDOR_PROFILE_IMAGE_ID')}`,
+            // imageId: `${env('VENDOR_PROFILE_IMAGE_ID')}`,
         }
     },
 
@@ -1204,11 +1254,11 @@ export const payloads = {
         return {
             isEnabled: true,
             config: {
-            provider: "fb-messenger",
-            pageId: "1855001814797311",
-            number: "",
-            color: "#3670a6",
-            prefilledMessage: ""
+            provider: "whatsapp",
+            pageId: "",
+            number: "+8801923337754",
+            prefilledMessage: "Hello",
+            color: "#0084FF"
             },
         }
     },
@@ -1237,14 +1287,7 @@ export const payloads = {
         "birthDate": "1980-12-05",
         "gender": "male",
         "mobile": faker.phone.imei(),
-        "image": {
-          "name": "apple.png",
-          "_id": "656efe816cb432df43e8e9de",
-          "path": "c4ca4238a0b923820dcc509a6f75849b/2023/12/clps7nw9b00080sj3ep2m6drc-apple.png",
-          "size": 27695,
-          "mimetype": "image/png",
-          "uploaded": true
-        }
+        "imageId": LOGO_ID,
     }
  },
 

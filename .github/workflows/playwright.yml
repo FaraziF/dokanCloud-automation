@@ -1,80 +1,68 @@
 name: Playwright Tests
 on:
-  schedule:
-    - cron: "0 3 * * *"
+  # schedule:
+  #   - cron: '0 3 * * *'
   push:
-    branches: [ main, master, adminExplorating ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master, adminExplorating ]
-  
+    branches: [main, master]
+
   # workflow can be manually triggered
   workflow_dispatch:
 
 # workflow permissions
 permissions:
-    checks: write
-    contents: read
-    issues: write
-    pull-requests: write
+  checks: write
+  contents: read
+  issues: write
+  pull-requests: write
 env:
-  TESTING_ENV: STAGING
-  STAGING_URL: ${{ secrets.URL }}
-  STAGING_TENANT: ${{ secrets.TENANT }}
-  STAGING_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
-  STAGING_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-  API_TEST_RESULT: './results.json'
+  TESTING_ENV: M_STAGING
+  M_STAGING_ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+  M_STAGING_ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+  M_STAGING_VENDOR_USERNAME: ${{ secrets.VENDOR_USERNAME }}
+  M_STAGING_VENDOR_PASSWORD: ${{ secrets.VENDOR_PASSWORD }}
+  M_STAGING_CUSTOMER_USERNAME: ${{ secrets.CUSTOMER_USERNAME }}
+  M_STAGING_CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD }}
+  M_STAGING_USER_URL: ${{ secrets.USER_URL }}
+  M_STAGING_DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+  M_STAGING_STOREFRONT_URL: ${{ secrets.STOREFRONT_URL }}
+  M_STAGING_CATALOG_URL: ${{ secrets.CATALOG_URL }}
+  M_STAGING_BRANDS_URL: ${{ secrets.BRANDS_URL }}
+  M_STAGING_SHIPPING_URL: ${{ secrets.SHIPPING_URL }}
+  M_STAGING_PAYMENT_URL: ${{ secrets.PAYMENT_URL }}
+  M_STAGING_TAX_URL: ${{ secrets.TAX_URL }}
+  M_STAGING_REPORT_URL: ${{ secrets.REPORT_URL }}
+  M_STAGING_ORDER_URL: ${{ secrets.ORDER_URL }}
+  M_STAGING_INTEGRATION_URL: ${{ secrets.INTEGRATION_URL }}
+  M_STAGING_CONTENT_URL: ${{ secrets.CONTENT_URL }}
+  M_STAGING_COUPON_URL: ${{ secrets.COUPON_URL }}
+  M_STAGING_CART_URL: ${{ secrets.CART_URL }}
+  # API_TEST_RESULT: './results.json'
 jobs:
   test:
-    name: api tests
-    timeout-minutes: 60
+    # name: api tests
+    # timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16, 18]
+
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-    - run: npm ci
-    - name: Get installed Playwright version
-      id: playwright-version
-      run: 
-        |
-        cd ./  
-        echo "PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq --raw-output '.dependencies["@playwright/test"].version')" >> $GITHUB_ENV
-    
-    - name: Get Playwright version
-      id: playwright-version1
-      run: echo ${{ env.PLAYWRIGHT_VERSION }}
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    - name: Cache playwright binaries
-      uses: actions/cache@v3
-      id: playwright-cache
-      with:
-        path: |
-          ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-        restore-keys: |
-            ${{ runner.os }}-playwright-
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }} # Set Node.js version based on matrix
 
-    - name: Cache
-      if: steps.playwright-cache.outputs.cache-hit != 'true'      
-      run: npx playwright install --with-deps chromium
-      
-    - name: Run Playwright tests
-      run: npm run test:api
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: playwright-test-results
-        path: test-results/
-    
-    # Prepare test summary
-    - name: Prepare test summary
-      id: prepare-test-summary
-      uses: actions/github-script@v6
-      if: always()
-      with:
-        result-encoding: string
-        script: |
-            const script = require("./utils/gitTestSummary.ts")
-            return await script({github, context, core})
+      - name: Install dependencies
+        run: npm install
 
+      - name: Install Playwright Browsers
+        run: npx playwright install-deps
+
+      - name: Run Playwright tests
+        run: npm run test:api

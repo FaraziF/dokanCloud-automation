@@ -2,8 +2,8 @@ name: Playwright Tests
 on:
   # schedule:
   #   - cron: '0 3 * * *'
-  push:
-    branches: [main, master]
+  # push:
+  #   branches: [main, master]
   pull_request:
     branches: [main, master]
 
@@ -53,16 +53,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }} # Set Node.js version based on matrix
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: ${{ matrix.node-version }} # Set Node.js version based on matrix
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps chromium
+      - name: Setup Playwright Environment
+        uses: microsoft/playwright-github-action@v1
 
       - name: Run Playwright tests
         run: npm run test:api

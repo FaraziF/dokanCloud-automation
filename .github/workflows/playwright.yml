@@ -51,5 +51,8 @@ jobs:
       - name: Setup Playwright Environment
         uses: microsoft/playwright-github-action@v1
 
+      - name: Install Node dependencies
+        run: npm install # Ensures @playwright/test and other dependencies are installed
+
       - name: Run Playwright tests
         run: npm run test:api

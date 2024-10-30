@@ -44,25 +44,10 @@ jobs:
     # name: api tests
     # timeout-minutes: 60
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16, 18]
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: ${{ matrix.node-version }} # Set Node.js version based on matrix
-
-      - name: Install dependencies
-        run: npm install
-
-      # - name: Install Playwright Browsers
-      #   run: npx playwright install --with-deps chromium
       - name: Setup Playwright Environment
         uses: microsoft/playwright-github-action@v1
 

@@ -28,6 +28,7 @@ test.afterAll(async () => {
 test.describe('Coupon Creation', () => {
   test('Create a new coupon with specific conditions', async ({ page }) => {
 
-    await couponPage.navigateToCouponPage();
+    // await couponPage.navigateToCouponPage();
+    await couponPage.executeCouponScenario();
   });
 });

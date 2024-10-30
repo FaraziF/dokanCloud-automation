@@ -62,7 +62,11 @@ export class ProductBulkEdit extends BasePage {
       const searchButton = this.page.getByPlaceholder('Press enter to search...');
       searchButton.fill(productName ?? '');
       searchButton.press('Enter');
-      await expect(this.page.locator('tbody')).toContainText(productName ?? '');
+      
+      // verify search result
+      const tbody = this.page.locator('tbody');
+      await expect(tbody).toBeVisible();
+      await expect(tbody).toContainText(productName ?? '');
 
       // Select product and open bulk edit
       await this.page.locator("(//input[@id='product-row'])[1]").click();

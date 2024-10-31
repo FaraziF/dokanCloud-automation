@@ -35,7 +35,7 @@ export class BasePage {
     }
 
     // goto subPath if not already there
-    async goIfNotThere(subPath: string): Promise<void> {
+    async goIfNotThere(subPath: string) {
         if (!(await this.isCurrentUrl(subPath))) {
             const url = this.createUrl(subPath);
             await this.page.goto(url, { waitUntil: 'networkidle' });
@@ -54,12 +54,12 @@ export class BasePage {
     }
 
      // wait for url to be loaded
-     async waitForUrl(url: string, options: { timeout?: number | undefined; waitUntil?: 'networkidle' | 'load' | 'domcontentloaded' | 'commit' | undefined } | undefined): Promise<void> {
+     async waitForUrl(url: string, options: { timeout?: number | undefined; waitUntil?: 'networkidle' | 'load' | 'domcontentloaded' | 'commit' | undefined } | undefined) {
         await this.page.waitForURL(url, options);
     }
 
     // click & wait for navigation to complete
-    async clickAndWaitForUrl(selector: string, url: string): Promise<void> {
+    async clickAndWaitForUrl(selector: string, url: string) {
         await Promise.all([
             this.page.waitForURL(url, { waitUntil: 'networkidle' }),
             this.page.locator(selector).click(),
@@ -68,7 +68,7 @@ export class BasePage {
 
 
     // click & wait for load state to complete
-    async clickAndWaitForLoadState(selector: string): Promise<void> {
+    async clickAndWaitForLoadState(selector: string) {
         await Promise.all([
             this.page.waitForLoadState('networkidle'),
             // this.page.waitForLoadState( 'domcontentloaded' ),
@@ -76,21 +76,21 @@ export class BasePage {
         ]);
     }
 
-    async linkClickAndWaitForLoadState(linkText: string): Promise<void> {
+    async linkClickAndWaitForLoadState(linkText: string) {
         await Promise.all([
             this.page.waitForLoadState('networkidle'),
             this.page.getByText(linkText, { exact: true }).first().click(), // Targets the link by text
         ]);
     }
 
-    async textClickAndWaitForLoadState(text: string): Promise<void> {
+    async textClickAndWaitForLoadState(text: string) {
         await Promise.all([
             this.page.waitForLoadState('networkidle'),
             // this.page.waitForLoadState( 'domcontentloaded' ),
             this.page.getByText(text).click(),
         ]);
     }
-    async linkRoleClickAndWaitForLoadState(role: 'link' | 'button', name: string): Promise<void> {
+    async linkRoleClickAndWaitForLoadState(role: 'link' | 'button', name: string) {
         await Promise.all([
             this.page.waitForLoadState('networkidle'),
             this.page.getByRole(role, { name }).click(),
@@ -112,13 +112,13 @@ export class BasePage {
     }
 
     // returns whether the locator is visible
-    async isVisibleLocator(selector: string): Promise<boolean> {
+    async isVisibleLocator(selector: string){
         const locator = this.page.locator(selector);
         return await locator.isVisible();
     }
 
     // returns whether the element is visible
-    async isVisible(selector: string): Promise<boolean> {
+    async isVisible(selector: string) {
         return await this.isVisibleLocator(selector);
         // return await this.isVisibleViaPage(selector);
     }
@@ -129,23 +129,23 @@ export class BasePage {
     }
 
     // get element text content
-    async getElementTextViaPage(selector: string): Promise<string | null> {
+    async getElementTextViaPage(selector: string) {
         return await this.page.textContent(selector);
     }
 
 
     // get locator text content
-    async textContentOfLocator(selector: string): Promise<null | string> {
+    async textContentOfLocator(selector: string){
         const locator = this.page.locator(selector);
         return await locator.textContent();
     }
     // get element text content
-    async getElementText(selector: string): Promise<string | null> {
+    async getElementText(selector: string) {
         return await this.textContentOfLocator(selector);
         // return await this.page.textContent(selector);
     }
     // get element text if visible
-    async getElementTextIfVisible(selector: string): Promise<void | string | null> {
+    async getElementTextIfVisible(selector: string) {
         const isVisible = await this.isVisible(selector);
         if (isVisible) {
             return await this.getElementText(selector);
@@ -153,19 +153,19 @@ export class BasePage {
     }
 
     // get element has test or not
-    async hasText(selector: string, text: string): Promise<boolean> {
+    async hasText(selector: string, text: string) {
         const elementText = await this.textContentOfLocator(selector);
         return elementText?.trim() === text ? true : false;
     }
 
 
     // returns whether the locator is enabled
-    async isEnabledLocator(selector: string): Promise<boolean> {
+    async isEnabledLocator(selector: string) {
         const locator = this.page.locator(selector);
         return await locator.isEnabled();
     }
     // returns whether the locator is enabled
-    async isDisabledLocator(selector: string): Promise<boolean> {
+    async isDisabledLocator(selector: string) {
         const locator = this.page.locator(selector);
         return await locator.isDisabled();
     }

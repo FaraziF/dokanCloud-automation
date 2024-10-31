@@ -23,78 +23,76 @@ export class CouponPage extends BasePage {
         await this.page.getByRole('link', { name: 'Add Coupon' }).click();
     }
 
-    async setBasicDetails() {
-        const couponTitle = `Test Coupon ${faker.random.word()}`;
+    async setBasicDetails(couponTitle: string, couponDescription: string) {
         await this.page.getByPlaceholder('Coupon Title').fill(couponTitle);
         await this.page.getByRole('button', { name: 'Single Code' }).click();
         await this.page.getByRole('button', { name: 'Generate Code' }).click();
-        const couponDescription = faker.lorem.paragraph();
         await this.page.getByPlaceholder('Description').fill(couponDescription);
-        return { couponTitle, couponDescription };
     }
 
-    async configureDiscountAndShipping() {
-        const discountAmount = '5';
+    async configureDiscountAndShipping(discountAmount: string) {
         await this.page.getByPlaceholder('25.00').fill(discountAmount);
         await this.page.getByLabel('Free shipping in applied order').click();
-        return discountAmount;
     }
 
-    async applyToSpecificProductsAndCategories() {
+    async applyToSpecificProductsAndCategories(productTitle: string, categoryName: string) {
+      // const iteamLocator = this.page.locator("(//div[contains(@class,'relative flex')])[1]");
+      // const buttonLocator = this.page.locator("(//button[contains(@class,'rounded border')])[2]");
         if (!PRODUCT_TITLE || !CATEGORY_NAME) {
             throw new Error('PRODUCT_TITLE or CATEGORY_NAME is not defined');
         }
-        const product1 = PRODUCT_TITLE;
-        const categoryName = CATEGORY_NAME;
         await this.page.getByLabel('Apply to specific products').click();
         await this.page.getByPlaceholder('Search Product').click();
-        await this.page.keyboard.type(product1, { delay: 100 });
-        const productLocator = this.page.getByRole('img', { name: product1 });
-        if (!await productLocator.isVisible()) {
-            throw new Error(`Product ${product1} is not found`);
-        }
-        await productLocator.click();
-        await this.page.getByRole('button', { name: 'Add' }).click();
+        await this.page.keyboard.type(productTitle, { delay: 100 });
+        await this.clickAndWaitForLoadState("(//div[contains(@class,'relative flex')])[1]");
+        await this.clickAndWaitForLoadState("(//button[contains(@class,'rounded border')])[2]")
+        // const productLocator = this.page.getByRole('img', { name: productTitle });
+        // const productLocator = this.page.locator("(//div[contains(@class,'relative flex')])[1]");
+        // // const productLocator = this.page.locator("label.flex.cursor-pointer");
+        // await expect(productLocator).toBeVisible();
+        // if (!await productLocator.isVisible()) {
+        //     throw new Error(`Product ${productTitle} is not found`);
+        // }
+        // await productLocator.click();
+        // // await this.page.pause()
+        // await this.page.getByRole('button', { name: 'Add' }).click();
 
         await this.page.getByPlaceholder('Search Category').click();
         await this.page.keyboard.type(categoryName, { delay: 100 });
-        const categoryLocator = this.page.getByRole('img', { name: categoryName });
-        if (!await categoryLocator.isVisible()) {
-            throw new Error(`Category ${categoryName} is not found`);
-        }
-        await categoryLocator.click();
-        await this.page.getByRole('button', { name: 'Add' }).click();
-        return { product1, categoryName };
+
+        await this.clickAndWaitForLoadState("(//div[contains(@class,'relative flex')])[1]");
+        await this.clickAndWaitForLoadState("(//button[contains(@class,'rounded border')])[2]")
+        // const categoryLocator = this.page.getByRole('img', { name: categoryName });
+        // const categoryLocator = this.page.locator("(//div[contains(@class,'relative flex')])[1]");
+        // await expect(categoryLocator).toBeVisible();
+        // if (!await categoryLocator.isVisible()) {
+        //     throw new Error(`Category ${categoryName} is not found`);
+        // }
+        // await categoryLocator.click();
+        // await this.page.getByRole('button', { name: 'Add' }).click();
     }
 
-    async setCustomerEligibility() {
+    async setCustomerEligibility(customerEmail: string, usageLimitPerCustomer: string) {
         await this.page.getByLabel('Customer Eligibility').click();
         await this.page.getByLabel('Specific customer').check();
-        const customerEmail = 'farazi+customer1@wedevs.com';
         await this.page.getByPlaceholder('Type customer email and press').fill(customerEmail);
         await this.page.getByPlaceholder('Type customer email and press').press('Enter');
-        return customerEmail;
-    }
-
-    async setUsageLimits() {
         await this.page.getByLabel('Limit usage per customer').check();
-        const usageLimitPerCustomer = '5';
         await this.page.getByPlaceholder('30', { exact: true }).fill(usageLimitPerCustomer);
-        await this.page.getByLabel('Minimum purchase amount').check();
-        const minPurchaseAmount = '5';
-        await this.page.getByPlaceholder('0.00').fill(minPurchaseAmount);
-        await this.page.getByLabel('Usage limit per coupon').check();
-        const overallUsageLimit = '5';
-        await this.page.locator('input[name="maxUse"]').fill(overallUsageLimit);
-        return { usageLimitPerCustomer, minPurchaseAmount, overallUsageLimit };
     }
 
-    async validationPeriod() {
-        const startDate = '2023-05-01';
-        const endDate = '2023-05-31';
+    async setUsageLimits(minPurchaseAmount: string, overallUsageLimit: string, minimumQuantity: string) {
+        await this.page.getByLabel('Minimum purchase amount').check();
+        await this.page.getByPlaceholder('0.00').fill(minPurchaseAmount);
+        await this.page.getByLabel('Minimum quantity of items').check();
+        await this.page.getByPlaceholder('10', { exact: true }).fill(minimumQuantity);
+        await this.page.getByLabel('Usage limit per coupon').check();
+        await this.page.locator('input[name="maxUse"]').fill(overallUsageLimit);
+    }
+
+    async validationPeriod(startDate: string, endDate: string) {
         await this.page.getByPlaceholder('Start Date').fill(startDate);
         await this.page.getByPlaceholder('End Date').fill(endDate);
-        return { startDate, endDate };
     }
 
     async createCoupon(couponTitle: string) {
@@ -104,30 +102,28 @@ export class CouponPage extends BasePage {
         await this.page.getByPlaceholder('Press enter to search...').fill(couponTitle);
         await this.page.keyboard.press('Enter');
         await this.page.getByText(couponTitle).click();
-        // await this.textClickAndWaitForLoadState(couponTitle);
     }
 
-    async verifyCouponDetails({ couponTitle, couponDescription, discountAmount, product1, categoryName, customerEmail, usageLimits }: any) {
+    async verifyCouponDetails({ couponTitle, couponDescription, discountAmount, productTitle, categoryName, customerEmail, usageLimits, usageLimitPerCustomer, minPurchaseAmount, overallUsageLimit }: any) {
         await expect(this.page.getByPlaceholder('Coupon Title')).toHaveValue(couponTitle);
         await expect(this.page.getByPlaceholder('Description')).toHaveValue(couponDescription);
         await expect(this.page.getByPlaceholder('25.00')).toHaveValue(discountAmount);
         await expect(this.page.getByLabel('Free shipping in applied order')).toBeChecked();
-        await expect(this.page.getByText(product1 ?? '')).toBeVisible();
+        await expect(this.page.getByText(productTitle ?? '')).toBeVisible();
         await expect(this.page.getByText(categoryName ?? '')).toBeVisible();
         await expect(this.page.getByLabel('Specific customer')).toBeChecked();
         await expect(this.page.getByText(customerEmail)).toBeVisible();
         await Promise.all([
             expect(this.page.getByLabel('Limit usage per customer')).toBeChecked(),
-            expect(this.page.locator('input[name="maxUsePerCustomer"]')).toHaveValue(usageLimits.usageLimitPerCustomer),
+            expect(this.page.locator('input[name="maxUsePerCustomer"]')).toHaveValue(usageLimitPerCustomer),
             expect(this.page.getByLabel('Minimum purchase amount')).toBeChecked(),
-            expect(this.page.getByPlaceholder('0.00')).toHaveValue(usageLimits.minPurchaseAmount),
+            expect(this.page.getByPlaceholder('0.00')).toHaveValue(minPurchaseAmount),
             expect(this.page.getByLabel('Usage limit per coupon')).toBeChecked(),
-            expect(this.page.locator('input[name="maxUse"]')).toHaveValue(usageLimits.overallUsageLimit)
+            expect(this.page.locator('input[name="maxUse"]')).toHaveValue(overallUsageLimit)
         ]);
     }
 
-    async editCoupon(couponTitle: string) {
-        const updatedCouponTitle = 'Updated coupon title';
+    async editCoupon(couponTitle: string, updatedCouponTitle: string) {
         await this.page.getByRole('main').getByRole('link', { name: 'Coupons' }).click();
         await this.page.getByPlaceholder('Press enter to search...').fill(couponTitle);
         await this.page.keyboard.press('Enter');
@@ -135,34 +131,33 @@ export class CouponPage extends BasePage {
         await this.page.getByPlaceholder('Coupon Title').fill(updatedCouponTitle);
         await this.page.getByRole('button', { name: 'Update Coupon' }).click();
         await expect(this.page.getByText('Coupon has been updated successfully')).toBeVisible();
-        return updatedCouponTitle;
     }
 
-    async deleteCoupon(couponTitle: string) {
-        await this.page.getByPlaceholder('Press enter to search...').fill(couponTitle);
+    async deleteCoupon(updatedCouponTitle: string) {
+        await this.page.getByPlaceholder('Press enter to search...').fill(updatedCouponTitle);
         await this.page.keyboard.press('Enter');
-        await this.page.getByRole('row', { name: couponTitle }).getByRole('button').click();
+        await this.page.getByRole('row', { name: updatedCouponTitle }).getByRole('button').first().click();
         await this.page.getByRole('link', { name: 'Delete' }).click();
         await this.page.getByRole('button', { name: 'Yes' }).click();
         await expect(this.page.getByText('Coupon has been deleted successfully')).toBeVisible();
     }
 
-    async executeCouponScenario() {
-        const couponPage = this;
-        await couponPage.navigateToCouponCreationPage();
-        const basicDetails = await couponPage.setBasicDetails();
-        const discountAmount = await couponPage.configureDiscountAndShipping();
-        const { product1, categoryName } = await couponPage.applyToSpecificProductsAndCategories();
-        const customerEmail = await couponPage.setCustomerEligibility();
-        const usageLimits = await couponPage.setUsageLimits();
-        await couponPage.createCoupon(basicDetails.couponTitle);
-        console.log("Product Title:", product1)
-        await couponPage.verifyCouponDetails({ 
-            ...basicDetails, discountAmount, product1, categoryName, customerEmail, usageLimits 
-        });
-        const updatedCouponTitle = await couponPage.editCoupon(basicDetails.couponTitle);
-        await couponPage.deleteCoupon(updatedCouponTitle);
-    }
+//     async executeCouponScenario() {
+//         const couponPage = this;
+//         await couponPage.navigateToCouponCreationPage();
+//         const basicDetails = await couponPage.setBasicDetails();
+//         const discountAmount = await couponPage.configureDiscountAndShipping();
+//         const { product1, categoryName } = await couponPage.applyToSpecificProductsAndCategories();
+//         const customerEmail = await couponPage.setCustomerEligibility();
+//         const usageLimits = await couponPage.setUsageLimits();
+//         await couponPage.createCoupon(basicDetails.couponTitle);
+//         console.log("Product Title:", product1)
+//         // await couponPage.verifyCouponDetails({ 
+//         //     ...basicDetails, discountAmount, product1, categoryName, customerEmail, usageLimits 
+//         // });
+//         const updatedCouponTitle = await couponPage.editCoupon(basicDetails.couponTitle);
+//         await couponPage.deleteCoupon(updatedCouponTitle);
+//     }
 }
 
 

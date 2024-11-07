@@ -13,6 +13,3 @@ config.json
 /playwright-report/
 /test-results/
 /allure-report/
-/playwright-test/
-git rm -r --cached allure-results
-git rm -r --cached playwright-test

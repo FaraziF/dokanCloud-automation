@@ -1,0 +1,4 @@
+VENDOR_ID=30
+VENDOR_SLUG=vendor-one
+VENDOR_STORE_NAME=vendor one
+Vendor name undefined

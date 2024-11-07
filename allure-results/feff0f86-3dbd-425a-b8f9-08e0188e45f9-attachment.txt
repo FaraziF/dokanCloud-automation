@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/orders/01HGDPMCNH45FG8Y1RVC1S23YX/charges
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid.","errors":{"orderId":["The canceled order is not payable"]}}

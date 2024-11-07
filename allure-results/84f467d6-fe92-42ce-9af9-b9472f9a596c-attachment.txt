@@ -1,2 +1,0 @@
-Invited team memeber: Birdie.Pollich91@example.com
-{ invitedTeamMemberEmail: 'Birdie.Pollich91@example.com' }

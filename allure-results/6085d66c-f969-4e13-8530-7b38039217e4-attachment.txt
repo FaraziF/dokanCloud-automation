@@ -1,4 +1,0 @@
-Vendor name undefined
-Vendor name vendor one
-PRODUCT_ID=672059d710f9c69765304044
-PRODUCT_TITLE=Bespoke Wooden Shirt Technician

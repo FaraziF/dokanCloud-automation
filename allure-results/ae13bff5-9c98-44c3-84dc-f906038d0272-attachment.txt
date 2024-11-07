@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/vendor/products
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid","errors":{"category":["Category is required"],"description":["Product Description is required."],"type":["Product type is required."],"priceType":["Product price type is required."],"price":["Price is required."],"tieredPrice":["Product tiered price is required"],"collectTax":["Collect Tax field is required"],"status":["Product status is invalid."],"hasVariation":["Variation field is required."],"manageStock":["Manage Stock field is required"],"hideFromStoreFront":["Hide from store front field is required"],"allowOnPos":["Allow on POS field is required"],"title":["Product title is required"]}}

@@ -1,5 +1,0 @@
-subtotal 100
-productTax 0
-lineItemId 42
-subtotal 100
-orderTotalAmount 100

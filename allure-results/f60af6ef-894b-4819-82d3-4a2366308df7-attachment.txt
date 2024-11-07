@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/shipments
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid.","errors":{"orderId":["Order id is required"],"shipmentItems[0].lineItemId":["Line item id is required"],"shipmentItems[0].quantity":["Line item not found"]}}

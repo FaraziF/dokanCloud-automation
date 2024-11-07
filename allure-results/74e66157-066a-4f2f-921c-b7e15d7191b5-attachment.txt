@@ -1,7 +1,0 @@
-Cat ID: 656472e2ca29a1d193285352
-End-point:  https://farazi.staging.dokandev.com/api/v1/vendor/products/undefined
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid","errors":{"id":["Invalid cart id"]}}

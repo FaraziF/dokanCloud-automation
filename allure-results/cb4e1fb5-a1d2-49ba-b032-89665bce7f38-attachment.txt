@@ -1,2 +1,0 @@
-{ invitedTeamMemberEmail: 'Birdie.Pollich91@example.com' }
-{ message: 'Removed successfully!' }

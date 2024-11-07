@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/team/vendor/members?search=Trudie.Wyman@example.net
-Status Code:  500
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"Internal server error!"}

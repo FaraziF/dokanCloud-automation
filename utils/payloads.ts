@@ -35,6 +35,14 @@ export const payloads = {
             name : faker.commerce.productAdjective() + ' ' + faker.random.word(),
         }
     },
+
+
+    generateNewCategory: () => {
+        return {
+            name : 'Bespoke Hybrid',
+        }
+    },
+
     categoryUpdate: () => {
         return {
             name: faker.commerce.productAdjective() + faker.datatype.uuid() + " update",
@@ -772,6 +780,8 @@ export const payloads = {
             }
         }
     },
+
+
     productCreate: (category_id, VENDOR_ID, VENDOR_SLUG, VENDOR_STORE_NAME ) => {
         return {
             "vendor":
@@ -783,7 +793,8 @@ export const payloads = {
                 // "country": "BD",
                 // "active": true
             },
-            title: faker.commerce.productName() + ' ' + faker.random.word(),
+            // title: faker.commerce.productName() + ' ' + faker.random.word(),
+            title: data.generateProductName,
             sku: faker.helpers.unique(() => faker.random.alpha(5)),
             priceType: "single",
             price: faker.commerce.price(),
@@ -800,6 +811,42 @@ export const payloads = {
             manageStock: true,
             stockQuantity: "100",
             lowStockThreshold: "90",
+            media: [],
+            mediaIds: [],
+            shippingProfileId: "",
+            hideFromStoreFront: false, //required
+            allowOnPos: true, //required
+        }
+    },
+    productGenerate: (category_id, VENDOR_ID, VENDOR_SLUG, VENDOR_STORE_NAME ) => {
+        return {
+            "vendor":
+            {
+                "id": VENDOR_ID,
+                "slug": VENDOR_SLUG,
+                "storeName": VENDOR_STORE_NAME,
+                // "creatorId": env('CDREATOR_ID'),
+                // "country": "BD",
+                // "active": true
+            },
+            // title: faker.commerce.productName() + ' ' + faker.random.word(),
+            title: faker.commerce.productName(),
+            sku: faker.helpers.unique(() => faker.random.alpha(5)),
+            priceType: "single",
+            price: faker.commerce.price(),
+            // price: 290,
+            // salePrice: 275,
+            tieredPrice: false, // required
+            collectTax: false,
+            taxClassId: "",
+            description: faker.commerce.productDescription(),
+            type: "standard",
+            hasVariation: false, // required
+            category: category_id,  // category id
+            status: "published",
+            manageStock: false,
+            stockQuantity: "",
+            lowStockThreshold: "",
             media: [],
             mediaIds: [],
             shippingProfileId: "",

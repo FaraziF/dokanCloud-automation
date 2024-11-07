@@ -26,6 +26,7 @@ let vendorSlug;
 let vendorStoreName;
 let country_name;
 let tax_name;
+let categorySLUG;
 
 const {CATEGORY_ID}= process.env
 const { PRODUCT_ID }= process.env
@@ -48,15 +49,27 @@ const shouldRun = process.env.RUN_SPECIFIC === 'true';
   })
 
 
-  setup.describe('Data setup with', () => {
+  setup.describe('Generate setup with', () => {
     
-    setup('Create Category', async ({ page }) => {
-      
-        // apiUtils = new ApiUtils(await request.newContext());
-        const [, categoryID, categoryName] = await apiUtils.createCategory(payloads.categoryCreate())
+    setup('Category Name Check and Geneate New Category', async () => {
+      const categorySlug = data.existingCategorySlug
+      const [response, responseBody] = await apiUtils.get(endPoints.searchCategory(categorySlug), { headers: adminAuth });
+      if(response.ok()) {
+        const res = await response.json()
+        const category = res.data
+        console.log("Res Category Data: ", res.data)
+        console.log(`Category Name Match: ${category.name}, Category ID Match: ${category.id}`)
+        category_id = category.id
+        helpers.createEnvVar('CATEGORY_ID', category.id)
+        helpers.createEnvVar('CATEGORY_NAME', category.name)
+      } else {
+        const [, categoryID, categoryName] = await apiUtils.createCategory(payloads.generateNewCategory())
         category_id = categoryID
         helpers.createEnvVar('CATEGORY_ID', categoryID)
         helpers.createEnvVar('CATEGORY_NAME', categoryName)
+        console.log(`Category Name: ${categoryName}, Category ID: ${categoryID}`)
+      }
+      
     });
 
     setup('Get Vendor ID, Slug, Name', async() => {
@@ -77,13 +90,22 @@ const shouldRun = process.env.RUN_SPECIFIC === 'true';
       console.log("Vendor name", VENDOR_ID)
 
     })
-    setup('Create Product',{ tag: ['@local'] }, async () => {
-        // apiUtils = new ApiUtils(await request.newContext());
-        console.log("Vendor name", VENDOR_ID)
-        console.log("Vendor name", process.env.VENDOR_STORE_NAME)
+    setup('Product Name Check and Generate New Product',{ tag: ['@local'] }, async () => {
+      const productSlug = data.existingProductSlug
+      const [response, responseBody] = await apiUtils.get(endPoints.searchProduct(productSlug), { headers: adminAuth });
+      if(response.ok()) {
+        const res = await response.json()
+        const product = res.data
+        console.log("Res Product Data: ", res.data)
+        console.log(`Product Name Match: ${product.title}, Product ID Match: ${product.id}`)
+        helpers.createEnvVar('PRODUCT_ID', product.id)
+        helpers.createEnvVar('PRODUCT_TITLE', product.title)
+      } else {
         const [, proeuctID, productName] = await apiUtils.createProduct({...payloads.productCreate(process.env.CATEGORY_ID, process.env.VENDOR_ID, process.env.VENDOR_SLUG, process.env.VENDOR_STORE_NAME)})
         helpers.createEnvVar('PRODUCT_ID', proeuctID)
         helpers.createEnvVar('PRODUCT_TITLE', productName)
+        console.log(`Product Name Generated: ${productName}, Product ID Generated: ${proeuctID}`)
+      }
     });
 
     setup('Admin Manage Vendor Onboarding Settings', async () => {
@@ -92,30 +114,3 @@ const shouldRun = process.env.RUN_SPECIFIC === 'true';
         expect(responseBody).toBeTruthy();
     })
 });
-// setup.describe('Admin settings setup', () => {
-  
-   
-//     // Access data from the JSON file
-//     const { name, country } = taxTestData;
-//       // setup.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`, strategy: "admin" } });
-//       setup('Create new country tax', async () => {
-//         console.log("Admin_API_TOKEN:", process.env.Admin_API_TOKEN);
-//         // const _addTaxCountry  = payloads.addTaxCountry();
-//         const [response, responseBody] = await apiUtils.post(endPoints.addTaxCountry(name), {data: payloads.addTaxCountry(name, country)}, { headers: adminAuth });
-//         expect(response.ok()).toBeTruthy();
-//         expect(responseBody).toBeTruthy();
-//         // const res = await response.json() as TaxResponseType
-//         // tax_name = res.data.name
-//         // country_name = res.data.name
-//         // helpers.createEnvVar('TAX_NAME', tax_name)
-//         // helpers.createEnvVar('COUNTRY_NAME', country_name)  
-//       })
-    
-// });
-
-
-
-
-
-// }
-// export default setupData();

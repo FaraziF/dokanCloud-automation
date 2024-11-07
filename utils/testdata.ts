@@ -59,6 +59,13 @@ export const data = {
 	},
 
 
+    // Category Generation
+    existingCategorySlug: 'bespoke-hybrid',
+    generateCategory: 'Bespoke Hybrid',
+
+    // Product Geneartion
+    existingProductSlug: 'modern-concrete-computer',
+    generateProductName: 'Modern Concrete Computer',
 
  /*  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Common Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
     dashboard: {

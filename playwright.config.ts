@@ -104,11 +104,20 @@ const config: PlaywrightTestConfig = {
       retries: 1,
     },
     { 
+      name: 'generate', 
+      // testMatch: /.*\.setup\.ts/ 
+      // testMatch: /auth\.setup\.ts/,
+      testMatch: ['_generate.setup.ts'],
+      dependencies: NO_SETUP ? [] : ['authsetup'],
+      // fullyParallel: true,
+      retries: 1,
+    },
+    { 
       name: 'datasetup', 
     // testMatch: /.*\.setup\.ts/ 
       // testMatch: /data\.setup\.ts/
       testMatch: ['_data.setup.ts'],
-      dependencies: NO_SETUP ? [] : ['authsetup'],
+      dependencies: NO_SETUP ? [] : ['generate'],
       // fullyParallel: true,
       retries: 1,
     },
@@ -137,7 +146,7 @@ const config: PlaywrightTestConfig = {
         },
       },
       // testMatch: /.*\.spec\.ts/,
-      dependencies: ['authsetup', 'datasetup', 'uploadsetup'],
+      dependencies: ['authsetup', 'datasetup', 'uploadsetup', 'generate'],
     },
 
     //  {

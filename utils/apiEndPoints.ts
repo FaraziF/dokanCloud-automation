@@ -385,6 +385,7 @@ export const endPoints = {
     getLowStockProductTypeFilter: `${catalogURL}/api/v1/admin/products?filters[stockStatus]=low_stock`,
     getUnmanagedProductTypeFilter: `${catalogURL}/api/v1/admin/products?filters[stockStatus]=unmanaged`,
     getVendorShippingProfile: (vendorID: string) => `${shippingURL}/api/v1/shipping/vendors/${vendorID}/profiles`,
+    searchProduct: (productSlug: string) => `${catalogURL}/api/v1/products/${productSlug}`,
 
     //Category & Attribute
     categoryGetAll: `${catalogURL}/api/v1/categories`,
@@ -394,6 +395,7 @@ export const endPoints = {
     attributeCreate: (categoryID: string) => `${catalogURL}/api/v1/categories/${categoryID}/attributes`,
     attributeUpdate: (categoryID: string, attributeID: string) => `${catalogURL}/api/v1/categories/${categoryID}/attributes/${attributeID}`,
     attributeDelete: (categoryID: string, attributeID: string) => `${catalogURL}/api/v1/categories/${categoryID}/attributes/${attributeID}`,
+    searchCategory: (categorySlug: string) => `${catalogURL}/api/v1/categories/${categorySlug}`,
 
     
     // Customer

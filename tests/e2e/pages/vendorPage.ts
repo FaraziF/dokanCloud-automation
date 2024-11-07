@@ -140,7 +140,11 @@ export class VendorPage extends BasePage {
         await this.page.getByRole('textbox').nth(1).click();
         await this.page.getByLabel('Year').click();
         await this.page.getByLabel('Year').fill('2029');
-        await this.page.getByLabel('October 1,').click();
+        await this.page.getByLabel('Month').click();
+        await this.page.keyboard.press('Enter');
+        await this.page.locator("(//span[@class='flatpickr-day'])[1]").click();
+        // await this.page.getByText('January', { exact: true }).click();
+        // await this.page.getByLabel('January 1,').click();
         await this.page.getByRole('button', { name: 'Upload Image' }).click();
         await this.page.getByRole('button', { name: 'Upload Files' }).click();
         const imageFile = path.resolve(__dirname, '../../../utils/images/apple.png');

@@ -65,8 +65,6 @@ test.describe("Vendor Onboarding Process", () => {
         await vendorPage.fillStoreDetails();
         await vendorPage.goToNextOnboardProcess();
         await expect(page).toHaveURL(/.*\/vendor\/onboarding\/business-type/);
-    
-        // Test User
 
         // vendor login data
         const loginData = {

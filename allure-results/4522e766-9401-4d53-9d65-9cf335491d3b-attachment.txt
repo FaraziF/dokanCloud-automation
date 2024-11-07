@@ -1,6 +1,0 @@
-Order Total Amount 100.5
-subtotal 100.5
-productTax 0
-lineItemId 76
-subtotal 100.5
-orderTotalAmount 100.5

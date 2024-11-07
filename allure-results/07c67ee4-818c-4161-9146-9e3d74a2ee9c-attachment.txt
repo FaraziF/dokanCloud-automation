@@ -1,2 +1,0 @@
-{ message: 'Invitation email has been sent.' }
-Invited team memeber: Trudie.Wyman@example.net

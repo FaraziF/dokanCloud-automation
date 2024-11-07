@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/categories/65643347ca29a1d193284c46
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid","errors":{"slug":["The slug field is required"]}}

@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/coupons/undefined
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid.","errors":{"title":["Coupon title field is required"],"coupon":["Coupon id must be a number"]}}

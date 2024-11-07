@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/vendor/addresses/14
-Status Code:  404
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"Page Not Found!"}

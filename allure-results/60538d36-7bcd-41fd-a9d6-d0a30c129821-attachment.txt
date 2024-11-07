@@ -1,6 +1,0 @@
-End-point:  https://farazi.staging.dokandev.com/api/v1/admin/orders/undefined/refunds
-Status Code:  422
-Error:  expect(received).toBeTruthy()
-
-Received: false
-Response text:  {"message":"The given data is invalid.","errors":{"orderId":["Invalid order ID"],"lineItems[0].id":["Invalid value","The line item id must be a number"],"lineItems[0].amount":["The line item amount is required"],"lineItems[0].tax":["The line item tax is required"]}}

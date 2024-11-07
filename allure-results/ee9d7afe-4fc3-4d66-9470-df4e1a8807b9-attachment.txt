@@ -1,3 +1,0 @@
-Vendor name undefined
-CATEGORY_ID=672059d710f9c6976530403a
-CATEGORY_NAME=Electronic invoice

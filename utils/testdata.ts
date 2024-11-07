@@ -1,4 +1,11 @@
 import { faker } from "@faker-js/faker";
+import { parse } from "querystring";
+
+const {CATEGORY_ID}= process.env
+const { PRODUCT_ID }= process.env
+const { VENDOR_ID }= process.env
+const { VENDOR_SLUG }= process.env
+const { VENDOR_STORE_NAME }= process.env
 
 const env = require('../env')
 /* export const user ={
@@ -52,6 +59,13 @@ export const data = {
 	},
 
 
+    // Category Generation
+    existingCategorySlug: 'bespoke-hybrid',
+    generateCategory: 'Bespoke Hybrid',
+
+    // Product Geneartion
+    existingProductSlug: 'modern-concrete-computer',
+    generateProductName: 'Modern Concrete Computer',
 
  /*  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Common Test <<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
     dashboard: {
@@ -66,7 +80,8 @@ export const data = {
         createSuccessMessage: 'Created successfully', 
         updateSuccessMessage: 'Updated successfully',
         deleteSuccessMessage: 'Deleted successfully',
-        vendorName: String(env('VENDOR_STORE_NAME')),
+        // vendorName: String(env('VENDOR_STORE_NAME')),
+        vendorName: String(VENDOR_STORE_NAME),
         // vendorName: 'jamuna-future-park',
     },
 
@@ -89,44 +104,7 @@ export const data = {
 
     /*  <<<<<<<<<<<<<<<<<<<<<<<<<<< Sub URL section <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
-    subUrls: {
-        admin: {
-            login: '/admin/login',
-            dashboard: '/admin',
-            product: '/admin/products',
-            productCreate: '/admin/products/create',
-            category: '/admin/categories',
-            brand: '/admin/brands',
-            order: '/admin/orders',
-            subscription: '/admin/subscription-plans',
-            payouts: '/admin/payouts',
-            vendor: '/admin/vendors',
-            customer: '/admin/customers',
-            page: '/admin/pages',
-            generalSettings: '/admin/settings/general',
-            teamSettings: '/admin/settings/team',
-            paymentSettings: '/admin/settings/payment',
-            payoutSettings: '/admin/settings/payout',
-            shippingSettings: '/admin/settings/shipping',
-            notificationSettings: '/admin/settings/notification',
-            taxSettings: '/admin/settings/tax',
-            seoSettings: '/admin/settings/seo',
-            policiesSettings: '/admin/settings/policies',
-        },
-        vendor: {
-            dashboard: '/vendor',
-            product: '/vendor/products',
-            login: '/vendor/login',
-        },
-        customer: {
-            homePage: '',
-            registerPage: '/register',
-            loginPage: '/login',
-        },
-        storefront: {
-            shopPage: '/shop',
-        },
-    },
+    
 
     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Admin Section <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
     
@@ -136,7 +114,7 @@ export const data = {
         insertName: () => faker.helpers.unique(() => faker.random.word()),
         insertDescription: () => faker.commerce.productDescription(),
         updateName: () => faker.helpers.unique(() => faker.random.word()),
-        imageUpload: "/Users/faraziforhad/MyDevice/Programming/Automation/playwright-test/utils/images/avocado.png",
+        // imageUpload: "/Users/faraziforhad/MyDevice/Programming/Automation/playwright-test/utils/images/avocado.png",
         createSuccessMessage: "Category created successfully.",
         updateSuccessMessage: "Category updated successfully.",
         categoryDeleteConfirmationMessage: 'Are you sure want to delete category?',
@@ -189,10 +167,11 @@ export const data = {
         numberOfPhysicalProducts: '10',
         numberOfDigitalProducts: '10',
         numberOfVendorStaff: '5',
-        createSuccessMessage: 'Subscription plan is created successfully',
-        // edit 
+        createSuccessMessage: 'Subscription Plan Created Successfully',
+        // edit Subscription Plan Created Successfully
+
         descriptionUpdateField: 'this is new subscription pack update description',
-        updateSuccessMessage: 'Subscription plan has been updated successfully',
+        updateSuccessMessage: 'Subscription Plan Updated Successfully',
         subscriptionDeletePopupForm: 'Are you sure want to delete subscription plan',
         deleteSuccessMessage: 'Subscription plan deleted successfully',
 

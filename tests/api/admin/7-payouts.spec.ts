@@ -45,7 +45,7 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Admin
 		expect(responseBody).toBeTruthy();
 	});
 	test('get search vendor payouts', async () => {
-		const [response, responseBody] = await apiUtils.get(endPoints.getSearchPayouts);
+		const [response, responseBody] = await apiUtils.get(endPoints.getVendorSearchPayouts);
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});

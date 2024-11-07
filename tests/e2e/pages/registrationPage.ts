@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
 import { selector } from "../pages/selectors";
-import { isVisible } from "../framework/common-actions";
+import { isVisible } from "../../../utils/common-actions";
 import { faker } from "@faker-js/faker";
 
 export class Registration {

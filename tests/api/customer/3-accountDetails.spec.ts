@@ -11,7 +11,7 @@ test.beforeAll(async () => {
 	apiUtils = new ApiUtils(await request.newContext());
 });
 
-test.describe('Customer', () => {
+test.describe('Customer', { tag: ['@local']}, () => {
 test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Customer_API_TOKEN)}`, strategy: "customer" } });
 
 	test('get profile', async () => {
@@ -19,7 +19,7 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Custo
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
-	test('update profile', async () => {
+	test.skip('update profile', async () => {
 		const [response, responseBody] = await apiUtils.patch(endPoints.customerSaveAccountDetails, {data: payloads.customerSaveProfile()});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();

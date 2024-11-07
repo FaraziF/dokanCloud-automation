@@ -1,8 +1,11 @@
-import { test as setup, expect } from '@playwright/test';
-import { LoginPage } from "../pages/loginPage";
-import { user, data } from '../../../utils/testdata';
-import { selector } from "../pages/selectors";
+import { test as setup, expect, request } from '@playwright/test';
+import { LoginPage } from "../tests/e2e/pages/loginPage";
+import { user, data } from '../utils/testdata';
+import { selector } from "../tests/e2e/pages/selectors";
 import { TIMEOUT } from 'dns';
+
+
+
 // import { STORAGE_STATE } from '../../../playwright.config';
 
 /*
@@ -73,7 +76,7 @@ setup.describe('Authenticate with', () => {
 		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
 	});
 
-    setup('Customer valid credential', async ({ page }) => {
+    setup('Customer valid credential',{ tag: ['@local']}, async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
     });
@@ -88,8 +91,7 @@ setup('authenticate as admin', async ({ page }) => {
     await page.click(selector.login.signIn);
     // await page.waitForTimeout(4000)
     // await page.waitForLoadState('networkidle');
-    // await page.waitForURL(data.subUrls.admin.dashboard)
-    await page.waitForURL(data.subUrls.admin.dashboard, { waitUntil: "networkidle" })
+    await page.waitForURL(endpoints.adminDashboard, { waitUntil: "networkidle" })
   
     // End of authentication steps.
   

@@ -2,9 +2,15 @@ import { test, expect, request } from "@playwright/test";
 import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
 const env = require('../../../env')
-
+import { ApiUtils } from "../../../utils/apiUtils";
 // const orderId: number;
 // let res;
+let apiUtils: ApiUtils;
+let category_id;
+let productTitle;
+let product_id: string;
+
+
 let productID;
 let _ExistingProductPrice;
 let _taxClassId;
@@ -51,7 +57,23 @@ let adminAuth = { Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`
     Current {{ price product price, shipping price,tax price, admin comission,vendor earning }}
 */
 
-
+test.beforeAll( async () => {
+    // apiUtils = new ApiUtils(request);
+    apiUtils = new ApiUtils(await request.newContext());
+    const [response, responseBody] = await apiUtils.post(endPoints.createProduct, { data: {...payloads.productCreate(category_id)}, headers: adminAuth })
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();    
+        const res = await response.json()
+        product_id = res.data.id;
+        productTitle = res.data.title
+        console.log("Product ID & Title " + product_id + " " + productTitle)
+})
+test.afterAll(async ({}) => {
+    const [response, responseBody] = await apiUtils.delete(endPoints.productDelete(product_id), { headers: adminAuth } )
+    expect(response.ok()).toBeTruthy();
+    expect(responseBody).toBeTruthy();
+    console.log(await response.json());
+});
 
 
 test.describe("Calculation Test", () => {
@@ -70,7 +92,7 @@ test.describe("Calculation Test", () => {
     
     
     test("Get individual Product Price, Tax and Shipping", async ({ request }) => {
-        const _response = await request.get(endPoints.individualProductGet)
+        const _response = await request.get(endPoints.individualProductGet(category_id))
         expect(_response.ok()).toBeTruthy()
         const res = await _response.json()
         _ExistingProductPrice = res.data.price;
@@ -166,7 +188,7 @@ test.describe("Calculation Test", () => {
 
 
     test("Add To Cart", async({ request }) => {
-        let _response = await request.post(endPoints.addToCart, {data: payloads.addToCart(), headers:customerAuth })
+        let _response = await request.post(endPoints.addToCart, {data: payloads.addToCart(product_id), headers:customerAuth })
         expect(_response.ok()).toBeTruthy()
         // console.log(await _response.json())
         const res = await _response.json()

@@ -1,7 +1,8 @@
 import { expect, Page } from "@playwright/test";
 import { selector } from "../pages/selectors";
-import { isVisible } from "../framework/common-actions";
+import { isVisible } from "../../../utils/common-actions";
 import { user, data, admin } from "../../../utils/testdata";
+import { endPoints } from "../../../utils/apiEndPoints";
 
 // const env = require('../../../env');
 export class LoginPage {
@@ -55,14 +56,14 @@ export class LoginPage {
     }
 
     // user manual Login Login with 
-	async adminManualLogin(user: user, url: string = data.subUrls.admin.login, storageState?: string): Promise<void> {
+	async adminManualLogin(user: user, url: string = endPoints.adminDashboardLogin, storageState?: string): Promise<void> {
         await this.page.goto(url)
+        console.log(url)
         await this.page.locator(selector.login.adminEamilAddress).fill(user.username);
         await this.page.locator(selector.login.password).fill(user.password);
         // await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
-        await this.page.waitForURL(data.subUrls.admin.dashboard, { waitUntil: "networkidle" })
-        // await this.page.waitForURL(data.subUrls.admin.dashboard)
+        await this.page.waitForURL(endPoints.adminDashboard, { waitUntil: "networkidle" })
         // console.log("Storage:", await this.page.context().storageState())
         if (storageState){
             await this.page.context().storageState({ path: storageState });
@@ -70,39 +71,40 @@ export class LoginPage {
 	}
     // admin login
 	async loginAsAdmin(user: user, storageState?: string) {
-		await this.adminManualLogin(user, data.subUrls.admin.login, storageState);
+		await this.adminManualLogin(user, endPoints.adminDashboardLogin, storageState);
 	}
 
      // user manual Login Login with 
-	async vendorManualLogin(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void> {
+	async vendorManualLogin(user: user, url: string = endPoints.vendorDashboardLogin, storageState?: string): Promise<void> {
         await this.page.goto(url)
         await this.page.locator(selector.login.vendorEamilAddress).fill(user.username);
         await this.page.locator(selector.login.password).fill(user.password);
         // await this.page.locator(selector.login.keepMeSignIn).check();
         await this.page.click(selector.login.signIn);
-        // await this.page.waitForURL(data.subUrls.vendor.dashboard)
-        await this.page.waitForURL(data.subUrls.vendor.dashboard, { waitUntil: "networkidle" })
+        // await this.page.waitForURL(endpoints.vendorDashboard)
+        await this.page.waitForURL(endPoints.vendorDashboard, { waitUntil: "networkidle" })
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }
 	}
 	async loginAsVendor(user: user, storageState?: string) {
-		await this.vendorManualLogin(user, data.subUrls.vendor.login, storageState);
+		await this.vendorManualLogin(user, endPoints.vendorDashboardLogin, storageState);
 	}
 
-    async customerManualLogin(user: user, url: string = data.subUrls.vendor.login, storageState?: string): Promise<void>  {
+    async customerManualLogin(user: user, url: string = endPoints.customerLoginPage, storageState?: string): Promise<void>  {
         await this.page.goto(url)
         await this.page.locator(selector.login.customerEamilAddress).fill(user.username);
         await this.page.locator(selector.login.password).fill(user.password);
         await this.page.click(selector.login.signIn);
-        await this.page.waitForURL(data.subUrls.customer.homePage, { waitUntil: "networkidle" })
+        // await this.page.reload({waitUntil:'load'})
+        await this.page.waitForURL(endPoints.customerAccountPage, { waitUntil: "networkidle" })
         // await expect(this.page.getByText(data.customer.loginSuccessfully, { exact: true })).toBeVisible()
         if (storageState){
             await this.page.context().storageState({ path: storageState });
         }
     }
     async loginAsCustomer(user: user, storageState?: string) {
-        await this.customerManualLogin(user, data.subUrls.customer.loginPage, storageState)
+        await this.customerManualLogin(user, endPoints.customerLoginPage, storageState)
     }
 
    /*  async loginAsAdmin() {

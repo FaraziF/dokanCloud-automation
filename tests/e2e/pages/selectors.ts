@@ -17,6 +17,7 @@ export const selector = {
     // },
     
     product: {
+        bulkEditButton: 'button:has-text("Bulk Edit")',
         menuLink: 'Products',
         subMenuLink: 'All Products',
         addNew: "Add Product",
@@ -185,8 +186,8 @@ export const selector = {
             continueSteps: 'Continue',
             numberOfPhysicalProducts: '#noofpyscialproducts',
             numberOfDigitalProducts: "(//input[@id='noofdigitalproducts'])[1]",
-            couponCreation: "(//button[@role='switch'])[2]",
-            allowMultipleAddress: "(//button[@role='switch'])[3]",
+            couponCreation: "(//button[@aria-checked='false'])[2]",
+            allowMultipleAddress: "(//button[@aria-checked='false'])[3]",
             numberOfVendorStaff: '2',
             createAndPublish: 'Publish',
             //Edit

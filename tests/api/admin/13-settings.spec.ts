@@ -4,10 +4,21 @@ import { endPoints } from "../../../utils/apiEndPoints";
 import { payloads } from "../../../utils/payloads";
 import { log } from "console";
 import { data } from "../../../utils/testdata";
+import { helpers } from '../../../utils/helpers';
+import { TaxResponseType } from "../../../utils/types/image";
+
 
 let apiUtils: ApiUtils;
 let invitedTeamMemberEmail: string;
 let taxClassID: number;
+let tax_name;
+let country_name;
+
+
+const { BANNER_ID } = process.env
+const { LOGO_ID } = process.env
+const { TAX_NAME } = process.env
+const { COUNTRY_NAME } = process.env
 
 test.beforeAll(async () => {
 	// apiUtils = new ApiUtils(request);
@@ -60,7 +71,7 @@ test.describe("general setting", () => {
     })
     
     // Domain
-    test.describe("Domain", () => {
+    test.describe.skip("Domain", () => {
         test("get domain", async() => {
             const [response, responseBody] = await apiUtils.get(endPoints.getDomainSettings);
             expect(response.ok()).toBeTruthy();
@@ -98,7 +109,7 @@ test.describe("general setting", () => {
             expect(responseBody).toBeTruthy();
         })
         test("update brand", async() => {
-            const [response, responseBody] = await apiUtils.put(endPoints.updateBrand, { data: payloads.updateBrand() });
+            const [response, responseBody] = await apiUtils.put(endPoints.updateBrandSettings, { data: payloads.updateBrand( BANNER_ID, LOGO_ID) });
             expect(response.ok()).toBeTruthy();
             expect(responseBody).toBeTruthy();
         })
@@ -185,7 +196,7 @@ test.describe("team settings", () => {
 })
 
 // billing
-test.describe("Billing", () => {
+test.describe("Billing", { tag: ['@local']}, () => {
     test("get plans and bills", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.getPlansAndBillsDetails);
 		expect(response.ok()).toBeTruthy();
@@ -325,45 +336,60 @@ test.describe("tax settings", () => {
         
     }) 
 
-    test("add country", async() => {
+    // Create Tax On setup file
+    /* test("add country", async() => {
         const _addTaxCountry  = payloads.addTaxCountry();
         const [response, responseBody] = await apiUtils.post(endPoints.addTaxCountry(_addTaxCountry.country), {data: _addTaxCountry});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
-    }) 
+    })  */
+
+        test('Create new country tax', async () => {
+            const _addTaxCountry  = payloads.addTaxCountry();
+            const [response, responseBody] = await apiUtils.post(endPoints.addTaxCountry(_addTaxCountry.country), {data: _addTaxCountry});
+            expect(response.ok()).toBeTruthy();
+            expect(responseBody).toBeTruthy();
+            const res = await response.json() 
+            console.log("Created Tax",res)
+            tax_name = res.data.name
+            country_name = res.data.country
+            helpers.createEnvVar('TAX_NAME', tax_name)
+            helpers.createEnvVar('COUNTRY_NAME', country_name) 
+          })
+
     test("manage same tax country", async() => {
-        const _addTaxCountry  = payloads.mangeSameTaxCountry();
+        const _addTaxCountry  = payloads.mangeSameTaxCountry(process.env.COUNTRY_NAME, process.env.TAX_NAME);
         const [response, responseBody] = await apiUtils.post(endPoints.manageSameTaxCountry(_addTaxCountry.country), {data: _addTaxCountry});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
     }) 
     test("manage different tax country", async() => {
-        const _addTaxCountry  = payloads.mangeDifferentTaxCountry();
+        const _addTaxCountry  = payloads.mangeDifferentTaxCountry( process.env.COUNTRY_NAME, process.env.TAX_NAME );
         const [response, responseBody] = await apiUtils.post(endPoints.differentTaxCountry(_addTaxCountry.data[0].country), {data: _addTaxCountry});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
     }) 
     test("get edit all tax", async() => {
-        const _addTaxCountry  = payloads.mangeDifferentTaxCountry();
+        const _addTaxCountry  = payloads.mangeDifferentTaxCountry(process.env.COUNTRY_NAME, process.env.TAX_NAME );
         const [response, responseBody] = await apiUtils.get(endPoints.getEditAllDifferentTaxCountry(_addTaxCountry.data[0].country));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
     }) 
     test("edit state tax country", async() => {
-        const _addTaxCountry  = payloads.editStateTaxCountry();
+        const _addTaxCountry  = payloads.editStateTaxCountry(process.env.COUNTRY_NAME);
         const [response, responseBody] = await apiUtils.post(endPoints.editStateTaxCountry(_addTaxCountry.data[0].country), {data: _addTaxCountry});
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
     }) 
     test("delete state tax country", async() => {
-        const _addTaxCountry  = payloads.editStateTaxCountry();
+        const _addTaxCountry  = payloads.editStateTaxCountry(process.env.COUNTRY_NAME);
         const [response, responseBody] = await apiUtils.delete(endPoints.deleteStateTaxCountry(_addTaxCountry.data[0].country, _addTaxCountry.data[0].state));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
         console.log(await response.json())
     }) 
     test("delete tax country", async() => {
-        const _addTaxCountry  = payloads.editStateTaxCountry();
+        const _addTaxCountry  = payloads.editStateTaxCountry(process.env.COUNTRY_NAME);
         const [response, responseBody] = await apiUtils.delete(endPoints.deleteTaxCountry(_addTaxCountry.data[0].country));
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();

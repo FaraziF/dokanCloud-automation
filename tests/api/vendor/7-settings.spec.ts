@@ -5,12 +5,25 @@ import { ApiUtils } from "../../../utils/apiUtils";
 import { payloads } from "../../../utils/payloads";
 import { data } from "../../../utils/testdata";
 
+import fs from 'fs';
+import path from 'path';
+import { BannerImageResponseType } from "../../../utils/types/image";
+
 let apiUtils: any;
 let coupon_id: string;
 let title: string;
 let defaultAddressId;
 let newLocationId;
 let invitedTeamMemberEmail;
+let VENDOR_ID;
+let VENDOR_SLUG;
+let VENDOR_STORE_NAME;
+let bannerURL;
+let bannerID;
+let banner_id;
+let logo_id;
+let logoID;
+let logoURL;
 
 let vendorAuth = { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}` }
 
@@ -21,6 +34,23 @@ test.beforeAll( async () => {
 
 test.describe("Settings", () => {
   test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}`, strategy: "vendor" } });
+
+  // test.describe("vendor details", () => {
+  //   test("individual vendor information", async() => {
+  //     const [response, responseBody] = await apiUtils.get("http://user.dokan.marketplace/api/v1/vendor/details?include=defaultAddress");
+  //     expect(response.ok()).toBeTruthy();
+	//     expect(responseBody).toBeTruthy();
+  //     const res = await response.json()
+  //     VENDOR_ID = res.data.id;
+  //     VENDOR_SLUG = res.data.slug;
+  //     VENDOR_STORE_NAME = res.data.storeName;
+  //     console.log("All log", res)
+  //     console.log("VENDOR_ID Log:", VENDOR_ID)
+  //     console.log("VENDOR_SLUG Log:", VENDOR_SLUG)
+  //     console.log("VENDOR_STORE_NAME Log:", VENDOR_STORE_NAME)
+  //   })
+  // })
+
 
   test.describe("General", () => {  
     test("Get basic settings", async () => {
@@ -33,7 +63,13 @@ test.describe("Settings", () => {
         expect(response.ok()).toBeTruthy();
 	    expect(responseBody).toBeTruthy();
     });
+
+
+
     
+
+
+
     
     test("Get store details settings", async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.vendorGetStoreDetailsSettings);
@@ -112,8 +148,8 @@ test.describe("Settings", () => {
     test("invite new team member", async() => {
         const payload  = payloads.vendorInviteNewMember();
         const [response, responseBody] = await apiUtils.post(endPoints.vendorInviteNewTeamMember, {data: payload} );
-    expect(response.ok()).toBeTruthy();
-    expect(responseBody).toBeTruthy();
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();
         console.log(await response.json())
         // console.log(payloads.inviteNewMember()?.email)
         const getEmail = payload?.email
@@ -177,7 +213,7 @@ test.describe("Settings", () => {
   // Payout
   test.describe("Payout settings", () => {
     test("Get payout", async() => {
-      const [response, responseBody] = await apiUtils.get(endPoints.vendorGetPaymentGatwey);
+      const [response, responseBody] = await apiUtils.get(endPoints.vendorGetPayoutSettings);
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
     })

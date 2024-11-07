@@ -1,8 +1,9 @@
 import { expect, type Page } from "@playwright/test";
-import { isVisible } from "../framework/common-actions";
+import { isVisible } from "../../../utils/common-actions";
 import { selector } from "./selectors";
 import { BasePage } from "./basePage";
 import { data } from "../../../utils/testdata";
+import { endPoints } from "../../../utils/apiEndPoints";
 
 export class CustomerPage extends BasePage{
     // readonly page: Page;
@@ -19,16 +20,16 @@ export class CustomerPage extends BasePage{
     } */
 
     async goToLoginPage(): Promise<void> {
-        await this.page.goto(data.subUrls.customer.loginPage)
+        await this.page.goto(endPoints.customerLoginPage)
     }
 
     async goToRegisterPage(): Promise<void> {
-        // await this.page.goto(data.subUrls.customer.registerPage)
-        await this.page.goto(data.subUrls.customer.registerPage)
+        // await this.page.goto(endpoint.customerRegistrationPage)
+        await this.page.goto(endPoints.customerRegistrationPage)
     }
 
     async gotToShopPage() {
-        await this.page.goto(data.subUrls.storefront.shopPage)
+        await this.page.goto(endPoints.customerShopPage)
     }
 
     async goToCart( ): Promise<boolean> {

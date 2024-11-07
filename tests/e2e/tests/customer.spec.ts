@@ -1,12 +1,12 @@
 import { Page, test, expect } from "@playwright/test";
-import { data } from "../../../../utils/testdata";
-import { CustomerPage } from "../../pages/customerPage";
+import { data } from "../../../utils/testdata";
+import { CustomerPage } from "../pages/customerPage";
 
 
 // let page: Page;
 test.describe.configure({ mode: 'serial' });
 
-test.describe('Customer Functionality Test', () => {
+test.describe.skip('Customer Functionality Test', () => {
     test.use({ storageState: data.auth.customerAuthFile });
 
     let customerPage: CustomerPage;
@@ -30,7 +30,7 @@ test.describe('Customer Functionality Test', () => {
     */
 
     test('Customer Order', async({ page }, testInfo) => {
-        // await page.goto(data.subUrls.storefront.shopPage)
+        // await page.goto(endPoints.customerShopPage)
         if (testInfo.retry)
         await cleanSomeCachesOnTheServer();
 

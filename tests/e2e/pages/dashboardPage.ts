@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { isVisible } from "../framework/common-actions";
+import { isVisible } from "../../../utils/common-actions";
 import { selector } from "../pages/selectors";
 
 export class DashboardPage {

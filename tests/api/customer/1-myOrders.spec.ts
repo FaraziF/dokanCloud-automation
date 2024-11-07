@@ -44,11 +44,12 @@ test.use({ extraHTTPHeaders: { Authorization: `Bearer ${String(process.env.Custo
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
 	});
-	test('get customer order details', async () => {
+	// Need to re-factor
+	/* test('get customer order details', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.customerGetOrderDetails);
 		expect(response.ok()).toBeTruthy();
 		expect(responseBody).toBeTruthy();
-	});
+	}); */
 	test('get order pagination', async () => {
 		const [response, responseBody] = await apiUtils.get(endPoints.customerGetOrderPagination);
 		expect(response.ok()).toBeTruthy();

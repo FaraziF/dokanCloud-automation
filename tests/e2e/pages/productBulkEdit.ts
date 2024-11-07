@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import { isVisible } from "../framework/common-actions";
+import { isVisible } from "../../../utils/common-actions";
 import { selector } from "./selectors";
 import { BasePage } from "./basePage";
 import { data } from "../../../utils/testdata";
@@ -146,7 +146,15 @@ export class ProductBulkEdit extends BasePage {
     async verifyProductBulkEdit(productTitleUpdate: string, newSKU: string, newBarcode: string, newStockQuantity: string, updateSEOTitle: string) {
       // Navigate product edit page
       await this.page.getByRole('link', { name: 'Products' }).click();
-      await this.page.locator("(//div[@role='button'])[1]").click();
+      // await this.page.locator("(//div[@class='relative inline-block']//div)[1]").click();
+      // await this.page.getByRole('cell', { name: productTitleUpdate }).locator('div').first().click();
+      // await this.page.locator('td:nth-child(7)').first().click();
+      
+      const isChatVisible = await this.page.getByRole('button', { name: 'Chat with Dokan' }).isVisible();
+      if (isChatVisible) {
+        await this.page.getByLabel('Open chat').getByRole('button').first().click();
+      }
+      await this.page.getByRole('row', { name: productTitleUpdate }).getByRole('button').click();
       await this.page.getByRole('link', { name: 'Edit' }).click();
 
       // Validate changes

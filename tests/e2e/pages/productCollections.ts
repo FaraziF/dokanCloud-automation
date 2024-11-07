@@ -1,5 +1,5 @@
 import { expect, Page } from "@playwright/test";
-import { isVisible } from "../framework/common-actions";
+import { isVisible } from "../../../utils/common-actions";
 import { selector } from "./selectors";
 import { BasePage } from "./basePage";
 import { data } from "../../../utils/testdata";

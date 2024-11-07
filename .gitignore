@@ -13,5 +13,3 @@ config.json
 /playwright-report/
 /test-results/
 /allure-report/
-/playwright-test/
-/allure-results/

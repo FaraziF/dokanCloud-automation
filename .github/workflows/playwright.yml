@@ -40,8 +40,8 @@ env:
   M_STAGING_CART_URL: ${{ secrets.CART_URL }}
   # API_TEST_RESULT: './results.json'
 
-  API_TEST_RESULT: './test-results/results.json'
-  E2E_TEST_RESULT: './test-results/results.json'
+  API_TEST_RESULT: './test-results/e2e-results.json'
+  E2E_TEST_RESULT: './test-results/api-results.json'
 jobs:
   test:
     name: All Test
@@ -78,7 +78,9 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        run: npm run test:all
+        run: |
+          npm run test:api
+          npm run test:e2e
       - uses: actions/upload-artifact@v3
         if: always()
         with:

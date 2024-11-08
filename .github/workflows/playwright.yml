@@ -2,10 +2,10 @@ name: Playwright Tests
 on:
   # schedule:
   #   - cron: '0 3 * * *'
-  # push:
-  #   branches: [main, master]
+  push:
+    branches: [main, develop, master]
   pull_request:
-    branches: [main, master]
+    branches: [main, develop, master]
 
   # workflow can be manually triggered
   workflow_dispatch:

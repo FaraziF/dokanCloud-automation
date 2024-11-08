@@ -59,8 +59,8 @@ const config: PlaywrightTestConfig = {
       './utils/summaryReporter.ts',
       {
         outputFile: SUMMARY_PATH
-          ? './test-results/e2e-results.json'
-          : './test-results/api-results.json',
+          ? './e2e-test-results/e2e-results.json'
+          : './api-test-results/api-results.json',
       },
     ],
     // ['html'],['line'],['allure-playwright']

@@ -40,8 +40,8 @@ env:
   M_STAGING_CART_URL: ${{ secrets.CART_URL }}
   # API_TEST_RESULT: './results.json'
 
-  API_TEST_RESULT: './test-results/api-results.json'
-  E2E_TEST_RESULT: './test-results/e2e-results.json'
+  API_TEST_RESULT: './api-test-results/api-results.json'
+  E2E_TEST_RESULT: './e2e-test-results/e2e-results.json'
 jobs:
   test:
     name: All Test

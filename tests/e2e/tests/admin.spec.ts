@@ -34,7 +34,7 @@ test.afterAll(async () => {
 });
 
 test.describe('Admin Exploratory Testing', () => {
-  test.only('Dashbaord page loading and element verification', async () => {
+  test('Dashbaord page loading and element verification', async () => {
     await adminPage.dashbaordElementValidation();
   });
 

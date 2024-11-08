@@ -5,7 +5,7 @@ on:
   push:
     branches: [main, develop, master]
   pull_request:
-    branches: [main, deelop, master]
+    branches: [main, develop, master]
 
   # workflow can be manually triggered
   workflow_dispatch:
@@ -40,8 +40,8 @@ env:
   M_STAGING_CART_URL: ${{ secrets.CART_URL }}
   # API_TEST_RESULT: './results.json'
 
-  API_TEST_RESULT: './test-results/e2e-results.json'
-  E2E_TEST_RESULT: './test-results/api-results.json'
+  API_TEST_RESULT: './test-results/api-results.json'
+  E2E_TEST_RESULT: './test-results/e2e-results.json'
 jobs:
   test:
     name: All Test

@@ -1,0 +1,5 @@
+- page: 'E2E'
+  features:
+    admin:
+      Dashbaord page loading and element verification: true
+      admin can activate Dokan plugin [lite]: false

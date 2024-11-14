@@ -2,15 +2,17 @@ import type { PlaywrightTestConfig } from '@playwright/test';
 // import { defineConfig } from '@playwright/test';
 import { devices } from '@playwright/test';
 import path from 'path';
-const env = require('./env');
-// import 'dotenv/config';
-const { NO_SETUP, SUMMARY_PATH } = process.env;
+// const env = require('./env');
+import 'dotenv/config';
 
 import dotenv from 'dotenv';
-require('dotenv').config();
+// require('dotenv').config();
 
 // // Read from default ".env" file.
-dotenv.config();
+// dotenv.config();
+
+const { NO_SETUP, SUMMARY_PATH } = process.env;
+// console.log(typeof SUMMARY_PATH);
 
 // const env = require('./env');
 
@@ -43,7 +45,7 @@ const config: PlaywrightTestConfig = {
   /* Run tests in files in parallel */
   // fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
+  // forbidOnly: !!process.env.CI,
   // retries: 2,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
@@ -51,7 +53,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html', { open: 'never' }],
+    // ['html', { open: 'never' }],
     ['list', { printSteps: true }],
     // ['./utils/summaryReporter.ts'],
 
@@ -59,8 +61,8 @@ const config: PlaywrightTestConfig = {
       './utils/summaryReporter.ts',
       {
         outputFile: SUMMARY_PATH
-          ? './e2e-test-results/e2e-results.json'
-          : './api-test-results/api-results.json',
+          ? 'playwright-report/e2e/e2e-results.json'
+          : 'playwright-report/api/api-results.json',
       },
     ],
     // ['html'],['line'],['allure-playwright']
@@ -72,7 +74,7 @@ const config: PlaywrightTestConfig = {
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: process.env.URL ?? '',
-    baseURL: env(URL ?? ''),
+    // baseURL: env(URL ?? ''),
     // baseURL: 'https://testing.dokandev.com/',
     // baseURL: process
     // storageState: 'storageState.json',
@@ -97,11 +99,7 @@ const config: PlaywrightTestConfig = {
     // Setup project
     {
       name: 'authsetup',
-      // testMatch: /.*\.setup\.ts/
-      // testMatch: /auth\.setup\.ts/,
       testMatch: ['_auth.setup.ts'],
-      // dependencies: NO_SETUP ? [] : ['site_setup'],
-      // fullyParallel: true,
       retries: 1,
     },
     {
@@ -113,21 +111,21 @@ const config: PlaywrightTestConfig = {
       // fullyParallel: true,
       retries: 1,
     },
-    {
-      name: 'datasetup',
-      // testMatch: /.*\.setup\.ts/
-      // testMatch: /data\.setup\.ts/
-      testMatch: ['_data.setup.ts'],
-      dependencies: NO_SETUP ? [] : ['generate'],
-      // fullyParallel: true,
-      retries: 1,
-    },
+    // {
+    //   name: 'datasetup',
+    //   // testMatch: /.*\.setup\.ts/
+    //   // testMatch: /data\.setup\.ts/
+    //   testMatch: ['_data.setup.ts'],
+    //   dependencies: NO_SETUP ? [] : ['generate'],
+    //   // fullyParallel: true,
+    //   retries: 1,
+    // },
     {
       name: 'uploadsetup',
       // testMatch: /.*\.setup\.ts/
       // testMatch: /upload\.setup\.ts/
       testMatch: ['_upload.setup.ts'],
-      dependencies: NO_SETUP ? [] : ['datasetup'],
+      dependencies: NO_SETUP ? [] : ['generate'],
       // fullyParallel: true,
       retries: 1,
     },
@@ -147,7 +145,13 @@ const config: PlaywrightTestConfig = {
         },
       },
       // testMatch: /.*\.spec\.ts/,
-      dependencies: ['authsetup', 'datasetup', 'uploadsetup', 'generate'],
+      dependencies: NO_SETUP ? [] : ['authsetup', 'uploadsetup', 'generate'],
+      teardown: 'coverageReport',
+    },
+
+    {
+      name: 'coverageReport',
+      testMatch: '_coverage.teardown.ts',
     },
 
     //  {

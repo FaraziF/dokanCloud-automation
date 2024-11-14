@@ -1,0 +1,5 @@
+- page: 'API'
+  features:
+    admin:
+      get set up guide: true
+      get test up guide: false

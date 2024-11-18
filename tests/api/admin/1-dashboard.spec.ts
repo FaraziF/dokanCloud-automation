@@ -23,7 +23,7 @@ test.describe('API admin dashbaord', () => {
     },
   });
 
-  test.only('get set up guide', async ({ request }) => {
+  test('get set up guide', async ({ request }) => {
     const [response, responseBody] = await apiUtils.get(
       endPoints.getSetupGuide
     );

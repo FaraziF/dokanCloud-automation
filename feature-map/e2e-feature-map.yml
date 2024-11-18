@@ -1,5 +1,72 @@
 - page: 'E2E'
   features:
-    admin:
+    adminExploratory:
       Dashbaord page loading and element verification: true
-      admin can activate Dokan plugin [lite]: false
+      Product page loading and element verification: true
+      Category page loading and element verification: true
+      Order page loading and element verification: true
+      Brand page loading and element verification: true
+      Payout page loading and element verification: true
+      Subsctiption page loading and element verification: true
+      Vendor page loading and element verification: true
+      Customer page loading and element verification: true
+      Design page loading and element verification: true
+      General settings page loading and element verification: true
+      Team settings page loading and element verification: true
+      Payment settings page loading and element verification: true
+      Payout settings page loading and element verification: true
+      Shipping settings page loading and element verification: true
+      Notification settings page loading and element verification: true
+      Tax settings page loading and element verification: true
+      SEO settings page loading and element verification: true
+      Policies settings page loading and element verification: true
+    adminFunctionality:
+      Go to Dashboard: true
+      Create New Category @cc: true
+      Edit Category @ce: true
+      Delete Category @cd: true
+      Create New Brand @bc: true
+      Edit Brand @be: true
+      Delete Brand @db: true
+      Create New Standard Product @pc-s: true
+      Edit Product @pe: true
+      Delete Product @pd: true
+      Subscription Create @sc @subs: true
+      Edit Subscription @se @subs: true
+      Delete Subscription @sd @subs: true
+      Tax Class CRUD @tax: false
+      Tax Rate Add For Entire Country @tax: false
+      Different Tax Rate For State, City & Zip @tax: false
+      invited new team member and register by invitation link: false
+
+- page: 'Coupon'
+  features:
+    vendor:
+      Coupon Create, Update and Delete With Validation: true
+
+- page: 'Order'
+  features:
+    customer:
+      Customer Order: true
+
+- page: 'Product Bulk Edit'
+  features:
+    admin:
+      bulk edit products and validate changes: true
+
+- page: 'Product Collections'
+  features:
+    admin:
+      Create a new collection: true
+      Edit an existing collection: true
+      Delete a collection: true
+
+- page: 'Vendor Onboarding'
+  features:
+    vendor:
+      Complete vendor onboard process: true
+
+- page: 'Product'
+  features:
+    vendor:
+      Create a new product: true

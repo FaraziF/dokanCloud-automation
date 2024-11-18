@@ -145,14 +145,23 @@ const config: PlaywrightTestConfig = {
         },
       },
       // testMatch: /.*\.spec\.ts/,
+      testIgnore: ['_coverage.spec.ts'],
       dependencies: NO_SETUP ? [] : ['authsetup', 'uploadsetup', 'generate'],
-      teardown: 'coverageReport',
+      // teardown: 'coverageReport',
     },
 
     {
-      name: 'coverageReport',
-      testMatch: '_coverage.teardown.ts',
+      name: 'teardown',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      testMatch: ['_coverage.spec.ts'],
     },
+
+    // {
+    //   name: 'coverageReport',
+    //   testMatch: '_coverage.teardown.ts',
+    // },
 
     //  {
     //   name: 'setup',

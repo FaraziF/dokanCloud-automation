@@ -7,7 +7,8 @@
     "test:all": "npx playwright test tests/api/admin tests/api/vendor tests/api/customer tests/e2e/tests",
     "test:e2e": "SUMMARY_PATH=true npx playwright test tests/e2e/tests",
     "test:api": "npx playwright test tests/api/admin tests/api/vendor tests/api/customer",
-    "test:global": "SUMMARY_PATH=true npm run test:e2e && npm run test:api",
+    "test:coverage": "npx playwright test --project=teardown",
+    "test:global": "SUMMARY_PATH=true npm run test:e2e && npm run test:api && npm run test:coverage",
     "test:e2e-chromium": "npx playwright test --project=chromium --headed"
   },
   "repository": {

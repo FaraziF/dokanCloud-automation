@@ -1,4 +1,4 @@
-import { test as teardown } from '@playwright/test';
+import { test } from '@playwright/test';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
@@ -15,24 +15,24 @@ let coveredPageFeatures = 0;
 const coveredFeatures: string[] = [];
 const uncoveredFeatures: string[] = [];
 
-teardown.describe('get API test coverage', () => {
-  const feature_map = 'feature-map/api-feature-map.yml';
-  const outputFile = 'playwright-report/api/coverage.json';
-  const testReport = 'playwright-report/api/api-results.json';
+test.describe('get e2e test coverage', () => {
+  const feature_map = 'feature-map/e2e-feature-map.yml';
+  const outputFile = 'playwright-report/e2e/coverage.json';
+  const testReport = 'playwright-report/e2e/e2e-results.json';
 
-  teardown('API get coverage', async () => {
+  test('e2e get coverage', async () => {
     executed_tests = helpers.readJson(testReport)?.tests;
     // console.log('EX LOG:', executed_tests);
     getCoverage(feature_map, outputFile);
   });
 });
 
-teardown.describe('get e2e test coverage', () => {
-  const feature_map = 'feature-map/e2e-feature-map.yml';
-  const outputFile = 'playwright-report/e2e/coverage.json';
-  const testReport = 'playwright-report/e2e/e2e-results.json';
+test.describe('get API test coverage', () => {
+  const feature_map = 'feature-map/api-feature-map.yml';
+  const outputFile = 'playwright-report/api/coverage.json';
+  const testReport = 'playwright-report/api/api-results.json';
 
-  teardown('e2e get coverage', async () => {
+  test('API get coverage', async () => {
     executed_tests = helpers.readJson(testReport)?.tests;
     // console.log('EX LOG:', executed_tests);
     getCoverage(feature_map, outputFile);

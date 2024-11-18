@@ -7,13 +7,12 @@ import { helpers } from '../utils/helpers';
 const { DOKAN_PRO } = process.env;
 
 let executed_tests: string[] = [];
-
 let totalProductFeatures = 0;
 let coveredProductFeatures = 0;
 let totalPageFeatures = 0;
 let coveredPageFeatures = 0;
-const coveredFeatures: string[] = [];
-const uncoveredFeatures: string[] = [];
+let coveredFeatures: string[] = [];
+let uncoveredFeatures: string[] = [];
 
 test.describe('get e2e test coverage', () => {
   const feature_map = 'feature-map/e2e-feature-map.yml';
@@ -22,7 +21,7 @@ test.describe('get e2e test coverage', () => {
 
   test('e2e get coverage', async () => {
     executed_tests = helpers.readJson(testReport)?.tests;
-    // console.log('EX LOG:', executed_tests);
+    console.log('EX LOG:', executed_tests);
     getCoverage(feature_map, outputFile);
   });
 });
@@ -33,14 +32,23 @@ test.describe('get API test coverage', () => {
   const testReport = 'playwright-report/api/api-results.json';
 
   test('API get coverage', async () => {
+    executed_tests = [];
+    totalProductFeatures = 0;
+    coveredProductFeatures = 0;
+    totalPageFeatures = 0;
+    coveredPageFeatures = 0;
+    coveredFeatures = [];
+    uncoveredFeatures = [];
+
     executed_tests = helpers.readJson(testReport)?.tests;
-    // console.log('EX LOG:', executed_tests);
+    console.log('EX LOG:', executed_tests);
     getCoverage(feature_map, outputFile);
   });
 });
 
 function getCoverage(filePath: string, outputFile?: string) {
   const obj = yaml.load(fs.readFileSync(filePath, { encoding: 'utf-8' }));
+  console.log(obj);
   const pages = JSON.parse(JSON.stringify(obj, null, 2));
   const coverageReport: {
     [key: string]: any | { [key: string]: any };

@@ -80,8 +80,14 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright tests
-        run: npm run test:global
+      - name: Run Playwright e2e tests
+        run: npm run test:e2e
+      - name: Run Playwright api tests
+        if: always()
+        run: npm run test:api
+      - name: Run Playwright coverage tests
+        if: always()
+        run: npm run test:coverage
 
       - uses: actions/upload-artifact@v3
         if: always()

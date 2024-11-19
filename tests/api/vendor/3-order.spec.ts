@@ -44,7 +44,7 @@ test.afterAll(async ({}) => {
 	await apiUtils.deleteProduct(product_id) */
 });
 
-test.describe('orders', () => {
+test.describe('Vendor Order', () => {
   test.use({
     extraHTTPHeaders: {
       Authorization: `Bearer ${String(process.env.Vendor_API_TOKEN)}`,

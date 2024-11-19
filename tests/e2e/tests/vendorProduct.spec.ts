@@ -30,7 +30,7 @@ import { Registration } from '../pages/registrationPage';
 //     await page.close();
 // });
 
-test.describe.only('Vendor functional Testing', () => {
+test.describe('Vendor functional Testing', () => {
   test.use({ storageState: data.auth.vendorAuthFile });
 
   let vendorPage: VendorPage;

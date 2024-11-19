@@ -15,7 +15,7 @@ test.beforeAll(async () => {
   apiUtils = new ApiUtils(await request.newContext());
 });
 
-test.describe.only('API admin dashbaord', () => {
+test.describe('API admin dashbaord', () => {
   test.use({
     extraHTTPHeaders: {
       Authorization: `Bearer ${String(process.env.Admin_API_TOKEN)}`,

@@ -34,7 +34,6 @@
       get draft products: true
       get pagination products: true
 
-
 - page: 'Category & Attributes'
   features:
     admin:
@@ -69,6 +68,9 @@
     customer:
       Add To Cart: true
       create order: true
+
+- page: 'Individual Order'
+  features:
     admin:
       get specific order: true
       search order no: true
@@ -91,7 +93,7 @@
       get customer individual order details: false
       get order pagination: true
 
--page: 'Vendor Order'
+- page: 'Vendor Order'
   features:
     vendor:
       get all orders: true
@@ -147,7 +149,7 @@
       Get Payout Dashbard Withdraw: true
       Get Payout Balance in: true
       Get Payout Withdraw: true
-      
+
 - page: 'Vendor Manage'
   features:
     admin:
@@ -167,7 +169,7 @@
       edit individual vendor address settings: true
       edit individual vendor social settings: true
 
-- page : 'Customer Manage'
+- page: 'Customer Manage'
   features:
     admin:
       get all customers: true
@@ -208,7 +210,7 @@
     admin:
       get all themes: true
 
--page: 'Admin Settings'
+- page: 'Admin Settings'
   features:
     admin:
       get basic settings: true
@@ -344,6 +346,3 @@
       Enable live chat: true
       Get profile: true
       Save profile: true
-
-
-

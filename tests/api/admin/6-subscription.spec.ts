@@ -80,6 +80,6 @@ test.describe('Subscription', { tag: ['@marketplace'] }, () => {
     );
     expect(response.ok()).toBeTruthy();
     expect(responseBody).toBeTruthy();
-    console.log(await response.json());
+    // console.log(await response.json());
   });
 });

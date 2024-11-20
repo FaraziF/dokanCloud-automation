@@ -148,7 +148,7 @@ test.describe(
 
       orderTotalAmount = _res.data.orders[0].total;
       orderTotalAmountParse = parseFloat(orderTotalAmount);
-      console.log('Order Total Amount', orderTotalAmountParse);
+      // console.log('Order Total Amount', orderTotalAmountParse);
 
       subtotal = _res.data.orders[0].subtotal;
       subtotalParse = parseFloat(subtotal);
@@ -158,11 +158,11 @@ test.describe(
 
       orderNo = _res.data.orders[0].orderNo;
 
-      console.log('subtotal ' + subtotalParse);
-      console.log('productTax ' + productTaxParse);
-      console.log('lineItemId ' + lineItemId);
-      console.log('subtotal ' + subtotalParse);
-      console.log('orderTotalAmount ' + orderTotalAmountParse);
+      // console.log('subtotal ' + subtotalParse);
+      // console.log('productTax ' + productTaxParse);
+      // console.log('lineItemId ' + lineItemId);
+      // console.log('subtotal ' + subtotalParse);
+      // console.log('orderTotalAmount ' + orderTotalAmountParse);
     });
   }
 );

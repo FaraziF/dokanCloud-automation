@@ -97,7 +97,7 @@ test.describe('Vendor Settings', () => {
       expect(responseBody).toBeTruthy();
       const res = await response.json();
       defaultAddressId = res.data.defaultAddressId;
-      console.log('default Address ID', defaultAddressId);
+      // console.log('default Address ID', defaultAddressId);
     });
     test('Save default address', async () => {
       const [response, responseBody] = await apiUtils.patch(
@@ -117,7 +117,7 @@ test.describe('Vendor Settings', () => {
       expect(responseBody).toBeTruthy();
       const res = await response.json();
       newLocationId = res.data.id;
-      console.log('New Address ID', newLocationId);
+      // console.log('New Address ID', newLocationId);
     });
     test('Update Location', async () => {
       const [response, responseBody] = await apiUtils.patch(
@@ -179,11 +179,11 @@ test.describe('Vendor Settings', () => {
       );
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
       // console.log(payloads.inviteNewMember()?.email)
       const getEmail = payload?.email;
       invitedTeamMemberEmail = getEmail;
-      console.log('Invited team memeber:', invitedTeamMemberEmail);
+      // console.log('Invited team memeber:', invitedTeamMemberEmail);
     });
     /* test("search team member", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.vendorSearchTeamMember(invitedTeamMemberEmail) );
@@ -213,16 +213,16 @@ test.describe('Vendor Settings', () => {
       // console.log(response)
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log({ invitedTeamMemberEmail });
+      // console.log({ invitedTeamMemberEmail });
     });
     test('remove invited team member', async () => {
       const [response, responseBody] = await apiUtils.delete(
         endPoints.vendorRemoveInvitedNewTeamMember(invitedTeamMemberEmail)
       );
-      console.log({ invitedTeamMemberEmail });
+      // console.log({ invitedTeamMemberEmail });
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
     });
   });
 
@@ -232,7 +232,7 @@ test.describe('Vendor Settings', () => {
       const [response, responseBody] = await apiUtils.get(
         endPoints.vendorGetPaymentGatwey
       );
-      console.log({ invitedTeamMemberEmail });
+      // console.log({ invitedTeamMemberEmail });
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
     });
@@ -240,7 +240,7 @@ test.describe('Vendor Settings', () => {
       const [response, responseBody] = await apiUtils.get(
         endPoints.vendorGetPayment
       );
-      console.log({ invitedTeamMemberEmail });
+      // console.log({ invitedTeamMemberEmail });
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
     });

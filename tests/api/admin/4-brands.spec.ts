@@ -42,7 +42,7 @@ test.describe('Brands', () => {
     );
     expect(response.ok()).toBeTruthy();
     expect(responseBody).toBeTruthy();
-    console.log(await response.json());
+    // console.log(await response.json());
   });
   test('search brand', async () => {
     const [response, responseBody] = await apiUtils.get(
@@ -65,6 +65,6 @@ test.describe('Brands', () => {
     );
     expect(response.ok()).toBeTruthy();
     expect(responseBody).toBeTruthy();
-    console.log(await response.json());
+    // console.log(await response.json());
   });
 });

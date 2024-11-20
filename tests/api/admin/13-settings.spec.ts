@@ -195,11 +195,11 @@ test.describe('Admin All Setting API test', () => {
       );
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
       // console.log(payloads.inviteNewMember()?.email)
       const getEmail = payload?.email;
       invitedTeamMemberEmail = getEmail;
-      console.log('Invited team memeber:', invitedTeamMemberEmail);
+      // console.log('Invited team memeber:', invitedTeamMemberEmail);
     });
     test('search team member', async () => {
       const [response, responseBody] = await apiUtils.get(
@@ -231,16 +231,16 @@ test.describe('Admin All Setting API test', () => {
       // console.log(response)
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log({ invitedTeamMemberEmail });
+      // console.log({ invitedTeamMemberEmail });
     });
     test('remove invited team member', async () => {
       const [response, responseBody] = await apiUtils.delete(
         endPoints.removeInvitedNewTeamMember(invitedTeamMemberEmail)
       );
-      console.log({ invitedTeamMemberEmail });
+      // console.log({ invitedTeamMemberEmail });
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
     });
   });
 
@@ -423,7 +423,7 @@ test.describe('Admin All Setting API test', () => {
       );
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
     });
 
     // Create Tax On setup file
@@ -443,7 +443,7 @@ test.describe('Admin All Setting API test', () => {
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
       const res = await response.json();
-      console.log('Created Tax', res);
+      // console.log('Created Tax', res);
       tax_name = res.data.name;
       country_name = res.data.country;
       helpers.createEnvVar('TAX_NAME', tax_name);
@@ -508,7 +508,7 @@ test.describe('Admin All Setting API test', () => {
       );
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
     });
     test('delete tax country', async () => {
       const _addTaxCountry = payloads.editStateTaxCountry(
@@ -519,7 +519,7 @@ test.describe('Admin All Setting API test', () => {
       );
       expect(response.ok()).toBeTruthy();
       expect(responseBody).toBeTruthy();
-      console.log(await response.json());
+      // console.log(await response.json());
     });
   });
 

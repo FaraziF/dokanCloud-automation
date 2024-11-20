@@ -142,7 +142,7 @@ test.describe('customer order processing', () => {
     expect(responseBody).toBeTruthy();
     const res = await response.json();
     _cartID = res.data.id;
-    console.log('Cart ID' + _cartID);
+    // console.log('Cart ID' + _cartID);
   });
   test('create order', async () => {
     const [response, responseBody] = await apiUtils.post(endPoints.pay, {
@@ -156,7 +156,7 @@ test.describe('customer order processing', () => {
 
     orderTotalAmount = _res.data.orders[0].total;
     orderTotalAmountParse = parseFloat(orderTotalAmount);
-    console.log('Order Total Amount', orderTotalAmountParse);
+    // console.log('Order Total Amount', orderTotalAmountParse);
 
     subtotal = _res.data.orders[0].subtotal;
     subtotalParse = parseFloat(subtotal);
@@ -169,12 +169,12 @@ test.describe('customer order processing', () => {
 
     orderNo = _res.data.orders[0].orderNo;
 
-    console.log('subtotal ' + subtotalParse);
-    console.log('productTax ' + productTaxParse);
-    console.log('productShipping ' + productShippingParse);
-    console.log('lineItemId ' + lineItemId);
-    console.log('subtotal ' + subtotalParse);
-    console.log('orderTotalAmount ' + orderTotalAmountParse);
+    // console.log('subtotal ' + subtotalParse);
+    // console.log('productTax ' + productTaxParse);
+    // console.log('productShipping ' + productShippingParse);
+    // console.log('lineItemId ' + lineItemId);
+    // console.log('subtotal ' + subtotalParse);
+    // console.log('orderTotalAmount ' + orderTotalAmountParse);
   });
 });
 

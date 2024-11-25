@@ -53,7 +53,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    // ['html', { open: 'never' }],
+    ['html', { open: 'never', outputFolder: 'playwright-report/html-report' }],
     ['list', { printSteps: true }],
     // ['./utils/summaryReporter.ts'],
 

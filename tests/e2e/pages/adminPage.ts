@@ -91,7 +91,7 @@ export class AdminPage extends BasePage {
 
   async goToPayout() {
     await this.goToAdminDashboard();
-    await this.page.locator('a').filter({ hasText: 'Requests' }).click();
+    // await this.page.locator('a').filter({ hasText: 'Requests' }).click();
     await this.page
       .getByRole('link', { name: selector.payouts.menuLink })
       .click();
@@ -523,7 +523,8 @@ export class AdminPage extends BasePage {
   }
   async deleteBrand() {
     await this.goToBrandPage();
-    await this.page.locator(selector.admin.brand.dropDown).click();
+    await this.clickAndWaitForLoadState(selector.admin.brand.dropDown);
+    await expect(this.page.getByRole('link', { name: 'Edit' })).toBeVisible();
     await this.page
       .getByRole('button', { name: selector.common.deleteLink })
       .click();

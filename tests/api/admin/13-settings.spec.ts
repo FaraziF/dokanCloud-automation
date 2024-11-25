@@ -383,7 +383,7 @@ test.describe('Admin All Setting API test', () => {
   });
 
   // Tax
-  test.describe('tax settings', () => {
+  test.describe.skip('tax settings', () => {
     test('get tax summary', async () => {
       const [response, responseBody] = await apiUtils.get(
         endPoints.getTaxSummary

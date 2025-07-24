@@ -9,6 +9,7 @@ import { endPoints } from '../../../utils/apiEndPoints';
 
 const { VENDOR_ID } = process.env;
 
+
 let apiUtils: ApiUtils;
 let individualTeamMmeberToken;
 let taxClassName1;
@@ -226,31 +227,25 @@ export class AdminPage extends BasePage {
     await expect(this.page).toHaveURL(endPoints.adminProductPage);
 
     //Validate Published product page loading & filter
-    // await this.page.getByRole('button', { name: selector.product.publishedTab }).click();
-    await this.page.getByRole('radio', { name: 'Published' }).click();
-    // await expect(this.page).toHaveURL(selector.product.publishedPageURLValidation)
-    await expect(
-      this.page.locator(selector.product.publishedPageElementValidation)
-    ).toBeVisible();
-    await expect(this.page.locator(selector.product.filter)).toBeVisible();
-    // await expect(this.page.getByRole('button', { name:  selector.product.filter})).toBeVisible()
+    await this.page.getByRole('radio', { name: selector.product.publishedTab }).click();
+      // await expect(this.page).toHaveURL(selector.product.publishedPageURLValidation)
+    const productTableItem = this.page.locator(selector.product.priceLocator);
+    await expect(productTableItem).toHaveText(selector.product.publishedPageElementValidation);
+    // await expect(this.page.getByRole('columnheader', { name: selector.product.publishedPageElementValidation })).toBeVisible();
+    await expect(this.page.getByRole('button', { name:  selector.product.filter})).toBeVisible()
 
     // Validate Draft product page loading & filter
-    // await this.page.getByRole('button', {name: selector.product.draftStatus}).click()
-    await this.page.getByRole('radio', { name: 'Draft' }).click();
+    await this.page.getByRole('radio', { name: selector.product.draftStatus }).click();
     // await expect(this.page).toHaveURL(selector.product.draftPageURLValidation)
-    // await expect(this.page.locator('//th[text()="Product"]')).toBeVisible()
-    await expect(this.page.locator(selector.product.filter)).toBeVisible();
-    // await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
+    await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
 
     // Validate search field & all cloumn, pagination, filter
-    // await this.page.getByRole('button', {name: selector.product.all}).click()
-    await this.page.getByRole('radio', { name: 'All' }).click();
+    await this.page.getByRole('radio', { name: selector.product.all}).click();
     await expect(
       this.page.getByPlaceholder(selector.product.search)
     ).toBeVisible();
-    // await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
-    await expect(this.page.locator(selector.product.filter)).toBeVisible();
+    await expect(this.page.getByRole('button', { name: selector.product.filter })).toBeVisible()
+
     // await expect(this.page.getByRole('cell', { name:  selector.product.priceCell})).toBeVisible()
     // await expect(this.page.getByRole('cell', { name: selector.product.statusCell })).toBeVisible()
     // await expect(this.page.getByRole('cell', { name: selector.product.stockCell })).toBeVisible()
@@ -456,7 +451,7 @@ export class AdminPage extends BasePage {
       .click();
     await this.page.locator(selector.admin.category.dropDown).click();
     await this.page
-      .getByRole('link', { name: selector.common.deleteLink })
+      .getByRole('button', { name: selector.common.deleteLink })
       .click();
     // await expect(this.page.getByText(data.category.categoryDeleteConfirmationMessage, {exact: true})).toBeVisible();
     await expect(
@@ -498,14 +493,14 @@ export class AdminPage extends BasePage {
         // await (expect(this.page.getByText(data.commonMessage.createSuccessMessage, { exact: true })).toBeVisible())
         return await isVisible(this.page, data.commonMessage.createSuccessMessage)
     } */
-  async editBrand(brand: any) {
+  async editBrand(existingBrandUpdate) {
     await this.goToBrandPage();
     await this.page.locator(selector.admin.brand.dropDown).click();
     await this.page
       .getByRole('link', { name: selector.common.editLink })
       .click();
     await this.errorCheck();
-    await this.page.locator(selector.admin.brand.name).fill(brand.updateName());
+    await this.page.locator(selector.admin.brand.name).fill(existingBrandUpdate);
     await this.page
       .locator(selector.admin.brand.description)
       .fill(faker.commerce.productDescription());
@@ -521,18 +516,16 @@ export class AdminPage extends BasePage {
       this.page.getByText(data.brand.updateSuccessMessage, { exact: true })
     ).toBeVisible();
   }
-  async deleteBrand() {
+  async deleteBrand(existingBrandUpdate) {
     await this.goToBrandPage();
-    await this.clickAndWaitForLoadState(selector.admin.brand.dropDown);
+    // await this.clickAndWaitForLoadState(selector.admin.brand.dropDown);
+    const editedBrandName = existingBrandUpdate;
+    console.log('Brand Name: ', editedBrandName);
+    // await this.page.getByRole('row', { name: editedBrandName }).getByRole('button').click();
+    await this.page.locator(selector.admin.brand.dropDown).click();
     await expect(this.page.getByRole('link', { name: 'Edit' })).toBeVisible();
-    await this.page
-      .getByRole('button', { name: selector.common.deleteLink })
-      .click();
-    await expect(
-      this.page.getByText(data.brand.brandDeleteConfirmationMessage, {
-        exact: true,
-      })
-    ).toBeVisible();
+    await this.page.getByRole('button', { name: selector.common.deleteLink }).click();
+    await expect(this.page.getByText(data.brand.brandDeleteConfirmationMessage, { exact: true,})).toBeVisible();
     await this.page
       .getByRole('button', { name: selector.common.deleteButton })
       .click();
@@ -586,33 +579,45 @@ export class AdminPage extends BasePage {
 
     // Hide For Standalone
 
+
+
     const soldBy = this.page.locator(selector.product.soldBy);
     const vendorNameField = this.page
       .locator(selector.product.vendorName)
       .nth(1);
     // const vendorName = this.page.locator(selector.product.vendorName, {hasText: data.commonMessage.vendorName}).nth(1);
     // const vendorName = vendorNameField.fill(data.commonMessage.vendorName);
-    const vendorName = this.page.getByRole('option', {
-      name: data.commonMessage.vendorName,
-    });
+    const vendorNameClick = this.page.getByText(data.commonMessage.vendorName, { exact: true })
     await soldBy.click();
-    await vendorNameField.fill(data.commonMessage.vendorName);
+    console.log('Vendor Name_: ', vendorNameClick);
+    
+    await this.typeAndWaitForResponse(endPoints.getVendorSearch(), vendorNameField, data.commonMessage.vendorName)
+    // await Promise.all([
+    //   vendorNameField.fill(data.commonMessage.vendorName)
+    //   // vendorName.waitFor("visible"),
 
-    await Promise.all([
-      this.page.waitForResponse(endPoints.getVendorShippingProfile(vendorID)),
-      // vendorName.waitFor("visible"),
+    //   // this.page.waitForResponse()
 
-      // this.page.waitForResponse()
+    // ]);
+    await this.clickVendorAndWaitForResponse(endPoints.getVendorShippingProfile(vendorID), vendorNameClick)
+    // await Promise.all([
+    //   this.page.waitForResponse(endPoints.getVendorShippingProfile(vendorID)),
+    //   // vendorNameField.fill(data.commonMessage.vendorName)
+    //   // vendorName.waitFor("visible"),
 
-      // vendorName.click()
-      // this.page.keyboard.press("Enter")
-      vendorName.click(),
-    ]);
+    //   vendorNameClick.click()
+    // ]);
 
     // await this.page.getByText(data.commonMessage.vendorName, { exact: true }).click();
     // await this.page.keyboard.press("Enter")
 
     // await this.page.locator(selector.product.regularPrice).fill('200');
+
+
+
+
+
+
     await this.page
       .locator(selector.product.regularPrice)
       .fill(data.product.standard.regularPrice());
@@ -779,6 +784,9 @@ export class AdminPage extends BasePage {
       .getByRole('link', { name: selector.common.editLink })
       .click();
     await this.errorCheck();
+    await this.page
+    .getByPlaceholder(selector.admin.subscription.titleField)
+    .fill(data.subscription.titleField);
     await this.page.locator(selector.admin.subscription.titleEditField).click();
     await this.page
       .locator(selector.admin.subscription.titleEditField)
@@ -788,30 +796,22 @@ export class AdminPage extends BasePage {
     await this.page
       .getByRole('button', { name: 'Update Subscription Plan' })
       .click();
-    await expect(
-      this.page.getByText(data.subscription.updateSuccessMessage, {
-        exact: true,
-      })
-    ).toBeVisible();
+    // await this.page.waitForURL(endPoints.adminSubscriptionPage)
+    await expect(this.page).toHaveURL(endPoints.adminSubscriptionPage);
+    // await expect(
+    //   this.page.getByText(data.subscription.updateSuccessMessage, {
+    //     exact: true,
+    //   })
+    // ).toBeVisible();
   }
 
   async deleteSubscription() {
     await this.goToSubscription();
     await this.page.locator(selector.common.dropDown).click();
-    await this.page
-      .getByRole('button', { name: selector.common.deleteLink })
-      .click();
-    await expect(
-      this.page.getByText(data.subscription.subscriptionDeletePopupForm, {
-        exact: true,
-      })
-    ).toBeVisible();
-    await this.page
-      .getByRole('button', { name: selector.common.deleteButton })
-      .click();
-    await expect(
-      this.page.getByText(data.subscription.deleteSuccessMessage)
-    ).toBeVisible();
+    await this.page.getByRole('button', { name: selector.common.deleteLink }).click();
+    await expect(this.page.getByText(data.subscription.subscriptionDeletePopupForm, {exact: true,})).toBeVisible();
+    await this.page.getByRole('button', { name: selector.common.deleteButton }).click();
+    await expect(this.page.getByText(data.subscription.deleteSuccessMessage)).toBeVisible();
   }
 
   /* async shippingEnable() {

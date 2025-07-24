@@ -92,12 +92,15 @@ export class LoginPage {
     storageState?: string
   ): Promise<void> {
     await this.page.goto(url);
+    // await this.page.locator("//div[@class='mt-2']//button[1]").click();
     await this.page
       .locator(selector.login.vendorEamilAddress)
       .fill(user.username);
     await this.page.locator(selector.login.password).fill(user.password);
     // await this.page.locator(selector.login.keepMeSignIn).check();
-    await this.page.click(selector.login.signIn);
+    // await this.page.click(selector.login.signIn);
+    await this.page.click("//button[@type='submit']");
+    // await this.page.getByRole('button', { name: 'Sign in' }).click();
     // await this.page.waitForURL(endpoints.vendorDashboard)
     await this.page.waitForURL(endPoints.vendorDashboard, {
       waitUntil: 'networkidle',

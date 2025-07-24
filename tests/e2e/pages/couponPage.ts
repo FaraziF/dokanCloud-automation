@@ -203,7 +203,7 @@ export class CouponPage extends BasePage {
     await this.page.getByRole('link', { name: 'Delete' }).click();
     await this.page.getByRole('button', { name: 'Yes' }).click();
     await expect(
-      this.page.getByText('Coupon has been deleted successfully')
+      this.page.getByText('Coupon deleted successfully')
     ).toBeVisible();
   }
 

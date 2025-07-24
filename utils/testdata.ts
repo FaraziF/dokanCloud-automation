@@ -238,7 +238,7 @@ export const data = {
     },
 
     taxSettings: {
-        pageValidation: 'Tax',
+        pageValidation: 'Tax Settings',
         // className: 'New Tax Class',
         className: faker.lorem.word(),
         // className: () => faker.helpers.unique(() => faker.random.word()),

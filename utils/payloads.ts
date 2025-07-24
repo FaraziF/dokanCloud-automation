@@ -281,8 +281,8 @@ export const payloads = {
       firstName: faker.internet.userName(),
       lastName: faker.internet.userName(),
       mobile: faker.phone.imei(),
-      password: 'aA123456',
-      passwordConfirmation: 'aA123456',
+      password: 'aA123456!',
+      passwordConfirmation: 'aA123456!',
     };
   },
   editCustomers: () => {
@@ -850,7 +850,7 @@ export const payloads = {
       slug: faker.helpers.unique(() => faker.random.alpha(10)),
       tieredPrice: false, // required
       collectTax: true,
-      taxClassId: 3,
+      taxClassId: '2',
       description: faker.commerce.productDescription(),
       type: 'standard',
       hasVariation: false, // required
@@ -886,7 +886,7 @@ export const payloads = {
       slug: faker.helpers.unique(() => faker.random.alpha(10)),
       tieredPrice: false, // required
       collectTax: true,
-      taxClassId: 3,
+      taxClassId: '2',
       description: faker.commerce.productDescription(),
       type: 'standard',
       hasVariation: false, // required

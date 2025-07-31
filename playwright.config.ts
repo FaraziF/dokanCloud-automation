@@ -80,8 +80,8 @@ const config: PlaywrightTestConfig = {
     // storageState: 'storageState.json',
     // ignoreHTTPSErrors: true,  //Whether to ignore HTTPS errors during navigation.
     // trace: 'on-first-retry',  //Record trace only when retrying a test for the first time.
-    // screenshot: 'only-on-failure',  //Capture screenshot after each test failure.
-    // video: 'on-first-retry',  //Record video only when retrying a test for the first time.
+    screenshot: 'only-on-failure',  //Capture screenshot after each test failure.
+    video: 'on',  //Record video only when retrying a test for the first time.
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

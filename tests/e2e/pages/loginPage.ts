@@ -60,8 +60,8 @@ export class LoginPage {
     url: string = endPoints.adminDashboardLogin,
     storageState?: string
   ): Promise<void> {
-    await this.page.goto(endPoints.adminDashboardLogin)
-    await this.page.waitForTimeout(50000)
+    await this.page.goto("https://eclassyshop.ondokan.com/admin/login");
+    await this.page.waitForTimeout(5000)
     console.log("Admin URL: ", endPoints.adminDashboardLogin)
     await expect(this.page).toHaveURL(url);
     const locator = this.page.locator('.mb-3 h2');

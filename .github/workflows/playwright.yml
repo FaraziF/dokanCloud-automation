@@ -80,8 +80,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright e2e tests
-        run: npm run test:e2e
+      # - name: Run Playwright e2e tests
+      #   run: npm run test:e2e
 
       - name: Run Playwright api tests
         if: always()

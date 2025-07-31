@@ -60,7 +60,7 @@ export class LoginPage {
     url: string = endPoints.adminDashboardLogin,
     storageState?: string
   ): Promise<void> {
-    await this.page.goto(endPoints.adminDashboardLogin)
+    await this.page.goto(url)
     await this.page.waitForTimeout(5000)
     console.log("Admin URL: ", endPoints.adminDashboardLogin)
     await expect(this.page).toHaveURL(url);

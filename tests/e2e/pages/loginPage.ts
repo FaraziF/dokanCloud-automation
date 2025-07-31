@@ -61,10 +61,11 @@ export class LoginPage {
     storageState?: string
   ): Promise<void> {
     await this.page.goto(url);
-    // console.log(url)
-    await this.page
-      .locator(selector.login.adminEamilAddress)
-      .fill(user.username);
+    console.log("Admin URL: ", url)
+    await expect(this.page).toHaveURL(url);
+    const locator = this.page.locator('.mb-3 h2');
+    await expect(locator).toContainText('Sign In');
+    await this.page.locator(selector.login.adminEamilAddress).fill(user.username);
     await this.page.locator(selector.login.password).fill(user.password);
     // await this.page.locator(selector.login.keepMeSignIn).check();
     await this.page.click(selector.login.signIn);

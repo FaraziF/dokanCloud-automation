@@ -100,7 +100,7 @@ const config: PlaywrightTestConfig = {
     {
       name: 'authsetup',
       testMatch: ['_auth.setup.ts'],
-      retries: 1,
+      // retries: 1,
     },
     {
       name: 'generate',

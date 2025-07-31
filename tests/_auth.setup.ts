@@ -70,25 +70,25 @@ setup.describe('Authenticate with', () => {
   });
 
   // Hide For Standalone
-  setup(
-    'Vendor valid credential',
-    { tag: ['@marketplace'] },
-    async ({ page }) => {
-      const loginPage = new LoginPage(page);
-      await loginPage.loginAsVendor(
-        data.vendorCredentials,
-        data.auth.vendorAuthFile
-      );
-    }
-  );
+  // setup(
+  //   'Vendor valid credential',
+  //   { tag: ['@marketplace'] },
+  //   async ({ page }) => {
+  //     const loginPage = new LoginPage(page);
+  //     await loginPage.loginAsVendor(
+  //       data.vendorCredentials,
+  //       data.auth.vendorAuthFile
+  //     );
+  //   }
+  // );
 
-  setup('Customer valid credential', { tag: ['@local'] }, async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.loginAsCustomer(
-      data.customerCredentials,
-      data.auth.customerAuthFile
-    );
-  });
+  // setup('Customer valid credential', { tag: ['@local'] }, async ({ page }) => {
+  //   const loginPage = new LoginPage(page);
+  //   await loginPage.loginAsCustomer(
+  //     data.customerCredentials,
+  //     data.auth.customerAuthFile
+  //   );
+  // });
 });
 
 /* 

@@ -61,6 +61,7 @@ export class LoginPage {
     storageState?: string
   ): Promise<void> {
     await this.page.goto(endPoints.adminDashboardLogin)
+    await this.page.waitForTimeout(50000)
     console.log("Admin URL: ", endPoints.adminDashboardLogin)
     await expect(this.page).toHaveURL(url);
     const locator = this.page.locator('.mb-3 h2');

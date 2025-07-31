@@ -54,7 +54,7 @@ export class LoginPage {
     return await isVisible(this.page, selector.login.loginPasswordErrorMessage);
   }
 
-  // user manual Login Login with
+  // user manual Login Login with for admin
   async adminManualLogin(
     user: user,
     url: string = endPoints.adminDashboardLogin,

@@ -60,8 +60,8 @@ export class LoginPage {
     url: string = endPoints.adminDashboardLogin,
     storageState?: string
   ): Promise<void> {
-    await this.page.goto(url);
-    console.log("Admin URL: ", url)
+    await this.page.goto(endPoints.adminDashboardLogin)
+    console.log("Admin URL: ", endPoints.adminDashboardLogin)
     await expect(this.page).toHaveURL(url);
     const locator = this.page.locator('.mb-3 h2');
     await expect(locator).toContainText('Sign In');

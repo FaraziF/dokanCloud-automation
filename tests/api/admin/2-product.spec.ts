@@ -123,6 +123,9 @@ test.describe('Admin Product Test', () => {
         headers: adminAuth,
       }
     );
+    const _res = await response.json();
+    // category_id = res.data.id;
+    console.log(_res)
     expect(response.ok()).toBeTruthy();
     expect(responseBody).toBeTruthy();
   });

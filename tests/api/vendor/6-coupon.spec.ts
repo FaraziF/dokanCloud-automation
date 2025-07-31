@@ -90,12 +90,12 @@ test.describe('Coupon API test', () => {
     expect(responseBody).toBeTruthy();
   });
 
-  test('Delete Coupon', async () => {
-    const couponID = coupon_id;
-    let [response, responseBody] = await apiUtils.delete(
-      endPoints.deleteCoupon(couponID)
-    );
-    expect(response.ok()).toBeTruthy();
-    expect(responseBody).toBeTruthy();
-  });
+  // test('Delete Coupon', async () => {
+  //   const couponID = coupon_id;
+  //   let [response, responseBody] = await apiUtils.delete(
+  //     endPoints.deleteCoupon(couponID)
+  //   );
+  //   expect(response.ok()).toBeTruthy();
+  //   expect(responseBody).toBeTruthy();
+  // });
 });

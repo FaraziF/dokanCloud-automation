@@ -14,7 +14,7 @@ test.describe('My Orders', () => {
   test.use({
     extraHTTPHeaders: {
       Authorization: `Bearer ${String(process.env.Customer_API_TOKEN)}`,
-      strategy: 'customer',
+      // strategy: 'customer',
     },
   });
 

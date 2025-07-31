@@ -413,6 +413,8 @@ export const endPoints = {
   getOnBackorderProductTypeFilter: `${catalogURL}/api/v1/admin/products?filters[stockStatus]=on_backorder`,
   getLowStockProductTypeFilter: `${catalogURL}/api/v1/admin/products?filters[stockStatus]=low_stock`,
   getUnmanagedProductTypeFilter: `${catalogURL}/api/v1/admin/products?filters[stockStatus]=unmanaged`,
+  getVendorSearch: () =>
+    `${shippingURL}/api/v1/vendors?search=`,
   getVendorShippingProfile: (vendorID: string) =>
     `${shippingURL}/api/v1/shipping/vendors/${vendorID}/profiles`,
   searchProduct: (productSlug: string) =>

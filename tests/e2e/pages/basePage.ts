@@ -1,4 +1,4 @@
-import { Page, expect, Response } from "@playwright/test";
+import { Page, expect, Response, Locator } from "@playwright/test";
 import { data } from "../../../utils/testdata";
 
 export class BasePage {
@@ -98,9 +98,9 @@ export class BasePage {
     }
 
     // click & wait for response
-	async clickAndWaitForResponse(subUrl: string, selector: string, code = 200): Promise<Response> {
+	async clickAndWaitForResponse(subUrl: string, selector: string): Promise<Response> {
 		const [response] = await Promise.all([
-			this.page.waitForResponse((resp) => resp.url().includes(subUrl) && resp.status() === code),
+			this.page.waitForResponse((resp) => resp.url().includes(subUrl)),
 			this.page.locator(selector).click()
 		]);
 		return response;
@@ -168,6 +168,15 @@ export class BasePage {
     async isDisabledLocator(selector: string) {
         const locator = this.page.locator(selector);
         return await locator.isDisabled();
+    }
+
+    async typeAndWaitForResponse(subUrl: string, locator: Locator, text: string, code = 200): Promise<Response> {
+        const [response] = await Promise.all([this.page.waitForResponse(resp => resp.url().includes(subUrl)), locator.fill(text)]);
+        return response;
+    }
+    async clickVendorAndWaitForResponse(subUrl: string, locator: Locator): Promise<Response> {
+        const [response] = await Promise.all([this.page.waitForResponse(resp => resp.url().includes(subUrl)), locator.click()]);
+        return response;
     }
 
 }

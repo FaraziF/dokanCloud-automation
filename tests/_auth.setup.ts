@@ -1,10 +1,8 @@
 import { test as setup, expect, request } from '@playwright/test';
-import { LoginPage } from "../tests/e2e/pages/loginPage";
+import { LoginPage } from '../tests/e2e/pages/loginPage';
 import { user, data } from '../utils/testdata';
-import { selector } from "../tests/e2e/pages/selectors";
+import { selector } from '../tests/e2e/pages/selectors';
 import { TIMEOUT } from 'dns';
-
-
 
 // import { STORAGE_STATE } from '../../../playwright.config';
 
@@ -63,23 +61,34 @@ setup('authenticate as admin', async ({ page }) => {
 // });
 
 setup.describe('Authenticate with', () => {
+  setup('Admin valid credential', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginAsAdmin(
+      data.adminCredentials,
+      data.auth.adminAuthFile
+    );
+  });
 
-	setup('Admin valid credential', async ({ page }) => {
-		const loginPage = new LoginPage(page);
-		await loginPage.loginAsAdmin(data.adminCredentials, data.auth.adminAuthFile);
-        
-	});
+  // Hide For Standalone
+  setup(
+    'Vendor valid credential',
+    { tag: ['@marketplace'] },
+    async ({ page }) => {
+      const loginPage = new LoginPage(page);
+      await loginPage.loginAsVendor(
+        data.vendorCredentials,
+        data.auth.vendorAuthFile
+      );
+    }
+  );
 
-    // Hide For Standalone
-    setup('Vendor valid credential', { tag: ['@marketplace']}, async ({ page }) => {
-		const loginPage = new LoginPage(page);
-		await loginPage.loginAsVendor(data.vendorCredentials, data.auth.vendorAuthFile);
-	});
-
-    setup('Customer valid credential',{ tag: ['@local']}, async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.loginAsCustomer(data.customerCredentials, data.auth.customerAuthFile)
-    });
+  setup('Customer valid credential', { tag: ['@local'] }, async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.loginAsCustomer(
+      data.customerCredentials,
+      data.auth.customerAuthFile
+    );
+  });
 });
 
 /* 

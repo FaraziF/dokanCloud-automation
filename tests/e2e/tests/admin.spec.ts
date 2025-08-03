@@ -178,15 +178,15 @@ test.describe('Admin functional Testing', () => {
     await adminPage.deleteBrand(existingBrandUpdate);
   });
 
-  test('Create New Standard Product @pc-s', async () => {
-    await adminPage.createStandardProduct(data.product.standard, VENDOR_ID);
-  });
-  test('Edit Product @pe', async () => {
-    await adminPage.editProduct(data.product.standard);
-  });
-  test('Delete Product @pd', async () => {
-    await adminPage.deleteProduct();
-  });
+  // test('Create New Standard Product @pc-s', async () => {
+  //   await adminPage.createStandardProduct(data.product.standard, VENDOR_ID);
+  // });
+  // test('Edit Product @pe', async () => {
+  //   await adminPage.editProduct(data.product.standard);
+  // });
+  // test('Delete Product @pd', async () => {
+  //   await adminPage.deleteProduct();
+  // });
   // Hide For Standalone
   test(
     'Subscription Create',

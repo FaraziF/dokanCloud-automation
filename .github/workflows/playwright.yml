@@ -83,7 +83,9 @@ jobs:
       - name: Run Playwright e2e tests
         run: npm run test:e2e
 
-      
+      - name: Run Playwright api tests
+        if: always()
+        run: npm run test:api
 
       - name: Run Playwright coverage tests
         if: always()

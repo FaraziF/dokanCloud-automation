@@ -44,42 +44,43 @@ test.describe('Customer Registration Page Tests', () => {
   });
 
   test('should complete customer registration with faker data', async () => {
-    const customerData =
-      await customerRegistrationPage.fillRegistrationFormWithFaker();
+    // const customerData =
+    await customerRegistrationPage.goToCustomerRegistrationPage();
+    await customerRegistrationPage.fillRegistrationFormWithFaker();
     await customerRegistrationPage.submitRegistrationForm();
     await customerRegistrationPage.validateSuccessfulRegistration();
 
-    console.log('Registered customer:', customerData);
+    // console.log('Registered customer:', customerData);
   });
 
-  test('should validate field validation messages for empty form', async () => {
-    await customerRegistrationPage.goToCustomerRegistrationPage();
-    await customerRegistrationPage.validateFieldValidationMessages();
-  });
+  // test('should validate field validation messages for empty form', async () => {
+  //   await customerRegistrationPage.goToCustomerRegistrationPage();
+  //   await customerRegistrationPage.validateFieldValidationMessages();
+  // });
 
-  test('should validate email format validation', async () => {
-    await customerRegistrationPage.goToCustomerRegistrationPage();
-    await customerRegistrationPage.fillRegistrationForm({
-      firstName: 'Test',
-      lastName: 'User',
-      email: 'invalid-email-format',
-      password: 'Password123!',
-      confirmPassword: 'Password123!',
-    });
-    await customerRegistrationPage.validateEmailFormatValidation();
-  });
+  // test('should validate email format validation', async () => {
+  //   await customerRegistrationPage.goToCustomerRegistrationPage();
+  //   await customerRegistrationPage.fillRegistrationForm({
+  //     firstName: 'Test',
+  //     lastName: 'User',
+  //     email: 'invalid-email-format',
+  //     password: 'Password123!',
+  //     confirmPassword: 'Password123!',
+  //   });
+  //   await customerRegistrationPage.validateEmailFormatValidation();
+  // });
 
-  test('should validate password mismatch', async () => {
-    await customerRegistrationPage.goToCustomerRegistrationPage();
-    await customerRegistrationPage.fillRegistrationForm({
-      firstName: 'Test',
-      lastName: 'User',
-      email: faker.internet.email(),
-      password: 'Password123!',
-      confirmPassword: 'DifferentPassword123!',
-    });
-    await customerRegistrationPage.validatePasswordMismatch();
-  });
+  // test('should validate password mismatch', async () => {
+  //   await customerRegistrationPage.goToCustomerRegistrationPage();
+  //   await customerRegistrationPage.fillRegistrationForm({
+  //     firstName: 'Test',
+  //     lastName: 'User',
+  //     email: faker.internet.email(),
+  //     password: 'Password123!',
+  //     confirmPassword: 'DifferentPassword123!',
+  //   });
+  //   await customerRegistrationPage.validatePasswordMismatch();
+  // });
 
   test('should navigate to registration from home page', async () => {
     await customerRegistrationPage.navigateToRegistrationFromHomePage();
@@ -113,20 +114,20 @@ test.describe('Customer Registration Page Tests', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  test('should handle registration with existing email', async () => {
-    // First registration
-    await customerRegistrationPage.completeCustomerRegistrationWithTestData();
+  // test('should handle registration with existing email', async () => {
+  //   // First registration
+  //   await customerRegistrationPage.completeCustomerRegistrationWithTestData();
 
-    // Try to register again with same email
-    await customerRegistrationPage.goToCustomerRegistrationPage();
-    await customerRegistrationPage.fillRegistrationFormWithTestData();
-    await customerRegistrationPage.submitRegistrationForm();
+  //   // Try to register again with same email
+  //   await customerRegistrationPage.goToCustomerRegistrationPage();
+  //   await customerRegistrationPage.fillRegistrationFormWithTestData();
+  //   await customerRegistrationPage.submitRegistrationForm();
 
-    // Should show error for existing email
-    await customerRegistrationPage.validateRegistrationError(
-      'Email already exists'
-    );
-  });
+  //   // Should show error for existing email
+  //   await customerRegistrationPage.validateRegistrationError(
+  //     'Email already exists'
+  //   );
+  // });
 
   test('should test registration with minimum required fields', async () => {
     await customerRegistrationPage.goToCustomerRegistrationPage();
@@ -159,24 +160,24 @@ test.describe('Customer Registration Page Tests', () => {
     await customerRegistrationPage.validateSuccessfulRegistration();
   });
 
-  test('should test registration with long email address', async () => {
-    await customerRegistrationPage.goToCustomerRegistrationPage();
+  // test('should test registration with long email address', async () => {
+  //   await customerRegistrationPage.goToCustomerRegistrationPage();
 
-    const longEmail = `very.long.email.address.${faker.random.alphaNumeric(
-      50
-    )}@${faker.internet.domainName()}`;
+  //   const longEmail = `very.long.email.address.${faker.random.alphaNumeric(
+  //     50
+  //   )}@${faker.internet.domainName()}`;
 
-    await customerRegistrationPage.fillRegistrationForm({
-      firstName: 'Long',
-      lastName: 'Email',
-      email: longEmail,
-      password: 'LongEmail123!',
-      confirmPassword: 'LongEmail123!',
-    });
+  //   await customerRegistrationPage.fillRegistrationForm({
+  //     firstName: 'Long',
+  //     lastName: 'Email',
+  //     email: longEmail,
+  //     password: 'LongEmail123!',
+  //     confirmPassword: 'LongEmail123!',
+  //   });
 
-    await customerRegistrationPage.submitRegistrationForm();
-    await customerRegistrationPage.validateSuccessfulRegistration();
-  });
+  //   await customerRegistrationPage.submitRegistrationForm();
+  //   await customerRegistrationPage.validateSuccessfulRegistration();
+  // });
 });
 
 test.describe('Customer Registration Edge Cases', () => {

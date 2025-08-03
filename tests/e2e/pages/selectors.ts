@@ -7,6 +7,7 @@ export const selector = {
     editLink: 'Edit',
     deleteLink: 'Delete',
     deleteButton: 'Yes',
+    categoryUpdateButton: 'Save Changes',
   },
 
   /*                           <<<<<<<<<<<<<< CM Common Section For Admin & Vendor >>>>>>>>>>>>>>>>                              */
@@ -24,7 +25,7 @@ export const selector = {
     createPageValidation: 'Product Name',
     description: "//div[@class='ql-editor ql-blank']",
     productCategory: "//input[@placeholder='Search']",
-    productCategorySelect: 'Clothing',
+    productCategorySelect: 'Clo',
     status: 'Published',
     publishedTab: 'Published',
     publishedPageURLValidation: '/admin/products?filters[status]=published',
@@ -39,8 +40,9 @@ export const selector = {
     statusCell: 'STATUS',
     stockCell: 'STOCK',
     actionCell: 'ACTION',
-    soldBy: "//div[@id='react-select-2-placeholder']/following-sibling::div[1]",
-    vendorName: '#react-select-2-input',
+    // soldByCSS: ".react-select .shadow-sm .css-1a89k9d-control #react-select-4-placeholder",
+    soldBy: ".mt-5 #react-select-4-placeholder",
+    vendorName: '.react-select .shadow-sm #react-select-4-placeholder',
     regularPrice: '#regular-price',
     salePrice: '#sale-price',
     taxClass: '.css-98q0e7',

@@ -53,7 +53,7 @@ export class ProductCollecitonsPage extends BasePage {
       await this.page.getByLabel('Title').fill('SEO Optimized Collection');
       await this.page.locator('#seo-description').fill('This is an SEO optimized collection description');
       await this.page.getByRole('button', { name: 'Save and Publish' }).click();
-      await expect(this.page.getByText('Collection created successfully.')).toBeVisible();
+      await expect(this.page.getByText('Created Successfully')).toBeVisible();
     }
 
     async editProductCollection() {

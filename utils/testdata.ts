@@ -22,7 +22,8 @@ const env = require('../env')
     }
     
 } */
-let passwordValue = faker.internet.password();
+let FpasswordValue = faker.internet.password(10, false, /[a-zA-Z0-9]/);
+let passwordValue = "9s!gM$7L#qE8@pZ";
 
 interface user {
 	username: string;
@@ -115,7 +116,7 @@ export const data = {
         insertDescription: () => faker.commerce.productDescription(),
         updateName: () => faker.helpers.unique(() => faker.random.word()),
         // imageUpload: "/Users/faraziforhad/MyDevice/Programming/Automation/playwright-test/utils/images/avocado.png",
-        createSuccessMessage: "Category created successfully.",
+        createSuccessMessage: "Category Created successfully.",
         updateSuccessMessage: "Category updated successfully.",
         categoryDeleteConfirmationMessage: 'Are you sure want to delete category?',
         deleteSuccessMessage: "Category deleted successfully.",
@@ -130,7 +131,7 @@ export const data = {
         updateName: () => faker.helpers.unique(() => faker.random.word()),
         creataSuccessMessage: 'Brand created successfully.',
         updateSuccessMessage: "Brand updated successfully.",
-        brandDeleteConfirmationMessage: 'Are you sure want to delete brand?',
+        brandDeleteConfirmationMessage: 'Are you sure want to delete this brand?',
         brandDeleteSuccessMessage: 'Brand deleted successfully.',
     },
 

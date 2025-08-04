@@ -9,7 +9,13 @@
     "test:api": "npx playwright test tests/api/admin tests/api/vendor tests/api/customer",
     "test:coverage": "npx playwright test --project=teardown --reporter=dot",
     "test:global": "SUMMARY_PATH=true npm run test:e2e && npm run test:api && npm run test:coverage",
-    "test:e2e-chromium": "npx playwright test --project=chromium --headed"
+    "test:e2e-chromium": "npx playwright test --project=chromium --headed",
+    "test:bdd": "cucumber-js --require features/step_definition/*.js",
+    "test:bdd:category": "cucumber-js --require features/step_definition/*.js --tags '@cc or @ce or @cd'",
+    "test:bdd:create": "cucumber-js --require features/step_definition/*.js --tags '@cc'",
+    "test:bdd:edit": "cucumber-js --require features/step_definition/*.js --tags '@ce'",
+    "test:bdd:delete": "cucumber-js --require features/step_definition/*.js --tags '@cd'",
+    "test:bdd:visual": "cucumber-js --require features/step_definition/*.js --format @cucumber/pretty-formatter"
   },
   "repository": {
     "type": "git",
@@ -36,6 +42,18 @@
     "@cucumber/cucumber": "^12.1.0",
     "js-yaml": "^4.1.0",
     "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
+    "@playwright/test": "^1.48.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.5.7",
+    "allure-commandline": "^2.24.1",
+    "allure-playwright": "^2.15.1",
+    "dotenv": "^16.0.3",
+    "mailslurp-client": "^15.20.2",
+    "@cucumber/pretty-formatter": "^1.0.0",
+    "ts-node": "^10.9.1"
   },
   "directories": {
     "test": "tests"

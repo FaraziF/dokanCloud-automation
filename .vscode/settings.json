@@ -4,99 +4,41 @@
     "workbench.colorTheme": "Quiet Light",
     "workbench.preferredHighContrastColorTheme": "Quiet Light",
     "workbench.colorCustomizations": {
-        "tab.activeBackground": "#b6f1d9",
-
-        
-
+        "tab.activeBackground": "#b6f1d9"
     },
     "terminal.integrated.defaultProfile.osx": "/bin/zsh",
     "editor.fontSize": 16,
     "workbench.iconTheme": "vscode-icons",
     "coddx.taskBoard.fileList": "todo.md",
-    // "cucumberautocomplete.steps": [""]
-}
-
-/* 
-{
-    "workbench.sideBar.location": "right",
-    "files.autoSave": "onFocusChange",
-    "explorer.confirmDragAndDrop": false,
-    "terminal.integrated.shell.osx": "/bin/bash",
-    "editor.fontLigatures": null,
-    "workbench.iconTheme": "vscode-icons",
-    "terminal.integrated.tabs.enabled": true,
-    "editor.renderWhitespace": "none",
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    // "blockman.n01LineHeight": 0,
-    "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#eaedefe5",
-        "editorBracketMatch.background": "#ada7a7"
-        
-    },
-    "editor.wordWrap": "off",
-    "diffEditor.wordWrap": "off",
-    // "editor.guides.indentation": true,
-    // "editor.guides.bracketPairs": true,
-    "editor.inlayHints.enabled": false,
-    "editor.tokenColorCustomizations": {
-        "comments": "#625d5de1"
-    },
-    "workbench.statusBar.visible": true,
-    "terminal.integrated.env.osx": {
-        "FIG_NEW_SESSION": "1"
-    },
-    "liveServer.settings.donotShowInfoMsg": true,
-    "editor.codeActionsOnSave": {
     
-    },
-    "editor.fontSize": 14,
-    "editor.formatOnPaste": true,
-    "editor.multiCursorModifier": "ctrlCmd",
-    "editor.snippetSuggestions": "top",
-
-        "settings.cycle": [
-            {
-                "id": "lineNumbers",
-                "values": [
-                    {
-                        "editor.lineNumbers": "on",
-                        "editor.folding": true,
-                        "editor.glyphMargin": false
-                    },
-                    {
-                        "editor.lineNumbers": "on",
-                        "editor.folding": true,
-                        "editor.glyphMargin": false
-                    }
-                ]
-            }
-        ],
-        "editor.lineNumbers": "on",
-        "editor.folding": true,
-        "editor.glyphMargin": true,
-        "editor.minimap.enabled": false,
-        "breadcrumbs.enabled": false,
-
-    "editor.scrollbar.horizontal": "visible",
-    "editor.scrollbar.vertical": "visible",
-    "totalTypeScript.hideAllTips": true,
-    "totalTypeScript.hideBasicTips": true,
-    "workbench.preferredHighContrastColorTheme": "Visual Studio Light",
-    "workbench.preferredDarkColorTheme": "Visual Studio Light",
-    "workbench.colorTheme": "Visual Studio Light",
-    "playwright.reuseBrowser": true,
-    "playwright.env": {
-    
-    },
-    "settingsSync.ignoredSettings": [
-
+    // BDD/Cucumber Configuration - matches your actual folder structure
+    "cucumberautocomplete.steps": [
+        "features/step_definition/*.js",
+        "features/step_definition/*.ts"
     ],
-    "settingsSync.ignoredExtensions": [
-
+    "cucumberautocomplete.strictGherkinCompletion": true,
+    "cucumberautocomplete.smartSnippets": true,
+    "cucumberautocomplete.stepsInvariants": true,
+    "cucumberautocomplete.customParameters": [
+        {
+            "parameter": "{string}",
+            "value": "test"
+        },
+        {
+            "parameter": "{int}",
+            "value": "1"
+        }
     ],
-    "editor.semanticTokenColorCustomizations": {
+    "cucumberautocomplete.skipDocStringsFormat": true,
+    "cucumberautocomplete.strictGherkinValidation": false,
+    "cucumberautocomplete.gherkinDefinitionPart": "#language: en",
+    "cucumberautocomplete.syncfeatures": "features/*.feature",
     
-    }
-        
+    // Disable settings cycling to prevent conflicts
+    "settings.cycle": null,
+    
+    // Ensure BDD navigation works
+    "cucumberautocomplete.strictGherkinCompletion": true,
+    "cucumberautocomplete.smartSnippets": true,
+    "cucumberautocomplete.stepsInvariants": true
 }
-*/

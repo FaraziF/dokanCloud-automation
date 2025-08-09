@@ -93,9 +93,9 @@ setup.describe('Generate setup with', () => {
     helpers.createEnvVar('VENDOR_ID', vendorID);
     helpers.createEnvVar('VENDOR_SLUG', vendorSlug);
     helpers.createEnvVar('VENDOR_STORE_NAME', vendorStoreName);
-    // console.log("VENDOR_ID Log:", VENDOR_ID)
-    // console.log("VENDOR_SLUG Log:", VENDOR_SLUG)
-    // console.log("VENDOR_STORE_NAME Log:", VENDOR_STORE_NAME)
+    console.log("VENDOR_ID Log:", VENDOR_ID)
+    console.log("VENDOR_SLUG Log:", VENDOR_SLUG)
+    console.log("VENDOR_STORE_NAME Log:", vendorStoreName)
     // console.log("Vendor name", VENDOR_ID)
   });
   setup(

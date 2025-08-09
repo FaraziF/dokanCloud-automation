@@ -30,10 +30,11 @@
       Delete Brand @db: true
       Create New Standard Product @pc-s: true
       Edit Product @pe: true
+      Export Product: false
       Delete Product @pd: true
-      Subscription Create @sc @subs: true
-      Edit Subscription @se @subs: true
-      Delete Subscription @sd @subs: true
+      Subscription Create: true
+      Edit Subscription: true
+      Delete Subscription: true
       Tax Class CRUD @tax: false
       Tax Rate Add For Entire Country @tax: false
       Different Tax Rate For State, City & Zip @tax: false
@@ -74,25 +75,25 @@
 - page: 'Login'
   features:
     customer:
-      Login with email: false
-      Forgot password: false
+      Login with email: true
+      Forgot password: true
       Login with google: false
 
 - page: 'Registration'
   features:
     customer:
-      Registration with email: false
-      Registration with google: false
+      Registration with email: true
+      Registration with google: true
 
 - page: 'Logout'
   features:
     customer:
-      Logout: false
+      Logout: true
 
 - page: 'Security'
   features:
     customer:
-      Without login try to access my account: false
+      Without login try to access my account: true
 
 - page: 'Dashboard'
   features:

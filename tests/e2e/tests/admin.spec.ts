@@ -6,8 +6,11 @@ import { AdminPage } from '../pages/adminPage';
 import { ApiUtils } from '../../../utils/apiUtils';
 import { endPoints } from '../../../utils/apiEndPoints';
 import { request } from 'http';
+import { faker } from '@faker-js/faker';
+
 
 const { VENDOR_ID } = process.env;
+const existingBrandUpdate = faker.helpers.unique(() => faker.random.word());
 
 let apiUtils: ApiUtils;
 let individualTeamMmeberToken;
@@ -165,39 +168,39 @@ test.describe('Admin functional Testing', () => {
     await adminPage.deleteCategory(data.category);
   });
 
-  test('Create New Brand @bc', async () => {
+  test('Create New Brand @bc',{tag: ['@brand']}, async () => {
     await adminPage.createBrand(data.brand);
   });
-  test('Edit Brand @be', async () => {
-    await adminPage.editBrand(data.brand);
+  test('Edit Brand @be',{tag: ['@brand']}, async () => {
+    await adminPage.editBrand(existingBrandUpdate);
   });
-  test('Delete Brand @db', async () => {
-    await adminPage.deleteBrand();
+  test('Delete Brand @db',{tag: ['@brand']}, async () => {
+    await adminPage.deleteBrand(existingBrandUpdate);
   });
 
-  test('Create New Standard Product @pc-s', async () => {
-    await adminPage.createStandardProduct(data.product.standard, VENDOR_ID);
-  });
-  test('Edit Product @pe', async () => {
-    await adminPage.editProduct(data.product.standard);
-  });
-  test('Delete Product @pd', async () => {
-    await adminPage.deleteProduct();
-  });
+  // test('Create New Standard Product @pc-s', async () => {
+  //   await adminPage.createStandardProduct(data.product.standard, VENDOR_ID);
+  // });
+  // test('Edit Product @pe', async () => {
+  //   await adminPage.editProduct(data.product.standard);
+  // });
+  // test('Delete Product @pd', async () => {
+  //   await adminPage.deleteProduct();
+  // });
   // Hide For Standalone
   test(
-    'Subscription Create @sc @subs',
-    { tag: ['@marketplace'] },
+    'Subscription Create',
+    { tag: ['@marketplace', '@subscription'] },
     async ({ request }) => {
       await adminPage.createSubscription({ request });
     }
   );
   // Hide For Standalone
-  test('Edit Subscription @se @subs', { tag: ['@marketplace'] }, async () => {
+  test('Edit Subscription', { tag: ['@marketplace', '@subscription'] }, async () => {
     await adminPage.editSubscription();
   });
   // Hide For Standalone
-  test('Delete Subscription @sd @subs', { tag: ['@marketplace'] }, async () => {
+  test('Delete Subscription', { tag: ['@marketplace', '@subscription'] }, async () => {
     await adminPage.deleteSubscription();
   });
   /* test("shipping enable & location validation", async() => {

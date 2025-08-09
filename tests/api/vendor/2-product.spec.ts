@@ -51,15 +51,15 @@ test.describe("Product Test", () => {
 	    expect(responseBody).toBeTruthy();
    })
    //  Need to re-factor: product already create in data.setup.ts
-//    test("Create new products", async() => {
-//         const [response, responseBody] = await apiUtils.post(endPoints.vendorCreateProduct, { data: {...payloads.productCreate(CATEGORY_ID)}, headers: vendorAuth })
-//         expect(response.ok()).toBeTruthy();
-//         expect(responseBody).toBeTruthy();    
-//         const res = await response.json()
-//         product_id = res.data.id;
-//         productTitle = res.data.title
-//         console.log("Product ID & Title " + product_id + " " + productTitle)
-//    })
+/*    test("Create new products", async() => {
+        const [response, responseBody] = await apiUtils.post(endPoints.vendorCreateProduct, { data: {...payloads.productCreate(CATEGORY_ID, VENDOR_ID, VENDOR_SLUG, VENDOR_STORE_NAME)}, headers: vendorAuth })
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();    
+        const res = await response.json()
+        product_id = res.data.id;
+        productTitle = res.data.title
+        console.log("Product ID & Title " + product_id + " " + productTitle)
+   }) */
    test("search individual products", async() => {
         const [response, responseBody] = await apiUtils.get(endPoints.vendorSearchIndividualProduct(productTitle), { headers: vendorAuth } )
         expect(response.ok()).toBeTruthy();

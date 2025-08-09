@@ -54,17 +54,19 @@ export class LoginPage {
     return await isVisible(this.page, selector.login.loginPasswordErrorMessage);
   }
 
-  // user manual Login Login with
+  // user manual Login Login with update
   async adminManualLogin(
     user: user,
     url: string = endPoints.adminDashboardLogin,
     storageState?: string
   ): Promise<void> {
-    await this.page.goto(url);
-    // console.log(url)
-    await this.page
-      .locator(selector.login.adminEamilAddress)
-      .fill(user.username);
+    await this.page.goto(url)
+    await this.page.waitForTimeout(5000)
+    console.log("Admin URL: ", endPoints.adminDashboardLogin)
+    await expect(this.page).toHaveURL(url);
+    const locator = this.page.locator('.mb-3 h2');
+    await expect(locator).toContainText('Sign In');
+    await this.page.locator(selector.login.adminEamilAddress).fill(user.username);
     await this.page.locator(selector.login.password).fill(user.password);
     // await this.page.locator(selector.login.keepMeSignIn).check();
     await this.page.click(selector.login.signIn);
@@ -92,12 +94,15 @@ export class LoginPage {
     storageState?: string
   ): Promise<void> {
     await this.page.goto(url);
+    // await this.page.locator("//div[@class='mt-2']//button[1]").click();
     await this.page
       .locator(selector.login.vendorEamilAddress)
       .fill(user.username);
     await this.page.locator(selector.login.password).fill(user.password);
     // await this.page.locator(selector.login.keepMeSignIn).check();
-    await this.page.click(selector.login.signIn);
+    // await this.page.click(selector.login.signIn);
+    await this.page.click("//button[@type='submit']");
+    // await this.page.getByRole('button', { name: 'Sign in' }).click();
     // await this.page.waitForURL(endpoints.vendorDashboard)
     await this.page.waitForURL(endPoints.vendorDashboard, {
       waitUntil: 'networkidle',
